@@ -14,6 +14,7 @@ pub mod remote_receiver;
 pub mod remote_sender;
 pub mod storage_repo;
 pub mod tray;
+pub mod wakeword_listener;
 
 pub use paths::*;
 pub use storage_repo::StorageRepo;

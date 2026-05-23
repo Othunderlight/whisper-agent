@@ -815,6 +815,13 @@ export const DictationSideEffects = () => {
     onFire: openPillConversation,
   });
 
+  useTauriListen<void>("wake_word_detected", () => {
+    if (isDictationInteractable && activeRecordingMode === null) {
+      getLogger().info("Wake word detected, starting agent recording");
+      startAgentRecording();
+    }
+  });
+
   useTauriListen<void>("cancel-dictation", () => {
     abortRecording();
   });

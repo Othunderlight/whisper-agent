@@ -139,6 +139,8 @@ pub mod app_info;
 
 pub mod audio;
 
+pub mod wakeword;
+
 pub mod paste_keybind;
 
 #[cfg(desktop)]
