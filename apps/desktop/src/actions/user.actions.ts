@@ -324,13 +324,15 @@ export const addWordsToCurrentUser = async (
   );
 };
 
-export const refreshCurrentUser = async (): Promise<void> => {
+export const refreshCurrentUser = async (options?: {
+  skipUser?: boolean;
+}): Promise<void> => {
   await userSaveLock.wait();
 
   try {
     getLogger().verbose("Refreshing current user and preferences");
     const [userResult, preferencesResult] = await Promise.allSettled([
-      getUserRepo().getMyUser(),
+      options?.skipUser ? Promise.resolve(null) : getUserRepo().getMyUser(),
       getUserPreferencesRepo().getUserPreferences(),
     ]);
 

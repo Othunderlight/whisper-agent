@@ -139,6 +139,12 @@ export const AppSideEffects = () => {
   );
   const userId = useAppStore((state) => state.auth?.uid ?? "");
   const initialized = useAppStore((state) => state.initialized);
+  const lastAuthCheckAt = useAppStore((state) => state.local.lastAuthCheckAt);
+  const shouldCheckAuth = useMemo(() => {
+    if (!lastAuthCheckAt) return true;
+    return dayjs().diff(dayjs(lastAuthCheckAt), "day") >= 30;
+  }, [lastAuthCheckAt]);
+  const myTenant = useAppStore((state) => state.myTenant);
   const member = useAppStore((state) => {
     const uid = state.auth?.uid;
     return uid ? (state.memberById[uid] ?? null) : null;
@@ -365,6 +371,10 @@ export const AppSideEffects = () => {
         return combineLatest([of(null), of(null), of(null)]);
       }
 
+      if (!shouldCheckAuth && member && cloudUser) {
+        return of([member, cloudUser, myTenant]);
+      }
+
       return combineLatest([
         from(
           getMemberRepo()
@@ -408,17 +418,23 @@ export const AppSideEffects = () => {
         registerUsers(draft, listify(user));
         registerMembers(draft, listify(members));
         draft.myTenant = tenant;
+
+        if (user && members && shouldCheckAuth) {
+          draft.local.lastAuthCheckAt = dayjs().toISOString();
+        }
       });
     },
-    dependencies: [userId, authReady, isEnterprise],
+    dependencies: [userId, authReady, isEnterprise, shouldCheckAuth],
   });
 
   useAsyncEffect(async () => {
     if (authReady) {
-      await refreshCurrentUser();
+      await refreshCurrentUser({
+        skipUser: !shouldCheckAuth && !!cloudUser,
+      });
       setInitReady(true);
     }
-  }, [authReady, isEnterprise]);
+  }, [authReady, isEnterprise, shouldCheckAuth, !!cloudUser]);
 
   useAsyncEffect(async () => {
     if (initReady) {

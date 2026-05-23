@@ -7,7 +7,12 @@ import { INITIAL_APP_STATE, type AppState } from "../state/app.state";
 export const useAppStore = createWithEqualityFn<AppState>()(
   persist(() => INITIAL_APP_STATE, {
     name: "voquill-local-state",
-    partialize: (state) => ({ local: state.local }),
+    partialize: (state) => ({
+      local: state.local,
+      memberById: state.memberById,
+      userById: state.userById,
+      myTenant: state.myTenant,
+    }),
   }),
   isEqual,
 );

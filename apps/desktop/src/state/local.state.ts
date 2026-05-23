@@ -10,6 +10,7 @@ export type LocalState = {
   hasHiddenTrialExtensionCard: boolean;
   disableAutoStyleLoading?: boolean;
   optInToBetaUpdates: boolean;
+  lastAuthCheckAt: string | null;
 };
 
 export const INITIAL_LOCAL_STATE: LocalState = {
@@ -24,4 +25,5 @@ export const INITIAL_LOCAL_STATE: LocalState = {
   hasHiddenTrialExtensionCard: false,
   disableAutoStyleLoading: false,
   optInToBetaUpdates: false,
+  lastAuthCheckAt: null,
 };
