@@ -817,8 +817,8 @@ export const DictationSideEffects = () => {
 
   useTauriListen<void>("wake_word_detected", () => {
     if (isDictationInteractable && activeRecordingMode === null) {
-      getLogger().info("Wake word detected, starting agent recording");
-      startAgentRecording();
+      getLogger().info("Wake word detected, triggering dictation toggle");
+      debouncedToggle("dictation", dictationController);
     }
   });
 
