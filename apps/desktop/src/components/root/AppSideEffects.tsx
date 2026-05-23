@@ -11,7 +11,7 @@ import {
 import { getRec, listify } from "@voquill/utilities";
 import dayjs from "dayjs";
 import { isEqual } from "lodash-es";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import { combineLatest, from, Observable, of } from "rxjs";
 import { showErrorSnackbar, showSnackbar } from "../../actions/app.actions";
