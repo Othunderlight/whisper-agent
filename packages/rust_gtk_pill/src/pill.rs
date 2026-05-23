@@ -510,7 +510,7 @@ pub fn run(receiver: Receiver<InMessage>) {
         let is_assistant = state_tick.assistant_active.get();
         let should_show = match backend_tick {
             Backend::LayerShell | Backend::PlainWayland => {
-                state_tick.phase.get() == Phase::Recording
+                state_tick.phase.get() == Phase::Recording || is_assistant
             }
             Backend::X11 => match visibility {
                 Visibility::Hidden => is_assistant,

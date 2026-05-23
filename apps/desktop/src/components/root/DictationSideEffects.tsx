@@ -546,6 +546,12 @@ export const DictationSideEffects = () => {
       const transcriptPrefs = getTranscriptionPrefs(state);
       try {
         getLogger().info(`Transcription prefs: mode=${transcriptPrefs.mode}`);
+
+        if (sessionRef.current) {
+          getLogger().info("Cleaning up existing transcription session");
+          sessionRef.current.cleanup();
+        }
+
         const session = createTranscriptionSession(transcriptPrefs);
         getLogger().info(
           `Created transcription session: ${session.constructor.name}`,
