@@ -267,6 +267,10 @@ fn start_stdout_reader(app: tauri::AppHandle, reader: std::io::BufReader<ChildSt
                             }
                         }
                         let _ = app.emit_to("main", "assistant-mode-close", ());
+                    } else if line.contains("\"new_conversation\"") {
+                        let _ = app.emit_to("main", "assistant-new-conversation", ());
+                    } else if line.contains("\"open_in_app\"") {
+                        let _ = app.emit_to("main", "assistant-open-in-app", ());
                     } else if line.contains("\"resolve_permission\"") {
                         if let Ok(val) = serde_json::from_str::<serde_json::Value>(&line) {
                             let permission_id = val

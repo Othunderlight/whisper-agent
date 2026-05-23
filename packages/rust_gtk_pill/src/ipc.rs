@@ -99,6 +99,8 @@ pub enum OutMessage {
     EnableTypeMode,
     TypedMessage { text: String },
     OpenConversation { conversation_id: String },
+    NewConversation,
+    OpenInApp,
     ResolvePermission {
         permission_id: String,
         status: String,

@@ -767,6 +767,18 @@ export const DictationSideEffects = () => {
     await abortRecording();
   });
 
+  useTauriListen<void>("assistant-new-conversation", async () => {
+    getLogger().info("Starting new conversation from assistant shortcut");
+    produceAppState((draft) => {
+      draft.pillConversationId = null;
+    });
+  });
+
+  useTauriListen<void>("assistant-open-in-app", async () => {
+    getLogger().info("Opening conversation in app from assistant shortcut");
+    await openPillConversation();
+  });
+
   useTauriListen<void>("assistant-enable-type-mode", async () => {
     getLogger().info("Switching to type mode");
 

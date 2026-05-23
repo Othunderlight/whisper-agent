@@ -313,6 +313,29 @@ pub fn run(receiver: Receiver<InMessage>) {
         *state_entry_changed.entry_text.borrow_mut() = e.text().to_string();
     });
 
+    let state_key = state.clone();
+    window.connect_key_press_event(move |_, event| {
+        let is_alt = event.state().contains(gdk::ModifierType::MOD1_MASK);
+        if is_alt {
+            match event.keyval() {
+                gdk::keys::constants::q => {
+                    ipc::send(&OutMessage::AssistantClose);
+                    return glib::Propagation::Stop;
+                }
+                gdk::keys::constants::n => {
+                    ipc::send(&OutMessage::NewConversation);
+                    return glib::Propagation::Stop;
+                }
+                gdk::keys::constants::o => {
+                    ipc::send(&OutMessage::OpenInApp);
+                    return glib::Propagation::Stop;
+                }
+                _ => {}
+            }
+        }
+        glib::Propagation::Proceed
+    });
+
     let receiver = Rc::new(RefCell::new(receiver));
     let state_tick = state.clone();
     let da = drawing_area.clone();
@@ -518,6 +541,13 @@ pub fn run(receiver: Receiver<InMessage>) {
                 Visibility::Persistent => true,
             },
         };
+
+        if is_assistant && backend_tick == Backend::LayerShell {
+            win_tick.set_keyboard_mode(gtk_layer_shell::KeyboardMode::OnDemand);
+        } else if !is_assistant && !is_typing && backend_tick == Backend::LayerShell {
+            win_tick.set_keyboard_mode(gtk_layer_shell::KeyboardMode::None);
+        }
+
         if should_show {
             win_tick.show();
         } else {
