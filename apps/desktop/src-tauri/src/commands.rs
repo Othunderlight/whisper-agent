@@ -346,6 +346,7 @@ pub enum AudioClip {
 #[serde(rename_all = "camelCase")]
 pub struct StartRecordingArgs {
     pub preferred_microphone: Option<String>,
+    pub auto_silence_detection: Option<bool>,
 }
 
 #[derive(Debug, serde::Deserialize, specta::Type)]
@@ -1298,10 +1299,29 @@ pub async fn start_recording(
     recorder.set_preferred_input_device(options.preferred_microphone.clone());
 
     let level_emit_handle = app.clone();
+    let auto_silence = options.auto_silence_detection.unwrap_or(false);
+    let silence_start = Arc::new(std::sync::Mutex::new(None));
+
     let level_emitter: LevelCallback = Arc::new(move |levels: Vec<f32>| {
         let overlay_state = level_emit_handle.state::<crate::state::OverlayState>();
         overlay_state.set_audio_levels(levels.clone());
         crate::platform::overlay::notify_audio_levels(&level_emit_handle, &levels);
+
+        if auto_silence {
+            let avg = levels.iter().sum::<f32>() / levels.len() as f32;
+            let threshold = 0.012;
+            let mut guard = silence_start.lock().unwrap();
+            if avg < threshold {
+                let start = guard.get_or_insert_with(std::time::Instant::now);
+                if start.elapsed() > std::time::Duration::from_millis(1500) {
+                    log::info!("Auto-silence detected, stopping recording");
+                    let _ = level_emit_handle.emit_to(tauri::EventTarget::any(), "auto-silence-detected", ());
+                    *guard = Some(std::time::Instant::now() + std::time::Duration::from_secs(3600));
+                }
+            } else {
+                *guard = None;
+            }
+        }
 
         let payload = RecordingLevelPayload { levels };
         if let Err(err) = level_emit_handle.emit_to(EventTarget::any(), EVT_REC_LEVEL, payload) {

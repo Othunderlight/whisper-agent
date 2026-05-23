@@ -565,7 +565,10 @@ export const DictationSideEffects = () => {
         const [, startRecordingResult] = await Promise.all([
           strategy.setPhase("recording"),
           invoke<StartRecordingResponse>("start_recording", {
-            args: { preferredMicrophone },
+            args: {
+              preferredMicrophone,
+              autoSilenceDetection: mode === "agent",
+            },
           }),
         ]);
 
@@ -813,6 +816,13 @@ export const DictationSideEffects = () => {
     actionName: OPEN_CHAT_HOTKEY,
     isDisabled: !isActiveSession,
     onFire: openPillConversation,
+  });
+
+  useTauriListen<void>("auto-silence-detected", () => {
+    if (getAppState().activeRecordingMode === "agent") {
+      getLogger().info("Auto-silence detected, stopping agent recording");
+      stopRecording();
+    }
   });
 
   useTauriListen<void>("wake_word_detected", () => {

@@ -97,7 +97,7 @@ impl WindowMode {
         match self {
             Self::Dictation => (DICTATION_WINDOW_WIDTH, DICTATION_WINDOW_HEIGHT),
             Self::AssistantCompact => (WINDOW_W_COMPACT, WINDOW_H_COMPACT),
-            Self::AssistantExpanded => (WINDOW_W_EXPANDED, WINDOW_H_EXPANDED),
+            Self::AssistantExpanded => (WINDOW_W_EXPANDED, WINDOW_H_EXPANDED_MIN),
             Self::AssistantTyping => (WINDOW_W_TYPING, WINDOW_H_TYPING),
         }
     }
@@ -205,7 +205,7 @@ impl PillState {
         if aw > 0.0 && ah > 0.0 {
             ((aw - dw) / 2.0, ah - dh - MARGIN_BOTTOM as f64)
         } else {
-            ((WINDOW_W_TYPING as f64 - dw) / 2.0, WINDOW_H_TYPING as f64 - dh)
+            ((WINDOW_W_MAX as f64 - dw) / 2.0, WINDOW_H_MAX as f64 - dh)
         }
     }
 }

@@ -34,7 +34,7 @@ pub fn run(receiver: Receiver<InMessage>) {
 
     let window = gtk::Window::new(gtk::WindowType::Toplevel);
     if backend != Backend::PlainWayland {
-        window.set_default_size(WINDOW_W_TYPING, WINDOW_H_TYPING);
+        window.set_default_size(WINDOW_W_MAX, WINDOW_H_MAX);
     }
     window.set_decorated(false);
     window.set_app_paintable(true);
@@ -84,7 +84,7 @@ pub fn run(receiver: Receiver<InMessage>) {
     let overlay_widget = gtk::Overlay::new();
     let drawing_area = gtk::DrawingArea::new();
     if backend != Backend::PlainWayland {
-        drawing_area.set_size_request(WINDOW_W_TYPING, WINDOW_H_TYPING);
+        drawing_area.set_size_request(WINDOW_W_MAX, WINDOW_H_MAX);
     }
     overlay_widget.add(&drawing_area);
 
@@ -447,14 +447,14 @@ pub fn run(receiver: Receiver<InMessage>) {
             let right_margin = if aw > 0.0 {
                 aw - ox - dw
             } else {
-                WINDOW_W_TYPING as f64 - ox - dw
+                WINDOW_W_MAX as f64 - ox - dw
             };
             let margin_end = (right_margin + (dw - panel_x - panel_w) + PANEL_CONTENT_SIDE_INSET) as i32;
             let ah = state_tick.alloc_height.get();
             let bottom_margin = if ah > 0.0 {
                 ah - oy - dh
             } else {
-                0.0
+                WINDOW_H_MAX as f64 - oy - dh
             };
             let margin_bottom = (bottom_margin + PANEL_BOTTOM_MARGIN) as i32;
             entry_tick.set_margin_start(margin_start);
@@ -652,7 +652,14 @@ fn tick(state: &PillState) {
 
     // Animate content dimensions toward target mode
     let mode = state.window_mode.get();
-    let (tw, th) = mode.dimensions();
+    let (tw, mut th) = mode.dimensions();
+    if mode == WindowMode::AssistantExpanded {
+        let content_h = state.content_height.get();
+        if content_h > 0.1 {
+            let needed_h = content_h + PANEL_TOP_MARGIN + PANEL_BOTTOM_MARGIN;
+            th = needed_h.clamp(WINDOW_H_EXPANDED_MIN as f64, WINDOW_H_EXPANDED_MAX as f64) as i32;
+        }
+    }
     spring_px(&state.draw_width, &state.draw_w_velocity, tw as f64, SPRING_STIFFNESS);
     spring_px(&state.draw_height, &state.draw_h_velocity, th as f64, SPRING_STIFFNESS);
 
