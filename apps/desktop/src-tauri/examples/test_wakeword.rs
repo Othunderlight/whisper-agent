@@ -72,6 +72,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Listening for 'Alexa'... (Press Ctrl+C to stop)");
 
+    let mut max_prob = 0.0f32;
+    let mut last_print = std::time::Instant::now();
+
     while let Ok(input_chunk) = rx.recv() {
         let mut mono_input = Vec::with_capacity(input_chunk_size);
         for i in 0..input_chunk_size {
@@ -87,9 +90,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mono_resampled = resampled.take_data();
 
         if mono_resampled.len() >= OWW_MODEL_CHUNK_SIZE {
-            if detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])? {
-                println!("\n>>> DETECTED! <<<");
+            let (detected, prob) = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
+            if prob > max_prob {
+                max_prob = prob;
             }
+            if detected {
+                println!("\n>>> DETECTED! (Prob: {:.2}) <<<", prob);
+            }
+        }
+
+        if last_print.elapsed().as_millis() > 500 {
+            print!("\rMax Prob (last 500ms): {:.4}    ", max_prob);
+            use std::io::Write;
+            std::io::stdout().flush().unwrap();
+            max_prob = 0.0;
+            last_print = std::time::Instant::now();
         }
     }
 

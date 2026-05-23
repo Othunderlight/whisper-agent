@@ -104,7 +104,7 @@ impl WakeWordDetector {
         })
     }
 
-    pub fn process_chunk(&mut self, chunk: &[f32]) -> TractResult<bool> {
+    pub fn process_chunk(&mut self, chunk: &[f32]) -> TractResult<(bool, f32)> {
         let features = self.audio_features.get_audio_features(chunk)?;
         let input = features.into_shape(&[1, 16, 96])?;
         
@@ -116,17 +116,13 @@ impl WakeWordDetector {
         let avg = self.calculate_average();
         let since_last = self.last_detection_time.elapsed().as_millis();
 
-        // Trigger logic similar to oww-rs:
-        // Detection is considered successful if current prob drops below 0.1 but average was high,
-        // or if average is consistently high. 
-        // Actually oww-rs uses a specific trigger: probability < 0.1 && average > threshold.
-        // This is to detect the "end" of the wake word.
+        let mut detected = false;
         if probability < 0.1 && avg > self.threshold && since_last > 2000 {
             self.last_detection_time = Instant::now();
-            return Ok(true);
+            detected = true;
         }
 
-        Ok(false)
+        Ok((detected, avg))
     }
 
     fn calculate_average(&self) -> f32 {

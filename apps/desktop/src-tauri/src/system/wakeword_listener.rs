@@ -94,7 +94,8 @@ fn run_listener(app_handle: AppHandle) -> Result<(), Box<dyn std::error::Error>>
 
         // Process chunks of 1280 samples
         if mono_resampled.len() >= OWW_MODEL_CHUNK_SIZE {
-            if detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])? {
+            let (detected, _prob) = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
+            if detected {
                 log::info!("Wake word detected!");
                 app_handle.emit("wake_word_detected", ())?;
             }
