@@ -54,7 +54,10 @@ import {
   trackAppUsed,
   trackDictationStart,
 } from "../../utils/analytics.utils";
-import { getIsAssistantModeEnabled } from "../../utils/assistant-mode.utils";
+import {
+  getIsAssistantAutoSilenceEnabled,
+  getIsAssistantModeEnabled,
+} from "../../utils/assistant-mode.utils";
 import { playAlertSound, tryPlayAudioChime } from "../../utils/audio.utils";
 import {
   DEFAULT_DICTATION_LIMIT_MINUTES,
@@ -567,7 +570,8 @@ export const DictationSideEffects = () => {
           invoke<StartRecordingResponse>("start_recording", {
             args: {
               preferredMicrophone,
-              autoSilenceDetection: mode === "agent",
+              autoSilenceDetection:
+                mode === "agent" && getIsAssistantAutoSilenceEnabled(state),
             },
           }),
         ]);

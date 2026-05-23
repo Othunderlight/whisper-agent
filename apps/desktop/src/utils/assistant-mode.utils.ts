@@ -1,6 +1,8 @@
 import { AppState } from "../state/app.state";
 
 export const ASSISTANT_MODE_ENABLED_KEY = "voquill:assistant-mode-enabled";
+export const ASSISTANT_AUTO_SILENCE_ENABLED_KEY =
+  "voquill:assistant-auto-silence-enabled";
 export const POWER_MODE_ENABLED_KEY = "voquill:power-mode-enabled";
 
 export const getIsAssistantModeEnabled = (state: AppState): boolean => {
@@ -8,6 +10,10 @@ export const getIsAssistantModeEnabled = (state: AppState): boolean => {
     return state.enterpriseConfig?.assistantModeEnabled ?? false;
   }
   return state.local.assistantModeEnabled;
+};
+
+export const getIsAssistantAutoSilenceEnabled = (state: AppState): boolean => {
+  return state.local.assistantAutoSilenceEnabled;
 };
 
 export const getIsPowerModeEnabled = (state: AppState): boolean => {

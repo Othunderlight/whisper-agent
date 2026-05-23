@@ -17,6 +17,7 @@ import { ChangeEvent, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { produceAppState, useAppStore } from "../../store";
 import {
+  getIsAssistantAutoSilenceEnabled,
   getIsAssistantModeEnabled,
   getIsPowerModeEnabled,
 } from "../../utils/assistant-mode.utils";
@@ -27,6 +28,7 @@ import { HotkeySetting } from "./HotkeySetting";
 export const AIAgentModeDialog = () => {
   const open = useAppStore((state) => state.settings.agentModeDialogOpen);
   const assistantModeEnabled = useAppStore(getIsAssistantModeEnabled);
+  const autoSilenceEnabled = useAppStore(getIsAssistantAutoSilenceEnabled);
   const powerModeEnabled = useAppStore(getIsPowerModeEnabled);
   const handleClose = () => {
     produceAppState((draft) => {
@@ -37,6 +39,12 @@ export const AIAgentModeDialog = () => {
   const handleAssistantModeToggle = (event: ChangeEvent<HTMLInputElement>) => {
     produceAppState((draft) => {
       draft.local.assistantModeEnabled = event.target.checked;
+    });
+  };
+
+  const handleAutoSilenceToggle = (event: ChangeEvent<HTMLInputElement>) => {
+    produceAppState((draft) => {
+      draft.local.assistantAutoSilenceEnabled = event.target.checked;
     });
   };
 
@@ -148,6 +156,26 @@ export const AIAgentModeDialog = () => {
               <Switch
                 checked={assistantModeEnabled}
                 onChange={handleAssistantModeToggle}
+              />
+            </Stack>
+
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-start"
+              sx={{ width: "100%" }}
+            >
+              <Stack spacing={0.5} flex={1}>
+                <Typography variant="body1" fontWeight="bold">
+                  <FormattedMessage defaultMessage="Auto-silence detection" />
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <FormattedMessage defaultMessage="Automatically process your request after you stop speaking." />
+                </Typography>
+              </Stack>
+              <Switch
+                checked={autoSilenceEnabled}
+                onChange={handleAutoSilenceToggle}
               />
             </Stack>
 

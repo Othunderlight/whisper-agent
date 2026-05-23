@@ -1,5 +1,6 @@
 export type LocalState = {
   assistantModeEnabled: boolean;
+  assistantAutoSilenceEnabled: boolean;
   powerModeEnabled: boolean;
   lastDictationReminderShownAt: number | null;
   lastDictatedAt: number | null;
@@ -15,6 +16,7 @@ export type LocalState = {
 
 export const INITIAL_LOCAL_STATE: LocalState = {
   assistantModeEnabled: false,
+  assistantAutoSilenceEnabled: true,
   powerModeEnabled: false,
   lastDictationReminderShownAt: null,
   lastDictatedAt: null,
