@@ -7,10 +7,10 @@ use std::time::{SystemTime, UNIX_EPOCH};
 static CANCEL_TYPING: AtomicBool = AtomicBool::new(false);
 use tauri::{AppHandle, Emitter, EventTarget, Manager, State};
 
-use crate::domain::{
+pub use crate::domain::{
     ApiKey, ApiKeyCreateRequest, ApiKeyView, AudioChunkPayload, OverlayPhase, OverlayPhasePayload,
-    RecordingLevelPayload, TranscriptionAudioSnapshot, EVT_AUDIO_CHUNK, EVT_OVERLAY_PHASE,
-    EVT_REC_LEVEL,
+    RecordingLevelPayload, TranscriptionAudioSnapshot, EVT_AUDIO_CHUNK, EVT_AUTO_SILENCE_DETECTED,
+    EVT_OVERLAY_PHASE, EVT_REC_LEVEL,
 };
 use crate::platform::{ChunkCallback, LevelCallback};
 use crate::system::crypto::{protect_api_key, reveal_api_key};
@@ -1300,6 +1300,7 @@ pub async fn start_recording(
 
     let level_emit_handle = app.clone();
     let auto_silence = options.auto_silence_detection.unwrap_or(false);
+    log::info!("start_recording: auto_silence_detection={auto_silence}");
     let silence_start = Arc::new(std::sync::Mutex::new(None));
 
     let level_emitter: LevelCallback = Arc::new(move |levels: Vec<f32>| {
@@ -1309,13 +1310,13 @@ pub async fn start_recording(
 
         if auto_silence {
             let avg = levels.iter().sum::<f32>() / levels.len() as f32;
-            let threshold = 0.012;
+            let threshold = 0.015; // Slightly increased threshold
             let mut guard = silence_start.lock().unwrap();
             if avg < threshold {
                 let start = guard.get_or_insert_with(std::time::Instant::now);
                 if start.elapsed() > std::time::Duration::from_millis(1500) {
-                    log::info!("Auto-silence detected, stopping recording");
-                    let _ = level_emit_handle.emit_to(tauri::EventTarget::any(), "auto-silence-detected", ());
+                    log::info!("Auto-silence detected (avg={avg:.4}), stopping recording");
+                    let _ = level_emit_handle.emit_to(tauri::EventTarget::any(), EVT_AUTO_SILENCE_DETECTED, ());
                     *guard = Some(std::time::Instant::now() + std::time::Duration::from_secs(3600));
                 }
             } else {

@@ -3,6 +3,7 @@ use std::time::Duration;
 
 pub const EVT_REC_LEVEL: &str = "recording_level";
 pub const EVT_AUDIO_CHUNK: &str = "audio_chunk";
+pub const EVT_AUTO_SILENCE_DETECTED: &str = "auto-silence-detected";
 
 #[derive(Clone, Debug)]
 pub struct RecordingMetrics {

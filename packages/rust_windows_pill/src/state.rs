@@ -88,7 +88,7 @@ impl WindowMode {
         match self {
             Self::Dictation => (DICTATION_WINDOW_WIDTH, DICTATION_WINDOW_HEIGHT),
             Self::AssistantCompact => (WINDOW_W_COMPACT, WINDOW_H_COMPACT),
-            Self::AssistantExpanded => (WINDOW_W_EXPANDED, WINDOW_H_EXPANDED),
+            Self::AssistantExpanded => (WINDOW_W_EXPANDED, WINDOW_H_EXPANDED_MIN),
             Self::AssistantTyping => (WINDOW_W_TYPING, WINDOW_H_TYPING),
         }
     }

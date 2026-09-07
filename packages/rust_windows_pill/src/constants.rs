@@ -60,8 +60,8 @@ pub(crate) const PANEL_COMPACT_WIDTH: f64 = 424.0;
 #[allow(dead_code)]
 pub(crate) const PANEL_COMPACT_HEIGHT: f64 = 120.0;
 pub(crate) const PANEL_EXPANDED_WIDTH: f64 = 572.0;
-#[allow(dead_code)]
-pub(crate) const PANEL_EXPANDED_HEIGHT: f64 = 258.0;
+pub(crate) const PANEL_EXPANDED_HEIGHT_MIN: f64 = 258.0;
+pub(crate) const PANEL_EXPANDED_HEIGHT_MAX: f64 = 640.0;
 #[allow(dead_code)]
 pub(crate) const PANEL_TYPING_HEIGHT: f64 = 338.0;
 pub(crate) const PANEL_RADIUS: f64 = 24.0;
@@ -96,9 +96,13 @@ pub(crate) const PERM_BUTTON_GAP: f64 = 6.0;
 pub(crate) const WINDOW_W_COMPACT: i32 = 452;
 pub(crate) const WINDOW_H_COMPACT: i32 = 144;
 pub(crate) const WINDOW_W_EXPANDED: i32 = 600;
-pub(crate) const WINDOW_H_EXPANDED: i32 = 282;
+pub(crate) const WINDOW_H_EXPANDED_MIN: i32 = (PANEL_TOP_MARGIN + PANEL_EXPANDED_HEIGHT_MIN + PANEL_BOTTOM_MARGIN) as i32;
+pub(crate) const WINDOW_H_EXPANDED_MAX: i32 = (PANEL_TOP_MARGIN + PANEL_EXPANDED_HEIGHT_MAX + PANEL_BOTTOM_MARGIN) as i32;
 pub(crate) const WINDOW_W_TYPING: i32 = 600;
 pub(crate) const WINDOW_H_TYPING: i32 = 362;
+
+pub(crate) const WINDOW_W_MAX: i32 = 600;
+pub(crate) const WINDOW_H_MAX: i32 = 664;
 
 // ── Flash message / toast ────────────────────────────────────────
 pub(crate) const FLASH_DURATION: f64 = 2.5;

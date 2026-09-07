@@ -536,7 +536,14 @@ fn tick(state: &PillState, dt: f64) {
 
     // Animate content dimensions toward target mode
     let mode = state.window_mode.get();
-    let (tw, th) = mode.dimensions();
+    let (tw, mut th) = mode.dimensions();
+    if mode == WindowMode::AssistantExpanded {
+        let content_h = state.content_height.get();
+        if content_h > 0.1 {
+            let needed_h = content_h + PANEL_TOP_MARGIN + PANEL_BOTTOM_MARGIN;
+            th = needed_h.clamp(WINDOW_H_EXPANDED_MIN as f64, WINDOW_H_EXPANDED_MAX as f64) as i32;
+        }
+    }
     spring_px(&state.draw_width, &state.draw_w_velocity, tw as f64, SPRING_STIFFNESS, dt);
     spring_px(&state.draw_height, &state.draw_h_velocity, th as f64, SPRING_STIFFNESS, dt);
 
@@ -843,8 +850,8 @@ unsafe fn setup(receiver: Receiver<InMessage>, embedded: bool) {
 
     let ui_scale = 1.0; // macOS handles Retina scaling automatically
 
-    let window_w = WINDOW_W_TYPING as f64;
-    let window_h = WINDOW_H_TYPING as f64;
+    let window_w = WINDOW_W_MAX as f64;
+    let window_h = WINDOW_H_MAX as f64;
 
     // Create window (NSPanel with non-activating mask so clicks don't steal focus)
     let rect = NSRect::new(NSPoint::new(0.0, 0.0), NSSize::new(window_w, window_h));
@@ -878,11 +885,11 @@ unsafe fn setup(receiver: Receiver<InMessage>, embedded: bool) {
 
     // Create text field for typing mode
     let panel_w = PANEL_EXPANDED_WIDTH;
-    let panel_x = (window_w - panel_w) / 2.0;
+    let panel_x = (WINDOW_W_MAX as f64 - panel_w) / 2.0;
     let entry_x = panel_x + PANEL_CONTENT_SIDE_INSET;
     let entry_w = panel_w - PANEL_CONTENT_SIDE_INSET * 2.0 - 36.0;
     let entry_top_pad = 12.0;
-    let entry_y = window_h - PANEL_BOTTOM_MARGIN - PANEL_INPUT_HEIGHT + entry_top_pad;
+    let entry_y = WINDOW_H_MAX as f64 - PANEL_BOTTOM_MARGIN - PANEL_INPUT_HEIGHT + entry_top_pad;
     let entry_h = PANEL_INPUT_HEIGHT - entry_top_pad;
     let entry_frame = NSRect::new(
         NSPoint::new(entry_x, entry_y),

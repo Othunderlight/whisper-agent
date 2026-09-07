@@ -568,16 +568,17 @@ export const DictationSideEffects = () => {
         strategyRef.current = strategy;
         await strategy.onBeforeStart();
 
+        const autoSilenceDetection =
+          mode === "agent" && getIsAssistantAutoSilenceEnabled(state);
         getLogger().info(
-          `Starting recording (mic=${preferredMicrophone ?? "default"})`,
+          `Starting recording (mic=${preferredMicrophone ?? "default"}, autoSilence=${autoSilenceDetection})`,
         );
         const [, startRecordingResult] = await Promise.all([
           strategy.setPhase("recording"),
           invoke<StartRecordingResponse>("start_recording", {
             args: {
               preferredMicrophone,
-              autoSilenceDetection:
-                mode === "agent" && getIsAssistantAutoSilenceEnabled(state),
+              autoSilenceDetection,
             },
           }),
         ]);

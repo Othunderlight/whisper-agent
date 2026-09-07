@@ -28,7 +28,7 @@ pub use permissions::{PermissionKind, PermissionState, PermissionStatus};
 pub use preferences::UserPreferences;
 pub use recording::{
     AudioChunkPayload, RecordedAudio, RecordingLevelPayload, RecordingMetrics, RecordingResult,
-    EVT_AUDIO_CHUNK, EVT_REC_LEVEL,
+    EVT_AUDIO_CHUNK, EVT_AUTO_SILENCE_DETECTED, EVT_REC_LEVEL,
 };
 pub use term::Term;
 pub use tone::Tone;
