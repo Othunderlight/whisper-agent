@@ -1,2 +1,4 @@
-- Add support for simulated typing as a paste option for all platforms
-- Various bug fixes and improvements
+- Switch language from menu tray
+- Improve docs
+- Fix integration issue with groq
+- Allow multi word replacements
