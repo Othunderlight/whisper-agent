@@ -31,6 +31,7 @@ import {
 import {
   migrateLocalUserToCloud,
   refreshCurrentUser,
+  setActiveDictationLanguage,
   setRemoteOutputEnabled,
   setRemoteTargetDeviceId,
 } from "../../actions/user.actions";
@@ -48,6 +49,7 @@ import {
   getMemberRepo,
   getTenantRepo,
   getTermRepo,
+  getTranscriptionRepo,
   getUserRepo,
 } from "../../repos";
 import {
@@ -73,6 +75,7 @@ import { sendPillFlashMessage } from "../../utils/overlay.utils";
 import { isPermissionAuthorized } from "../../utils/permission.utils";
 import { getPlatform } from "../../utils/platform.utils";
 import { minutesToMilliseconds } from "../../utils/time.utils";
+import { buildTrayLanguageMenuModel } from "../../utils/tray-language.utils";
 import {
   getEffectivePillVisibility,
   getMyUserPreferences,
@@ -694,12 +697,37 @@ export const AppSideEffects = () => {
     installAvailableUpdate();
   });
 
+  useTauriListen<void>("tray-copy-last-transcript", async () => {
+    const [latest] = await getTranscriptionRepo().listTranscriptions({
+      limit: 1,
+    });
+    if (latest?.transcript) {
+      await invoke("copy_to_clipboard", { text: latest.transcript });
+    }
+  });
+
   const menuBarIconHidden = prefs?.menuBarIconHidden ?? false;
   useEffect(() => {
     invoke("set_tray_visible", { visible: !menuBarIconHidden }).catch(
       console.error,
     );
   }, [menuBarIconHidden]);
+
+  // Re-push the tray Language submenu whenever the Active Dictation Language or
+  // the configured language set changes, keeping the tray correct after both
+  // tray clicks and settings edits.
+  const trayLanguageMenuKey = useAppStore((state) =>
+    JSON.stringify(buildTrayLanguageMenuModel(state)),
+  );
+  useEffect(() => {
+    invoke("set_tray_language_menu", {
+      items: JSON.parse(trayLanguageMenuKey),
+    }).catch(console.error);
+  }, [trayLanguageMenuKey]);
+
+  useTauriListen<string>("tray-set-dictation-language", (code) => {
+    setActiveDictationLanguage(code).catch(console.error);
+  });
 
   return null;
 };
