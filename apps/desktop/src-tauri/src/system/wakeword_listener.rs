@@ -19,7 +19,7 @@ fn run_listener(app_handle: AppHandle) -> Result<(), Box<dyn std::error::Error>>
     
     let mel_path = resource_dir.join("melspectrogram.onnx");
     let emb_path = resource_dir.join("embedding_model.onnx");
-    let ww_path = resource_dir.join("hey_jarvis.onnx");
+    let ww_path = resource_dir.join("hey_jarvis.onnx"); // hey_mycroft
 
     if !mel_path.exists() || !emb_path.exists() || !ww_path.exists() {
         return Err(format!("Wake word models not found in {:?}", resource_dir).into());
