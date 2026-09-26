@@ -1,4 +1,9 @@
 import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
+import { invoke } from "@tauri-apps/api/core";
+import type {
+  WakewordConfig,
+  WakewordModelInfo,
+} from "../types/wakeword.types";
 import { produceAppState, getAppState } from "../store";
 import { showErrorSnackbar } from "./app.actions";
 
@@ -83,4 +88,19 @@ export const setAutoLaunchEnabled = async (enabled: boolean): Promise<void> => {
       "Unable to update auto start preference. Please try again.",
     );
   }
+};
+
+export const listWakewordModels = async (): Promise<WakewordModelInfo[]> =>
+  invoke<WakewordModelInfo[]>("list_wakeword_models");
+
+export const getWakewordConfig = async (): Promise<WakewordConfig> =>
+  invoke<WakewordConfig>("get_wakeword_config");
+
+export const setWakewordConfig = async (
+  config: WakewordConfig,
+): Promise<void> => invoke<void>("set_wakeword_config", { config });
+
+export const importWakewordModel = async (file: File): Promise<string> => {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  return invoke<string>("import_wakeword_model", { name: file.name, bytes });
 };

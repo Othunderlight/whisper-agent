@@ -16,6 +16,7 @@ import { MultiDeviceDialog } from "../settings/MultiDeviceDialog";
 import { MoreSettingsDialog } from "../settings/MoreSettingsDialog";
 import { ProfileDialog } from "../settings/ProfileDialog";
 import { ShortcutsDialog } from "../settings/ShortcutsDialog";
+import { WakeWordDialog } from "../settings/WakeWordDialog";
 import { ToneEditorDialog } from "../tones/ToneEditorDialog";
 import { FlagTranscriptionDialog } from "../transcriptions/FlagTranscriptionDialog";
 import { RetranscribeDialog } from "../transcriptions/RetranscribeDialog";
@@ -33,6 +34,7 @@ export const RootDialogs = () => {
       <MicrophoneDialog />
       <AudioDialog />
       <ShortcutsDialog />
+      <WakeWordDialog />
       <ClearLocalDataDialog />
       <UpgradePlanDialog />
       <PaymentDialog />

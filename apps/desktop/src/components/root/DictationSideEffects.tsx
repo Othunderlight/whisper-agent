@@ -856,8 +856,8 @@ export const DictationSideEffects = () => {
   });
 
   // Disabled: the word is already captured by the time detection completes, so
-  // it ends up in the transcription. Re-enable together with the
-  // "stop_word_detected" entry in wakeword_listener.rs.
+  // it ends up in the transcription. Re-enabling needs a third entry in the
+  // `slots` table of wakeword_listener.rs and a field on WakewordConfig.
   // useTauriListen<void>("stop_word_detected", () => {
   //   if (getAppState().activeRecordingMode !== null) {
   //     getLogger().info("Stop word detected, stopping recording");

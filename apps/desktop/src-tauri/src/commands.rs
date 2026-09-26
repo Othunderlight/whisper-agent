@@ -19,6 +19,8 @@ use crate::utils::decode_to_utf8;
 use sqlx::Row;
 
 use crate::platform::input::paste_text_into_focused_field as platform_paste_text;
+use crate::system::wakeword_models::{WakewordConfig, WakewordModelInfo};
+use crate::system::wakeword_listener::start_wakeword_listener;
 
 #[derive(serde::Serialize, specta::Type)]
 #[serde(rename_all = "camelCase")]
@@ -2492,4 +2494,40 @@ pub async fn floating_window_list(app: AppHandle) -> Result<Vec<FloatingWindowIn
         });
     }
     Ok(out)
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn list_wakeword_models(app: AppHandle) -> Result<Vec<WakewordModelInfo>, String> {
+    crate::system::wakeword_models::list_models(&app)
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn import_wakeword_model(
+    app: AppHandle,
+    name: String,
+    bytes: Vec<u8>,
+) -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        crate::system::wakeword_models::import_model(&app, name, bytes)
+    })
+    .await
+    .map_err(|err| err.to_string())?
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn get_wakeword_config(app: AppHandle) -> Result<WakewordConfig, String> {
+    Ok(crate::system::wakeword_models::read_config(&app))
+}
+
+/// Persists the selection and restarts the listener so it takes effect without
+/// relaunching the app.
+#[tauri::command]
+#[specta::specta]
+pub fn set_wakeword_config(app: AppHandle, config: WakewordConfig) -> Result<(), String> {
+    crate::system::wakeword_models::write_config(&app, &config)?;
+    start_wakeword_listener(app);
+    Ok(())
 }

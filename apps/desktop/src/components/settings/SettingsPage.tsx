@@ -16,6 +16,7 @@ import {
   PaymentOutlined,
   PersonRemoveOutlined,
   PrivacyTipOutlined,
+  RecordVoiceOverOutlined,
   RocketLaunchOutlined,
   TroubleshootOutlined,
   VolumeUpOutlined,
@@ -173,6 +174,12 @@ export default function SettingsPage() {
     });
   };
 
+  const openWakeWordDialog = () => {
+    produceAppState((draft) => {
+      draft.settings.wakeWordDialogOpen = true;
+    });
+  };
+
   const openShortcutsDialog = () => {
     produceAppState((draft) => {
       draft.settings.shortcutsDialogOpen = true;
@@ -246,6 +253,11 @@ export default function SettingsPage() {
         title={<FormattedMessage defaultMessage="Audio" />}
         leading={<VolumeUpOutlined />}
         onClick={openAudioDialog}
+      />
+      <ListTile
+        title={<FormattedMessage defaultMessage="Wake words" />}
+        leading={<RecordVoiceOverOutlined />}
+        onClick={openWakeWordDialog}
       />
       <ListTile
         title={<FormattedMessage defaultMessage="Hotkey shortcuts" />}

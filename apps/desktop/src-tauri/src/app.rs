@@ -195,6 +195,7 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
                 // Pre-warm audio output for instant chime playback
                 crate::system::audio_feedback::warm_audio_output();
 
+                app.manage(crate::system::wakeword_listener::WakewordListenerHandle::default());
                 crate::system::wakeword_listener::start_wakeword_listener(app_handle.clone());
 
                 crate::overlay::try_create_native_overlays(app_handle);
@@ -331,6 +332,10 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
             crate::commands::floating_window_create,
             crate::commands::floating_window_destroy,
             crate::commands::floating_window_list,
+            crate::commands::list_wakeword_models,
+            crate::commands::import_wakeword_model,
+            crate::commands::get_wakeword_config,
+            crate::commands::set_wakeword_config,
         ])
 }
 

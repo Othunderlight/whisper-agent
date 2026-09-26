@@ -6,6 +6,8 @@ use tract_onnx::prelude::*;
 pub const OWW_MODEL_CHUNK_SIZE: usize = 1280;
 pub const FEATURE_BUFFER_SIZE: usize = 16;
 pub const MEL_CIRC_SIZE: usize = 16; // 80 / 5
+/// Shape every wake word model must accept, produced from the shared features.
+pub const WAKEWORD_INPUT_SHAPE: [usize; 3] = [1, 16, 96];
 
 // Model files shipped under `resources/models`. They are gitignored, so these
 // names must match what is actually on disk.
@@ -102,6 +104,17 @@ impl WakeWordModel {
         })
     }
 
+    /// Loads a candidate model and pushes a silent chunk through it, so an
+    /// incompatible file is rejected up front instead of killing the listener
+    /// on the first chunk of real audio.
+    pub fn validate(model_path: &Path) -> TractResult<()> {
+        let mut model = Self::new(model_path, 0.5)?;
+        let zeros = vec![0f32; WAKEWORD_INPUT_SHAPE.iter().product()];
+        let input = Tensor::from_shape(&WAKEWORD_INPUT_SHAPE, &zeros)?;
+        model.detect(&input)?;
+        Ok(())
+    }
+
     /// Scores one wake word against features that are shared by every model.
     /// Returns `(detected, average_probability)`.
     fn detect(&mut self, features: &Tensor) -> TractResult<(bool, f32)> {
@@ -171,7 +184,7 @@ impl WakeWordDetector {
 
     pub fn process_chunk(&mut self, chunk: &[f32]) -> TractResult<Vec<(bool, f32)>> {
         let features = self.audio_features.get_audio_features(chunk)?;
-        let input = features.into_shape(&[1, 16, 96])?;
+        let input = features.into_shape(&WAKEWORD_INPUT_SHAPE)?;
 
         self.models
             .iter_mut()

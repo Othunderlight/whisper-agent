@@ -1,11 +1,14 @@
+use desktop_lib::platform::wakeword::WakeWordModel;
 use std::path::Path;
 use tract_onnx::prelude::*;
 
-/// Prints the declared input shape of every model in `resources/models`.
+/// Prints the declared input shape and wake word compatibility of every model
+/// in `resources/models`.
 ///
-/// The mel/embedding/wakeword pipeline feeds tensors of fixed shape, so a model
-/// that expects something else only fails once audio starts flowing and takes
-/// the whole listener down with it. Check new wake word models here first:
+/// The pipeline feeds every wake word model a fixed shape, so a model that
+/// expects something else would only fail once audio starts flowing and would
+/// take the listener down with it. Check a model here before selecting it in
+/// settings:
 ///
 ///     cargo run --example inspect_models
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -25,8 +28,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             inputs.push(format!("{:?}", model.outlet_fact(*input)?));
         }
 
+        let verdict = match WakeWordModel::validate(&path) {
+            Ok(()) => "wake word model".to_string(),
+            Err(err) => format!("not usable: {err}"),
+        };
+
         let name = path.file_name().unwrap_or_default().to_string_lossy();
-        println!("{name}: {}", inputs.join(", "));
+        println!("{name}: {} [{verdict}]", inputs.join(", "));
     }
 
     Ok(())
