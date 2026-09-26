@@ -12,6 +12,7 @@ pub const MEL_CIRC_SIZE: usize = 16; // 80 / 5
 pub const MEL_MODEL_FILE: &str = "melspectrogram.onnx";
 pub const EMBEDDING_MODEL_FILE: &str = "embedding_model.onnx";
 pub const WAKEWORD_MODEL_FILE: &str = "Meea.onnx";
+pub const AGENT_WAKEWORD_MODEL_FILE: &str = "Hey_Bro.onnx";
 pub const STOPWORD_MODEL_FILE: &str = "stop.onnx";
 
 type ModelType = RunnableModel<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;

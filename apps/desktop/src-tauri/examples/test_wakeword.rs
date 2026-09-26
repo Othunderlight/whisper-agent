@@ -1,6 +1,6 @@
 use desktop_lib::platform::wakeword::{
-    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, STOPWORD_MODEL_FILE, WakeWordDetector,
-    WAKEWORD_MODEL_FILE,
+    AGENT_WAKEWORD_MODEL_FILE, EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE,
+    WakeWordDetector, WAKEWORD_MODEL_FILE,
 };
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let models_dir = Path::new("resources/models");
     let mel_path = models_dir.join(MEL_MODEL_FILE);
     let emb_path = models_dir.join(EMBEDDING_MODEL_FILE);
-    let word_names = [WAKEWORD_MODEL_FILE, STOPWORD_MODEL_FILE];
+    let word_names = [WAKEWORD_MODEL_FILE, AGENT_WAKEWORD_MODEL_FILE];
     let word_paths: Vec<PathBuf> = word_names.iter().map(|f| models_dir.join(f)).collect();
 
     for path in [&mel_path, &emb_path].into_iter().chain(word_paths.iter()) {

@@ -1,6 +1,6 @@
 use crate::platform::wakeword::{
-    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, STOPWORD_MODEL_FILE, WakeWordDetector,
-    WAKEWORD_MODEL_FILE,
+    AGENT_WAKEWORD_MODEL_FILE, EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE,
+    WakeWordDetector, WAKEWORD_MODEL_FILE,
 };
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
@@ -13,7 +13,11 @@ use tauri::{AppHandle, Emitter, Manager, path::BaseDirectory};
 // Model file -> frontend event emitted once the word is recognised.
 const WORD_MODELS: [(&str, &str); 2] = [
     (WAKEWORD_MODEL_FILE, "wake_word_detected"),
-    (STOPWORD_MODEL_FILE, "stop_word_detected"),
+    (AGENT_WAKEWORD_MODEL_FILE, "agent_wake_word_detected"),
+    // Disabled: detection only completes once the word has already been
+    // captured, so it leaks into the transcription. Re-enabling needs the
+    // import of STOPWORD_MODEL_FILE restored too.
+    // (STOPWORD_MODEL_FILE, "stop_word_detected"),
 ];
 
 pub fn start_wakeword_listener(app_handle: AppHandle) {

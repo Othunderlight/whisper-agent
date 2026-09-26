@@ -855,10 +855,24 @@ export const DictationSideEffects = () => {
     }
   });
 
-  useTauriListen<void>("stop_word_detected", () => {
-    if (getAppState().activeRecordingMode !== null) {
-      getLogger().info("Stop word detected, stopping recording");
-      stopRecording();
+  // Disabled: the word is already captured by the time detection completes, so
+  // it ends up in the transcription. Re-enable together with the
+  // "stop_word_detected" entry in wakeword_listener.rs.
+  // useTauriListen<void>("stop_word_detected", () => {
+  //   if (getAppState().activeRecordingMode !== null) {
+  //     getLogger().info("Stop word detected, stopping recording");
+  //     stopRecording();
+  //   }
+  // });
+
+  useTauriListen<void>("agent_wake_word_detected", () => {
+    if (
+      isDictationInteractable &&
+      assistantModeEnabled &&
+      activeRecordingMode === null
+    ) {
+      getLogger().info("Agent wake word detected, triggering agent toggle");
+      debouncedToggle("agent", agentController);
     }
   });
 
