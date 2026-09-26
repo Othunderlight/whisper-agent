@@ -1,5 +1,5 @@
 use circular_buffer::CircularBuffer;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::time::Instant;
 use tract_onnx::prelude::*;
 
@@ -11,7 +11,8 @@ pub const MEL_CIRC_SIZE: usize = 16; // 80 / 5
 // names must match what is actually on disk.
 pub const MEL_MODEL_FILE: &str = "melspectrogram.onnx";
 pub const EMBEDDING_MODEL_FILE: &str = "embedding_model.onnx";
-pub const WAKEWORD_MODEL_FILE: &str = "hey_mycroft.onnx";
+pub const WAKEWORD_MODEL_FILE: &str = "Meea.onnx";
+pub const STOPWORD_MODEL_FILE: &str = "stop.onnx";
 
 type ModelType = RunnableModel<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;
 
@@ -80,41 +81,30 @@ impl AudioFeatures {
     }
 }
 
-pub struct WakeWordDetector {
-    audio_features: AudioFeatures,
-    ww_model: ModelType,
+pub struct WakeWordModel {
+    model: ModelType,
     threshold: f32,
     detections_buffer: CircularBuffer<12, f32>,
     last_detection_time: Instant,
 }
 
-impl WakeWordDetector {
-    pub fn new(
-        mel_path: &Path,
-        emb_path: &Path,
-        ww_path: &Path,
-        threshold: f32,
-    ) -> TractResult<Self> {
-        let audio_features = AudioFeatures::new(mel_path, emb_path)?;
-        let ww_model = tract_onnx::onnx()
-            .model_for_path(ww_path)?
-            .into_optimized()?
-            .into_runnable()?;
-
+impl WakeWordModel {
+    fn new(model_path: &Path, threshold: f32) -> TractResult<Self> {
         Ok(Self {
-            audio_features,
-            ww_model,
+            model: tract_onnx::onnx()
+                .model_for_path(model_path)?
+                .into_optimized()?
+                .into_runnable()?,
             threshold,
             detections_buffer: CircularBuffer::new(),
             last_detection_time: Instant::now() - std::time::Duration::from_secs(10),
         })
     }
 
-    pub fn process_chunk(&mut self, chunk: &[f32]) -> TractResult<(bool, f32)> {
-        let features = self.audio_features.get_audio_features(chunk)?;
-        let input = features.into_shape(&[1, 16, 96])?;
-        
-        let out = self.ww_model.run(tvec!(input.into()))?;
+    /// Scores one wake word against features that are shared by every model.
+    /// Returns `(detected, average_probability)`.
+    fn detect(&mut self, features: &Tensor) -> TractResult<(bool, f32)> {
+        let out = self.model.run(tvec!(features.clone().into()))?;
         let probability = out[0].clone().into_tensor().cast_to::<f32>()?.as_slice::<f32>()?[0];
 
         self.detections_buffer.push_back(probability);
@@ -122,10 +112,11 @@ impl WakeWordDetector {
         let avg = self.calculate_average();
         let since_last = self.last_detection_time.elapsed().as_millis();
 
-        let mut detected = false;
-        if probability < 0.1 && avg > self.threshold && since_last > 2000 {
+        // Fires as the word ends: probability has dropped back down while the
+        // window behind it was still high.
+        let detected = probability < 0.1 && avg > self.threshold && since_last > 2000;
+        if detected {
             self.last_detection_time = Instant::now();
-            detected = true;
         }
 
         Ok((detected, avg))
@@ -149,5 +140,41 @@ impl WakeWordDetector {
         } else {
             0.0
         }
+    }
+}
+
+/// Extracts the audio features once per chunk, then scores every configured
+/// wake word model against them.
+pub struct WakeWordDetector {
+    audio_features: AudioFeatures,
+    models: Vec<WakeWordModel>,
+}
+
+impl WakeWordDetector {
+    pub fn new(
+        mel_path: &Path,
+        emb_path: &Path,
+        word_paths: &[PathBuf],
+        threshold: f32,
+    ) -> TractResult<Self> {
+        let mut models = Vec::with_capacity(word_paths.len());
+        for path in word_paths {
+            models.push(WakeWordModel::new(path, threshold)?);
+        }
+
+        Ok(Self {
+            audio_features: AudioFeatures::new(mel_path, emb_path)?,
+            models,
+        })
+    }
+
+    pub fn process_chunk(&mut self, chunk: &[f32]) -> TractResult<Vec<(bool, f32)>> {
+        let features = self.audio_features.get_audio_features(chunk)?;
+        let input = features.into_shape(&[1, 16, 96])?;
+
+        self.models
+            .iter_mut()
+            .map(|model| model.detect(&input))
+            .collect()
     }
 }

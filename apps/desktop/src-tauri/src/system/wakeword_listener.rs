@@ -1,12 +1,20 @@
 use crate::platform::wakeword::{
-    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, WakeWordDetector, WAKEWORD_MODEL_FILE,
+    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, STOPWORD_MODEL_FILE, WakeWordDetector,
+    WAKEWORD_MODEL_FILE,
 };
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
 use rubato::{Fft, FixedSync, Resampler};
+use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use tauri::{AppHandle, Emitter, Manager, path::BaseDirectory};
+
+// Model file -> frontend event emitted once the word is recognised.
+const WORD_MODELS: [(&str, &str); 2] = [
+    (WAKEWORD_MODEL_FILE, "wake_word_detected"),
+    (STOPWORD_MODEL_FILE, "stop_word_detected"),
+];
 
 pub fn start_wakeword_listener(app_handle: AppHandle) {
     thread::spawn(move || {
@@ -21,15 +29,18 @@ fn run_listener(app_handle: AppHandle) -> Result<(), Box<dyn std::error::Error>>
     
     let mel_path = resource_dir.join(MEL_MODEL_FILE);
     let emb_path = resource_dir.join(EMBEDDING_MODEL_FILE);
-    let ww_path = resource_dir.join(WAKEWORD_MODEL_FILE);
+    let word_paths: Vec<PathBuf> = WORD_MODELS
+        .iter()
+        .map(|(file, _)| resource_dir.join(file))
+        .collect();
 
-    for path in [&mel_path, &emb_path, &ww_path] {
+    for path in [&mel_path, &emb_path].into_iter().chain(word_paths.iter()) {
         if !path.exists() {
             return Err(format!("Wake word model not found: {:?}", path).into());
         }
     }
 
-    let mut detector = WakeWordDetector::new(&mel_path, &emb_path, &ww_path, 0.5)?;
+    let mut detector = WakeWordDetector::new(&mel_path, &emb_path, &word_paths, 0.5)?;
 
     let host = cpal::default_host();
     let device = host
@@ -98,10 +109,12 @@ fn run_listener(app_handle: AppHandle) -> Result<(), Box<dyn std::error::Error>>
 
         // Process chunks of 1280 samples
         if mono_resampled.len() >= OWW_MODEL_CHUNK_SIZE {
-            let (detected, _prob) = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
-            if detected {
-                log::info!("Wake word detected!");
-                app_handle.emit("wake_word_detected", ())?;
+            let detections = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
+            for ((file, event), (detected, avg)) in WORD_MODELS.iter().zip(detections) {
+                if detected {
+                    log::info!("Wake word '{}' detected (avg={avg:.2}), emitting {event}", file);
+                    app_handle.emit(event, ())?;
+                }
             }
         }
     }

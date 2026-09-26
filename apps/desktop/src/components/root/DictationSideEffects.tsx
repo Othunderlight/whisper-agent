@@ -855,6 +855,13 @@ export const DictationSideEffects = () => {
     }
   });
 
+  useTauriListen<void>("stop_word_detected", () => {
+    if (getAppState().activeRecordingMode !== null) {
+      getLogger().info("Stop word detected, stopping recording");
+      stopRecording();
+    }
+  });
+
   useTauriListen<void>("cancel-dictation", () => {
     abortRecording();
   });

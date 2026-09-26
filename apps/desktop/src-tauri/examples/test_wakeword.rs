@@ -1,11 +1,12 @@
 use desktop_lib::platform::wakeword::{
-    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, WakeWordDetector, WAKEWORD_MODEL_FILE,
+    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, STOPWORD_MODEL_FILE, WakeWordDetector,
+    WAKEWORD_MODEL_FILE,
 };
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
 use rubato::{Fft, FixedSync, Resampler};
+use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
-use std::path::Path;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize logging to see what's happening
@@ -17,9 +18,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let models_dir = Path::new("resources/models");
     let mel_path = models_dir.join(MEL_MODEL_FILE);
     let emb_path = models_dir.join(EMBEDDING_MODEL_FILE);
-    let ww_path = models_dir.join(WAKEWORD_MODEL_FILE);
+    let word_names = [WAKEWORD_MODEL_FILE, STOPWORD_MODEL_FILE];
+    let word_paths: Vec<PathBuf> = word_names.iter().map(|f| models_dir.join(f)).collect();
 
-    for path in [&mel_path, &emb_path, &ww_path] {
+    for path in [&mel_path, &emb_path].into_iter().chain(word_paths.iter()) {
         if !path.exists() {
             println!("Error: {:?} not found! Run from apps/desktop/src-tauri", path);
             return Ok(());
@@ -27,7 +29,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!("Loading models...");
-    let mut detector = WakeWordDetector::new(&mel_path, &emb_path, &ww_path, 0.5)?;
+    let mut detector = WakeWordDetector::new(&mel_path, &emb_path, &word_paths, 0.5)?;
     println!("Models loaded successfully.");
 
     let host = cpal::default_host();
@@ -75,7 +77,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     stream.play()?;
 
-    println!("Listening for '{}'... (Press Ctrl+C to stop)", WAKEWORD_MODEL_FILE);
+    println!(
+        "Listening for {}... (Press Ctrl+C to stop)",
+        word_names.join(", ")
+    );
 
     let mut max_prob = 0.0f32;
     let mut last_print = std::time::Instant::now();
@@ -95,12 +100,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mono_resampled = resampled.take_data();
 
         if mono_resampled.len() >= OWW_MODEL_CHUNK_SIZE {
-            let (detected, prob) = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
-            if prob > max_prob {
-                max_prob = prob;
-            }
-            if detected {
-                println!("\n>>> DETECTED! (Prob: {:.2}) <<<", prob);
+            let detections = detector.process_chunk(&mono_resampled[0..OWW_MODEL_CHUNK_SIZE])?;
+            for (name, (detected, prob)) in word_names.iter().zip(detections) {
+                if prob > max_prob {
+                    max_prob = prob;
+                }
+                if detected {
+                    println!("\n>>> DETECTED '{name}' (avg: {prob:.2}) <<<");
+                }
             }
         }
 
