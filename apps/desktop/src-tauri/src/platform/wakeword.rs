@@ -7,6 +7,12 @@ pub const OWW_MODEL_CHUNK_SIZE: usize = 1280;
 pub const FEATURE_BUFFER_SIZE: usize = 16;
 pub const MEL_CIRC_SIZE: usize = 16; // 80 / 5
 
+// Model files shipped under `resources/models`. They are gitignored, so these
+// names must match what is actually on disk.
+pub const MEL_MODEL_FILE: &str = "melspectrogram.onnx";
+pub const EMBEDDING_MODEL_FILE: &str = "embedding_model.onnx";
+pub const WAKEWORD_MODEL_FILE: &str = "hey_mycroft.onnx";
+
 type ModelType = RunnableModel<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;
 
 pub struct AudioFeatures {

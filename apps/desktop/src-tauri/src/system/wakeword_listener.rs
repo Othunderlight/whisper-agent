@@ -1,4 +1,6 @@
-use crate::platform::wakeword::{WakeWordDetector, OWW_MODEL_CHUNK_SIZE};
+use crate::platform::wakeword::{
+    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, WakeWordDetector, WAKEWORD_MODEL_FILE,
+};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
 use rubato::{Fft, FixedSync, Resampler};
@@ -17,12 +19,14 @@ pub fn start_wakeword_listener(app_handle: AppHandle) {
 fn run_listener(app_handle: AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     let resource_dir = app_handle.path().resolve("resources/models", BaseDirectory::Resource)?;
     
-    let mel_path = resource_dir.join("melspectrogram.onnx");
-    let emb_path = resource_dir.join("embedding_model.onnx");
-    let ww_path = resource_dir.join("hey_jarvis.onnx"); // hey_mycroft
+    let mel_path = resource_dir.join(MEL_MODEL_FILE);
+    let emb_path = resource_dir.join(EMBEDDING_MODEL_FILE);
+    let ww_path = resource_dir.join(WAKEWORD_MODEL_FILE);
 
-    if !mel_path.exists() || !emb_path.exists() || !ww_path.exists() {
-        return Err(format!("Wake word models not found in {:?}", resource_dir).into());
+    for path in [&mel_path, &emb_path, &ww_path] {
+        if !path.exists() {
+            return Err(format!("Wake word model not found: {:?}", path).into());
+        }
     }
 
     let mut detector = WakeWordDetector::new(&mel_path, &emb_path, &ww_path, 0.5)?;

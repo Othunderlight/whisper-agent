@@ -1,4 +1,6 @@
-use desktop_lib::platform::wakeword::{WakeWordDetector, OWW_MODEL_CHUNK_SIZE};
+use desktop_lib::platform::wakeword::{
+    EMBEDDING_MODEL_FILE, MEL_MODEL_FILE, OWW_MODEL_CHUNK_SIZE, WakeWordDetector, WAKEWORD_MODEL_FILE,
+};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use rubato::audioadapter_buffers::direct::InterleavedSlice;
 use rubato::{Fft, FixedSync, Resampler};
@@ -12,13 +14,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("--- Wake Word Standalone Tester ---");
     
     // Paths to models (relative to apps/desktop/src-tauri)
-    let mel_path = Path::new("resources/models/melspectrogram.onnx");
-    let emb_path = Path::new("resources/models/embedding_model.onnx");
-    let ww_path = Path::new("resources/models/hey_jarvis.onnx");
+    let models_dir = Path::new("resources/models");
+    let mel_path = models_dir.join(MEL_MODEL_FILE);
+    let emb_path = models_dir.join(EMBEDDING_MODEL_FILE);
+    let ww_path = models_dir.join(WAKEWORD_MODEL_FILE);
 
-    if !mel_path.exists() {
-        println!("Error: Model files not found! Run from apps/desktop/src-tauri");
-        return Ok(());
+    for path in [&mel_path, &emb_path, &ww_path] {
+        if !path.exists() {
+            println!("Error: {:?} not found! Run from apps/desktop/src-tauri", path);
+            return Ok(());
+        }
     }
 
     println!("Loading models...");
@@ -70,7 +75,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     stream.play()?;
 
-    println!("Listening for 'Alexa'... (Press Ctrl+C to stop)");
+    println!("Listening for '{}'... (Press Ctrl+C to stop)", WAKEWORD_MODEL_FILE);
 
     let mut max_prob = 0.0f32;
     let mut last_print = std::time::Instant::now();
