@@ -27,6 +27,7 @@ import {
   LocalConversationRepo,
 } from "./conversation.repo";
 import { EnterpriseRepo } from "./enterprise.repo";
+import { BaseFocusRepo, LocalFocusRepo } from "./focus.repo";
 import {
   AzureOpenAIGenerateTextRepo,
   BaseGenerateTextRepo,
@@ -172,6 +173,10 @@ export const getRemoteReceiverRepo = (): BaseRemoteReceiverRepo => {
 
 export const getTranscriptionRepo = (): BaseTranscriptionRepo => {
   return new LocalTranscriptionRepo();
+};
+
+export const getFocusRepo = (): BaseFocusRepo => {
+  return new LocalFocusRepo();
 };
 
 export const getAppTargetRepo = (): BaseAppTargetRepo => {

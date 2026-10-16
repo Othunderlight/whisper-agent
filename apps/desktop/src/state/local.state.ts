@@ -1,3 +1,5 @@
+export type ActiveDashboard = "transcription" | "focus";
+
 export type LocalState = {
   assistantModeEnabled: boolean;
   assistantAutoSilenceEnabled: boolean;
@@ -11,6 +13,7 @@ export type LocalState = {
   hasHiddenTrialExtensionCard: boolean;
   disableAutoStyleLoading?: boolean;
   lastAuthCheckAt: string | null;
+  activeDashboard: ActiveDashboard;
 };
 
 export const INITIAL_LOCAL_STATE: LocalState = {
@@ -26,4 +29,5 @@ export const INITIAL_LOCAL_STATE: LocalState = {
   hasHiddenTrialExtensionCard: false,
   disableAutoStyleLoading: false,
   lastAuthCheckAt: null,
+  activeDashboard: "transcription",
 };

@@ -70,6 +70,7 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
         )
         .plugin(updater_builder.build())
         .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_shell::init())
@@ -277,6 +278,13 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
             crate::commands::api_key_list,
             crate::commands::api_key_delete,
             crate::commands::api_key_update,
+            crate::commands::focus_capture_screenshot,
+            crate::commands::focus_check_create,
+            crate::commands::focus_check_list,
+            crate::commands::focus_check_delete_old,
+            crate::commands::focus_settings_get,
+            crate::commands::focus_settings_set,
+            crate::commands::focus_send_notification,
             crate::commands::tone_upsert,
             crate::commands::tone_list,
             crate::commands::tone_get,

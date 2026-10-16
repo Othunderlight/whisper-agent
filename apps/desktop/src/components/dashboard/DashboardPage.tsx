@@ -2,6 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { getVersion } from "@tauri-apps/api/app";
 import { Outlet } from "react-router-dom";
 import { useAsyncData } from "../../hooks/async.hooks";
+import { FocusSideEffects } from "../focus/FocusSideEffects";
 import { TranscriptionDetailsDialog } from "../transcriptions/TranscriptionDetailsDialog";
 import { DashboardMenu } from "./DashboardMenu";
 import { FeatureReleaseDialog } from "./FeatureReleaseDialog";
@@ -17,6 +18,7 @@ export default function DashboardPage() {
       <PermissionsDialog />
       <TranscriptionDetailsDialog />
       <TrialEndedDialog />
+      <FocusSideEffects />
       <Stack
         direction="row"
         sx={{ height: "100%", width: "100%", overflow: "hidden" }}

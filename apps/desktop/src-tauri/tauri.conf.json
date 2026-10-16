@@ -26,7 +26,8 @@
       "assetProtocol": {
         "enable": true,
         "scope": [
-          "$APPDATA/transcription-audio/**"
+          "$APPDATA/transcription-audio/**",
+          "$APPDATA/focus-screenshots/**"
         ]
       }
     }

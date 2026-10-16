@@ -65,6 +65,8 @@ tauri-specta = { version = "=2.0.0-rc.21", features = ["derive", "typescript"] }
 tract-onnx = "0.22"
 circular-buffer = "1.2"
 rubato = { version = "2.0.0", features = ["fft_resampler"] }
+xcap = "0.9.8"
+tauri-plugin-notification = "2.0.4"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 core-graphics = { version = "0.24", features = ["elcapitan"] }

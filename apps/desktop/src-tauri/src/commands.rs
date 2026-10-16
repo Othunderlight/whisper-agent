@@ -21,6 +21,7 @@ use sqlx::Row;
 use crate::platform::input::paste_text_into_focused_field as platform_paste_text;
 use crate::system::wakeword_models::{WakewordConfig, WakewordModelInfo};
 use crate::system::wakeword_listener::start_wakeword_listener;
+use tauri_plugin_notification::NotificationExt;
 
 #[derive(serde::Serialize, specta::Type)]
 #[serde(rename_all = "camelCase")]
@@ -2530,4 +2531,179 @@ pub fn set_wakeword_config(app: AppHandle, config: WakewordConfig) -> Result<(),
     crate::system::wakeword_models::write_config(&app, &config)?;
     start_wakeword_listener(app);
     Ok(())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn focus_capture_screenshot(app: AppHandle) -> Result<crate::domain::FocusScreenshot, String> {
+    crate::system::focus_screenshot::capture_primary_screenshot(&app).map_err(|err| err.to_string())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn focus_check_create(
+    args: crate::domain::FocusCheckCreateArgs,
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<crate::domain::FocusCheck, String> {
+    let created_at = current_timestamp_millis()?;
+
+    let check = crate::domain::FocusCheck {
+        id: args.id,
+        created_at,
+        screenshot_path: args.screenshot_path,
+        status: args.status,
+        distraction_score: args.distraction_score,
+        focused_probability: args.focused_probability,
+        distracted_probability: args.distracted_probability,
+        neutral_probability: args.neutral_probability,
+        confidence: args.confidence,
+        error: args.error,
+    };
+
+    crate::db::focus_queries::insert_focus_check(database.pool(), &check)
+        .await
+        .map_err(|err| err.to_string())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn focus_check_list(
+    limit: Option<u32>,
+    offset: Option<u32>,
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<Vec<crate::domain::FocusCheck>, String> {
+    let limit = limit.unwrap_or(50);
+    let offset = offset.unwrap_or(0);
+
+    crate::db::focus_queries::fetch_focus_checks(database.pool(), limit, offset)
+        .await
+        .map_err(|err| err.to_string())
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn focus_check_delete_old(
+    app: AppHandle,
+    before_timestamp: i64,
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<Vec<String>, String> {
+    let paths =
+        crate::db::focus_queries::delete_focus_checks_before(database.pool(), before_timestamp)
+            .await
+            .map_err(|err| err.to_string())?;
+
+    for path in &paths {
+        if let Err(err) = crate::system::focus_screenshot::delete_screenshot_file(&app, path) {
+            log::warn!("Failed to delete focus screenshot {path}: {err}");
+        }
+    }
+
+    Ok(paths)
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn focus_settings_get(
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<crate::domain::FocusSettingsView, String> {
+    let existing = crate::db::focus_queries::fetch_focus_settings(database.pool())
+        .await
+        .map_err(|err| err.to_string())?;
+
+    match existing {
+        Some(record) => {
+            let token_full = if record.key_ciphertext.is_empty() {
+                None
+            } else {
+                reveal_api_key(&record.salt, &record.key_ciphertext).ok()
+            };
+            Ok(record.into_view(token_full))
+        }
+        None => Ok(crate::domain::FocusSettingsView {
+            enabled: false,
+            account_id: String::new(),
+            token_suffix: None,
+            token_full: None,
+            task_description: String::new(),
+            questions_json: String::new(),
+            interval_minutes: 10,
+            clean_history_daily: true,
+            notify_when_focused: false,
+        }),
+    }
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn focus_settings_set(
+    request: crate::domain::FocusSettingsSaveRequest,
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<crate::domain::FocusSettingsView, String> {
+    let existing = crate::db::focus_queries::fetch_focus_settings(database.pool())
+        .await
+        .map_err(|err| err.to_string())?;
+
+    let raw_token = request.token.as_deref().filter(|token| !token.is_empty());
+
+    let (salt, key_hash, key_ciphertext, key_suffix, token_full) = match raw_token {
+        Some(raw) => {
+            let protected = protect_api_key(raw);
+            (
+                protected.salt_b64,
+                protected.hash_b64,
+                protected.ciphertext_b64,
+                protected.key_suffix,
+                Some(raw.to_string()),
+            )
+        }
+        None => match existing {
+            Some(prev) => {
+                let token_full = if prev.key_ciphertext.is_empty() {
+                    None
+                } else {
+                    reveal_api_key(&prev.salt, &prev.key_ciphertext).ok()
+                };
+                (
+                    prev.salt,
+                    prev.key_hash,
+                    prev.key_ciphertext,
+                    prev.key_suffix,
+                    token_full,
+                )
+            }
+            None => (String::new(), String::new(), String::new(), None, None),
+        },
+    };
+
+    let record = crate::domain::FocusSettingsRecord {
+        id: crate::db::focus_queries::SETTINGS_ROW_ID.to_string(),
+        enabled: request.enabled,
+        account_id: request.account_id,
+        salt,
+        key_hash,
+        key_ciphertext,
+        key_suffix,
+        task_description: request.task_description,
+        questions_json: request.questions_json,
+        interval_minutes: request.interval_minutes.max(2),
+        clean_history_daily: request.clean_history_daily,
+        notify_when_focused: request.notify_when_focused,
+    };
+
+    let saved = crate::db::focus_queries::upsert_focus_settings(database.pool(), &record)
+        .await
+        .map_err(|err| err.to_string())?;
+
+    Ok(saved.into_view(token_full))
+}
+
+#[tauri::command]
+#[specta::specta]
+pub fn focus_send_notification(app: AppHandle, title: String, body: String) -> Result<(), String> {
+    app.notification()
+        .builder()
+        .title(title)
+        .body(body)
+        .show()
+        .map_err(|err| err.to_string())
 }

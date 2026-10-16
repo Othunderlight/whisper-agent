@@ -6,6 +6,7 @@ import {
   Conversation,
   EnterpriseConfig,
   EnterpriseLicense,
+  FocusCheck,
   FullConfig,
   Hotkey,
   Member,
@@ -31,6 +32,7 @@ import { PermissionMap } from "../types/permission.types";
 import { AgentRunState } from "./agent.state";
 import { ChatState, INITIAL_CHAT_STATE } from "./chat.state";
 import { DictionaryState, INITIAL_DICTIONARY_STATE } from "./dictionary.state";
+import { FocusState, INITIAL_FOCUS_STATE } from "./focus.state";
 import { INITIAL_LOCAL_STATE, LocalState } from "./local.state";
 import { INITIAL_LOGIN_STATE, LoginState } from "./login.state";
 import {
@@ -103,6 +105,7 @@ export type AppState = {
   pairedRemoteDeviceById: Record<string, PairedRemoteDevice>;
   remoteReceiverStatus: Nullable<RemoteReceiverStatus>;
   transcriptionById: Record<string, Transcription>;
+  focusCheckById: Record<string, FocusCheck>;
   hotkeyById: Record<string, Hotkey>;
   apiKeyById: Record<string, ApiKey>;
   toneById: Record<string, Tone>;
@@ -123,6 +126,7 @@ export type AppState = {
   local: LocalState;
   onboarding: OnboardingState;
   transcriptions: TranscriptionsState;
+  focus: FocusState;
   dictionary: DictionaryState;
   tones: TonesState;
   toneEditor: ToneEditorState;
@@ -166,6 +170,7 @@ export const INITIAL_APP_STATE: AppState = {
   pairedRemoteDeviceById: {},
   remoteReceiverStatus: null,
   transcriptionById: {},
+  focusCheckById: {},
   priceValueByKey: {},
   apiKeyById: {},
   toneById: {},
@@ -203,6 +208,7 @@ export const INITIAL_APP_STATE: AppState = {
   chat: INITIAL_CHAT_STATE,
   onboarding: INITIAL_ONBOARDING_STATE,
   transcriptions: INITIAL_TRANSCRIPTIONS_STATE,
+  focus: INITIAL_FOCUS_STATE,
   dictionary: INITIAL_DICTIONARY_STATE,
   tones: INITIAL_TONES_STATE,
   toneEditor: INITIAL_TONE_EDITOR_STATE,

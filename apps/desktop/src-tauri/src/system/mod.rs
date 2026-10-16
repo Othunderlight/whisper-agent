@@ -5,6 +5,7 @@ pub mod bridge_server;
 pub mod crypto;
 pub mod diagnostics;
 pub mod enterprise_oidc;
+pub mod focus_screenshot;
 pub mod google_oauth;
 pub mod gpu;
 pub mod models;

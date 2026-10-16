@@ -6,6 +6,7 @@ import {
   HomeOutlined,
   PaletteOutlined,
   SettingsOutlined,
+  TrackChangesOutlined,
 } from "@mui/icons-material";
 import { Box, List, Stack } from "@mui/material";
 import { openUrl } from "@tauri-apps/plugin-opener";
@@ -39,9 +40,25 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
     (state) => state.updater.status === "ready",
   );
   const assistantModeEnabled = useAppStore(getIsAssistantModeEnabled);
+  const activeDashboard = useAppStore((state) => state.local.activeDashboard);
 
-  const navItems = useMemo<NavItem[]>(
-    () => [
+  const navItems = useMemo<NavItem[]>(() => {
+    if (activeDashboard === "focus") {
+      return [
+        {
+          label: <FormattedMessage defaultMessage="History" />,
+          path: "/dashboard/focus",
+          icon: <HistoryOutlined />,
+        },
+        {
+          label: <FormattedMessage defaultMessage="Detection" />,
+          path: "/dashboard/focus/settings",
+          icon: <TrackChangesOutlined />,
+        },
+      ];
+    }
+
+    return [
       {
         label: <FormattedMessage defaultMessage="Home" />,
         path: "/dashboard",
@@ -71,9 +88,8 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
             },
           ]
         : []),
-    ],
-    [assistantModeEnabled],
-  );
+    ];
+  }, [activeDashboard, assistantModeEnabled]);
 
   const onChooseHandler = (path: string) => {
     onChoose?.();

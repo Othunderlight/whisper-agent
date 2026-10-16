@@ -2,6 +2,7 @@ pub mod api_key;
 pub mod app_target;
 pub mod chat_message;
 pub mod conversation;
+pub mod focus;
 pub mod hotkey;
 pub mod keyboard;
 pub mod monitor;
@@ -19,6 +20,10 @@ pub use api_key::{ApiKey, ApiKeyCreateRequest, ApiKeyUpdateRequest, ApiKeyView};
 pub use app_target::{AppTarget, EVT_REGISTER_CURRENT_APP};
 pub use chat_message::ChatMessage;
 pub use conversation::Conversation;
+pub use focus::{
+    FocusCheck, FocusCheckCreateArgs, FocusScreenshot, FocusSettingsRecord, FocusSettingsSaveRequest,
+    FocusSettingsView,
+};
 pub use hotkey::{CompositorBinding, Hotkey};
 pub use keyboard::{KeysHeldPayload, EVT_KEYS_HELD};
 pub use monitor::{MonitorAtCursor, OverlayAnchor, ScreenVisibleArea};

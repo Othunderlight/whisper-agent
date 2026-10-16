@@ -21,6 +21,7 @@ import {
 import { getInitials } from "../../utils/string.utils";
 import { getMyUser } from "../../utils/user.utils";
 import { FreeWordsRemaining } from "../common/FreeWordsRemaining";
+import { DashboardSwitcher } from "../common/DashboardSwitcher";
 import { LogoWithText } from "../common/LogoWithText";
 import {
   MenuPopoverBuilder,
@@ -195,6 +196,7 @@ export const AppHeader = () => {
       <Box onClick={handleLogoClick} sx={{ cursor: "pointer" }}>
         <LogoWithText />
       </Box>
+      <DashboardSwitcher />
       <SenderReceiverChip />
     </Stack>
   );

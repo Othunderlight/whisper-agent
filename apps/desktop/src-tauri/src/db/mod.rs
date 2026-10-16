@@ -2,6 +2,7 @@ pub mod api_key_queries;
 pub mod app_target_queries;
 pub mod chat_message_queries;
 pub mod conversation_queries;
+pub mod focus_queries;
 pub mod hotkey_queries;
 pub mod paired_remote_device_queries;
 pub mod preferences_queries;
@@ -129,6 +130,7 @@ pub const INSERTION_METHOD_MIGRATION_SQL: &str =
     include_str!("migrations/067_insertion_method.sql");
 pub const APP_TARGET_INSERTION_METHOD_MIGRATION_SQL: &str =
     include_str!("migrations/068_app_target_insertion_method.sql");
+pub const FOCUS_MIGRATION_SQL: &str = include_str!("migrations/069_focus.sql");
 
 pub fn migrations() -> Vec<tauri_plugin_sql::Migration> {
     vec![
@@ -538,6 +540,12 @@ pub fn migrations() -> Vec<tauri_plugin_sql::Migration> {
             version: 68,
             description: "add_app_target_insertion_method",
             sql: APP_TARGET_INSERTION_METHOD_MIGRATION_SQL,
+            kind: tauri_plugin_sql::MigrationKind::Up,
+        },
+        tauri_plugin_sql::Migration {
+            version: 69,
+            description: "add_focus",
+            sql: FOCUS_MIGRATION_SQL,
             kind: tauri_plugin_sql::MigrationKind::Up,
         },
     ]
