@@ -54,6 +54,8 @@ export default function FocusPage() {
 
   return (
     <ScrollListPage
+      headerMaxWidth="md"
+      contentMaxWidth="md"
       title={
         <FormattedMessage defaultMessage="Detect the Woman in Red Dress" />
       }

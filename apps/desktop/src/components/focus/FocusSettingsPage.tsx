@@ -16,6 +16,7 @@ import {
 } from "../../actions/focus.actions";
 import { showErrorSnackbar, showSnackbar } from "../../actions/app.actions";
 import { useAsyncEffect } from "../../hooks/async.hooks";
+import { getFocusRepo } from "../../repos";
 import { useAppStore } from "../../store";
 import {
   DEFAULT_FOCUS_INTERVAL_MINUTES,
@@ -56,6 +57,7 @@ export default function FocusSettingsPage() {
   const settings = useAppStore((state) => state.focus.settings);
   const [form, setForm] = useState<FormState | null>(null);
   const [saving, setSaving] = useState(false);
+  const [testingNotification, setTestingNotification] = useState(false);
 
   useAsyncEffect(async () => {
     await loadFocusSettings();
@@ -97,6 +99,23 @@ export default function FocusSettingsPage() {
       showErrorSnackbar(error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleTestNotification = async () => {
+    setTestingNotification(true);
+    try {
+      await getFocusRepo().sendNotification(
+        "Focus test",
+        "This is a test notification from Voquill.",
+      );
+      showSnackbar(
+        intl.formatMessage({ defaultMessage: "Test notification sent." }),
+      );
+    } catch (error) {
+      showErrorSnackbar(error);
+    } finally {
+      setTestingNotification(false);
     }
   };
 
@@ -229,6 +248,19 @@ export default function FocusSettingsPage() {
           <FormattedMessage defaultMessage="Also notify when I stay focused" />
         }
       />
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={handleTestNotification}
+        disabled={testingNotification}
+        sx={{ mt: 1, alignSelf: "flex-start" }}
+      >
+        {testingNotification ? (
+          <FormattedMessage defaultMessage="Sending…" />
+        ) : (
+          <FormattedMessage defaultMessage="Send test notification" />
+        )}
+      </Button>
 
       <Divider sx={{ my: 2 }} />
 

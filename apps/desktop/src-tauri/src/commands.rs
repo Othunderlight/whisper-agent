@@ -21,7 +21,6 @@ use sqlx::Row;
 use crate::platform::input::paste_text_into_focused_field as platform_paste_text;
 use crate::system::wakeword_models::{WakewordConfig, WakewordModelInfo};
 use crate::system::wakeword_listener::start_wakeword_listener;
-use tauri_plugin_notification::NotificationExt;
 
 #[derive(serde::Serialize, specta::Type)]
 #[serde(rename_all = "camelCase")]
@@ -2699,11 +2698,60 @@ pub async fn focus_settings_set(
 
 #[tauri::command]
 #[specta::specta]
-pub fn focus_send_notification(app: AppHandle, title: String, body: String) -> Result<(), String> {
-    app.notification()
-        .builder()
-        .title(title)
-        .body(body)
-        .show()
-        .map_err(|err| err.to_string())
+pub async fn focus_send_notification(
+    app: AppHandle,
+    title: String,
+    body: String,
+) -> Result<(), String> {
+    let identifier = app.config().identifier.clone();
+
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let mut notification = notify_rust::Notification::new();
+        notification.summary(&title);
+        notification.body(&body);
+        notification.appname(&identifier);
+
+        #[cfg(target_os = "macos")]
+        {
+            let _ = notify_rust::set_application(if tauri::is_dev() {
+                "com.apple.Terminal"
+            } else {
+                identifier.as_str()
+            });
+        }
+
+        #[cfg(target_os = "windows")]
+        {
+            let sep = std::path::MAIN_SEPARATOR;
+            let in_target = std::env::current_exe()
+                .ok()
+                .and_then(|exe| exe.parent().map(|dir| dir.display().to_string()))
+                .map(|dir| {
+                    dir.ends_with(&format!("{sep}target{sep}debug"))
+                        || dir.ends_with(&format!("{sep}target{sep}release"))
+                })
+                .unwrap_or(false);
+            if !in_target {
+                notification.app_id(&identifier);
+            }
+        }
+
+        notification.show()
+    })
+    .await;
+
+    match result {
+        Ok(Ok(_)) => {
+            log::info!("Focus notification shown");
+            Ok(())
+        }
+        Ok(Err(err)) => {
+            log::error!("Focus notification failed: {err}");
+            Err(err.to_string())
+        }
+        Err(err) => {
+            log::error!("Focus notification task failed: {err}");
+            Err(err.to_string())
+        }
+    }
 }
