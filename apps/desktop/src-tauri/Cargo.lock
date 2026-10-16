@@ -75,6 +75,7 @@ dependencies = [
  "windows 0.61.3",
  "x11",
  "xcap",
+ "zbus",
  "zip 2.4.2",
 ]
 

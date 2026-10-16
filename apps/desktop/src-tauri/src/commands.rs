@@ -2705,53 +2705,102 @@ pub async fn focus_send_notification(
 ) -> Result<(), String> {
     let identifier = app.config().identifier.clone();
 
-    let result = tauri::async_runtime::spawn_blocking(move || {
-        let mut notification = notify_rust::Notification::new();
-        notification.summary(&title);
-        notification.body(&body);
-        notification.appname(&identifier);
-
-        #[cfg(target_os = "macos")]
-        {
-            let _ = notify_rust::set_application(if tauri::is_dev() {
-                "com.apple.Terminal"
-            } else {
-                identifier.as_str()
-            });
-        }
-
-        #[cfg(target_os = "windows")]
-        {
-            let sep = std::path::MAIN_SEPARATOR;
-            let in_target = std::env::current_exe()
-                .ok()
-                .and_then(|exe| exe.parent().map(|dir| dir.display().to_string()))
-                .map(|dir| {
-                    dir.ends_with(&format!("{sep}target{sep}debug"))
-                        || dir.ends_with(&format!("{sep}target{sep}release"))
-                })
-                .unwrap_or(false);
-            if !in_target {
-                notification.app_id(&identifier);
-            }
-        }
-
-        notification.show()
-    })
-    .await;
+    let result =
+        tauri::async_runtime::spawn_blocking(move || show_focus_notification(&identifier, &title, &body))
+            .await;
 
     match result {
-        Ok(Ok(_)) => {
+        Ok(Ok(())) => {
             log::info!("Focus notification shown");
             Ok(())
         }
         Ok(Err(err)) => {
             log::error!("Focus notification failed: {err}");
-            Err(err.to_string())
+            Err(err)
         }
         Err(err) => {
             log::error!("Focus notification task failed: {err}");
             Err(err.to_string())
         }
     }
+}
+
+/// Sends the notification over one session-bus connection kept alive for the whole app
+/// lifetime. gnome-shell ties a notification to the connection that posted it and
+/// destroys it as soon as that connection's unique name vanishes, so a throwaway
+/// connection per notification gets every notification dismissed right after posting.
+#[cfg(target_os = "linux")]
+fn show_focus_notification(identifier: &str, title: &str, body: &str) -> Result<(), String> {
+    static SESSION_BUS: std::sync::Mutex<Option<zbus::Connection>> = std::sync::Mutex::new(None);
+
+    let mut cached = SESSION_BUS.lock().unwrap_or_else(|err| err.into_inner());
+    let connection = match cached.as_ref() {
+        Some(connection) if !connection.is_closed() => connection.clone(),
+        _ => {
+            let connection =
+                zbus::block_on(zbus::Connection::session()).map_err(|err| err.to_string())?;
+            *cached = Some(connection.clone());
+            connection
+        }
+    };
+    drop(cached);
+
+    let hints = std::collections::HashMap::<&str, zbus::zvariant::Value>::new();
+    zbus::block_on(connection.call_method(
+        Some("org.freedesktop.Notifications"),
+        "/org/freedesktop/Notifications",
+        Some("org.freedesktop.Notifications"),
+        "Notify",
+        &(
+            identifier,
+            0u32,
+            "",
+            title,
+            body,
+            Vec::<String>::new(),
+            hints,
+            -1i32,
+        ),
+    ))
+    .map_err(|err| err.to_string())?;
+
+    Ok(())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn show_focus_notification(identifier: &str, title: &str, body: &str) -> Result<(), String> {
+    let mut notification = notify_rust::Notification::new();
+    notification.summary(title);
+    notification.body(body);
+    notification.appname(identifier);
+
+    #[cfg(target_os = "macos")]
+    {
+        let _ = notify_rust::set_application(if tauri::is_dev() {
+            "com.apple.Terminal"
+        } else {
+            identifier
+        });
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        let sep = std::path::MAIN_SEPARATOR;
+        let in_target = std::env::current_exe()
+            .ok()
+            .and_then(|exe| exe.parent().map(|dir| dir.display().to_string()))
+            .map(|dir| {
+                dir.ends_with(&format!("{sep}target{sep}debug"))
+                    || dir.ends_with(&format!("{sep}target{sep}release"))
+            })
+            .unwrap_or(false);
+        if !in_target {
+            notification.app_id(identifier);
+        }
+    }
+
+    notification
+        .show()
+        .map(|_| ())
+        .map_err(|err| err.to_string())
 }
