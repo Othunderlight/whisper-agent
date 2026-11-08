@@ -25,7 +25,7 @@ export const AITranscriptionDialog = () => {
   return (
     <Dialog open={open} onClose={closeDialog} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
-        <FormattedMessage defaultMessage="AI transcription" />
+        <FormattedMessage defaultMessage="Toge Inumaki" />
         <IconButton
           aria-label="Close"
           onClick={closeDialog}
@@ -38,7 +38,7 @@ export const AITranscriptionDialog = () => {
       <DialogContent dividers>
         <Stack spacing={3} alignItems="flex-start">
           <Typography variant="body1" color="text.secondary">
-            <FormattedMessage defaultMessage="Decide how Voquill should transcribe your recordings—locally on your machine or through a connected provider." />
+            <FormattedMessage defaultMessage="Decide how Ryōiki Tenkai should transcribe your recordings—locally on your machine or through a connected provider." />
           </Typography>
           <AITranscriptionConfiguration />
         </Stack>

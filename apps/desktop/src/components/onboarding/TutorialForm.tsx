@@ -242,7 +242,7 @@ ${userName}`;
             <FormattedMessage defaultMessage="Now try an email" />
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            <FormattedMessage defaultMessage="Dictate a short email. Voquill works great for longer-form content like messages, notes, and documents." />
+            <FormattedMessage defaultMessage="Dictate a short email. Ryōiki Tenkai works great for longer-form content like messages, notes, and documents." />
           </Typography>
           <DictationInstruction />
         </Stack>

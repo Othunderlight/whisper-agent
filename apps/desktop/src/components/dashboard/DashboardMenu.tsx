@@ -39,10 +39,25 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
   const isUpdateAvailable = useAppStore(
     (state) => state.updater.status === "ready",
   );
-  const assistantModeEnabled = useAppStore(getIsAssistantModeEnabled);
   const activeDashboard = useAppStore((state) => state.local.activeDashboard);
+  const assistantModeEnabled = useAppStore(getIsAssistantModeEnabled);
 
   const navItems = useMemo<NavItem[]>(() => {
+    if (activeDashboard === "assistant") {
+      return [
+        {
+          label: <FormattedMessage defaultMessage="Chats" />,
+          path: "/dashboard/assistant",
+          icon: <ChatBubbleOutline />,
+        },
+        {
+          label: <FormattedMessage defaultMessage="Settings" />,
+          path: "/dashboard/assistant/settings",
+          icon: <SettingsOutlined />,
+        },
+      ];
+    }
+
     if (activeDashboard === "focus") {
       return [
         {
@@ -79,15 +94,6 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
         path: "/dashboard/styling",
         icon: <PaletteOutlined />,
       },
-      ...(assistantModeEnabled
-        ? [
-            {
-              label: <FormattedMessage defaultMessage="Chats" />,
-              path: "/dashboard/chats",
-              icon: <ChatBubbleOutline />,
-            },
-          ]
-        : []),
     ];
   }, [activeDashboard, assistantModeEnabled]);
 

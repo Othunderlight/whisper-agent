@@ -83,12 +83,12 @@ export const UpdateDialog = () => {
   const versionLabel = availableVersion
     ? intl.formatMessage(
         {
-          defaultMessage: "Voquill {version}",
+          defaultMessage: "Ryōiki Tenkai {version}",
         },
         { version: availableVersion },
       )
     : intl.formatMessage({
-        defaultMessage: "A Voquill update",
+        defaultMessage: "A Ryōiki Tenkai update",
       });
 
   const formattedDate = useMemo(
@@ -218,7 +218,7 @@ export const UpdateDialog = () => {
               </Typography>
               <CopyableCommand command={APT_UPDATE_COMMAND} />
               <Typography variant="caption" color="text.secondary">
-                <FormattedMessage defaultMessage="After updating, restart Voquill to use the new version." />
+                <FormattedMessage defaultMessage="After updating, restart Ryōiki Tenkai to use the new version." />
               </Typography>
             </Stack>
           )}
@@ -255,11 +255,11 @@ export const UpdateDialog = () => {
             status === "installing" &&
             (requiresManualInstall ? (
               <Alert severity="success" variant="outlined">
-                <FormattedMessage defaultMessage="The installer has been opened. Follow the prompts to complete the update, then relaunch Voquill." />
+                <FormattedMessage defaultMessage="The installer has been opened. Follow the prompts to complete the update, then relaunch Ryōiki Tenkai." />
               </Alert>
             ) : (
               <Alert severity="info" variant="outlined">
-                <FormattedMessage defaultMessage="Installation in progress. Voquill may restart automatically when finished." />
+                <FormattedMessage defaultMessage="Installation in progress. Ryōiki Tenkai may restart automatically when finished." />
               </Alert>
             ))}
 
@@ -283,7 +283,7 @@ export const UpdateDialog = () => {
                 <Typography variant="body2">{errorMessage}</Typography>
                 {showManualInstallerAction && (
                   <Typography variant="body2">
-                    <FormattedMessage defaultMessage="Your operating system is preventing Voquill from modifying files in its current install location. Use the download button to get the latest installer, then run it to complete the update manually." />
+                    <FormattedMessage defaultMessage="Your operating system is preventing Ryōiki Tenkai from modifying files in its current install location. Use the download button to get the latest installer, then run it to complete the update manually." />
                   </Typography>
                 )}
               </Stack>

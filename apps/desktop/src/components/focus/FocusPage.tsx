@@ -2,6 +2,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store";
+import { FeatureStage } from "../anime/FeatureStage";
 import { ScrollListPage } from "../common/ScrollListPage";
 import { FocusRow } from "./FocusRow";
 
@@ -44,7 +45,7 @@ export default function FocusPage() {
         <FormattedMessage defaultMessage="No focus checks yet" />
       </Typography>
       <Typography variant="body2" color="text.secondary" maxWidth={420}>
-        <FormattedMessage defaultMessage="Set a focus goal, then Voquill will periodically screenshot your screen and use an AI vision model to tell you when you drift into a rabbit hole." />
+        <FormattedMessage defaultMessage="Set a focus goal, then Satoru Gojo will periodically screenshot your screen and use an AI vision model to tell you when you drift into a rabbit hole." />
       </Typography>
       <Button variant="contained" onClick={openSettings}>
         <FormattedMessage defaultMessage="Set up focus detection" />
@@ -53,22 +54,22 @@ export default function FocusPage() {
   );
 
   return (
-    <ScrollListPage
-      headerMaxWidth="md"
-      contentMaxWidth="md"
-      title={
-        <FormattedMessage defaultMessage="Detect the Woman in Red Dress" />
-      }
-      subtitle={subtitle}
-      action={
-        <Button variant="outlined" onClick={openSettings}>
-          <FormattedMessage defaultMessage="Settings" />
-        </Button>
-      }
-      items={checkIds}
-      computeItemKey={(id) => id}
-      renderItem={(id) => <FocusRow id={id} />}
-      emptyState={emptyState}
-    />
+    <FeatureStage feature="satoru">
+      <ScrollListPage
+        headerMaxWidth="md"
+        contentMaxWidth="md"
+        title={<FormattedMessage defaultMessage="Satoru Gojo" />}
+        subtitle={subtitle}
+        action={
+          <Button variant="outlined" onClick={openSettings}>
+            <FormattedMessage defaultMessage="Settings" />
+          </Button>
+        }
+        items={checkIds}
+        computeItemKey={(id) => id}
+        renderItem={(id) => <FocusRow id={id} />}
+        emptyState={emptyState}
+      />
+    </FeatureStage>
   );
 }

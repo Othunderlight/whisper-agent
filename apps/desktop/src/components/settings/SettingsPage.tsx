@@ -38,6 +38,7 @@ import {
 } from "@mui/material";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 import { showErrorSnackbar } from "../../actions/app.actions";
 import { setAutoLaunchEnabled } from "../../actions/settings.actions";
@@ -82,6 +83,7 @@ export default function SettingsPage() {
   ]);
   const autoLaunchLoading = autoLaunchStatus === "loading";
   const intl = useIntl();
+  const nav = useNavigate();
 
   const dictationLanguage = useAppStore((state) => {
     const user = getMyUser(state);
@@ -147,12 +149,6 @@ export default function SettingsPage() {
   const openAppKeybindingsDialog = () => {
     produceAppState((draft) => {
       draft.settings.appKeybindingsDialogOpen = true;
-    });
-  };
-
-  const openAgentModeDialog = () => {
-    produceAppState((draft) => {
-      draft.settings.agentModeDialogOpen = true;
     });
   };
 
@@ -383,13 +379,13 @@ export default function SettingsPage() {
     <Section
       title={<FormattedMessage defaultMessage="Processing" />}
       description={
-        <FormattedMessage defaultMessage="How Voquill should manage your transcriptions." />
+        <FormattedMessage defaultMessage="How Ryōiki Tenkai should manage your transcriptions." />
       }
     >
       {dictationLanguageComp}
       {allowChangeTranscription && (
         <ListTile
-          title={<FormattedMessage defaultMessage="AI transcription" />}
+          title={<FormattedMessage defaultMessage="Toge Inumaki" />}
           leading={<GraphicEqOutlined />}
           onClick={openTranscriptionDialog}
         />
@@ -405,12 +401,12 @@ export default function SettingsPage() {
         <ListTile
           title={
             <Stack direction="row" alignItems="center">
-              <FormattedMessage defaultMessage="Assistant mode" />
+              <FormattedMessage defaultMessage="Yuta Okkotsu" />
               <Chip label="Beta" size="small" color="primary" sx={{ ml: 1 }} />
             </Stack>
           }
           leading={<AutoAwesomeOutlined />}
-          onClick={openAgentModeDialog}
+          onClick={() => nav("/dashboard/assistant/settings")}
         />
       )}
     </Section>

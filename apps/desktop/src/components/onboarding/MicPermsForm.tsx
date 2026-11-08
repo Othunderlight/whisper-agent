@@ -65,7 +65,7 @@ export const MicPermsForm = () => {
             <FormattedMessage defaultMessage="Set up your microphone" />
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            <FormattedMessage defaultMessage="Voquill only activates your microphone when you choose to start recording." />
+            <FormattedMessage defaultMessage="Ryōiki Tenkai only activates your microphone when you choose to start recording." />
           </Typography>
         </Box>
 

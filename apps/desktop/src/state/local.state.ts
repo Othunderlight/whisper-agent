@@ -1,4 +1,4 @@
-export type ActiveDashboard = "transcription" | "focus";
+export type ActiveDashboard = "transcription" | "focus" | "assistant";
 
 export type LocalState = {
   assistantModeEnabled: boolean;

@@ -756,7 +756,9 @@ export const DictationSideEffects = () => {
       const id = conversationId ?? getAppState().pillConversationId;
       if (id) {
         void loadChatMessages(id);
-        browserRouter.navigate(`/dashboard/chats?id=${encodeURIComponent(id)}`);
+        browserRouter.navigate(
+          `/dashboard/assistant?id=${encodeURIComponent(id)}`,
+        );
       }
       await surfaceMainWindow();
       await abortRecording();

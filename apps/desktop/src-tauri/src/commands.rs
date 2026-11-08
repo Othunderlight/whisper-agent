@@ -2425,7 +2425,7 @@ pub async fn floating_window_create(
 ) -> Result<FloatingWindowInfo, String> {
     let parsed_url = url::Url::parse(&args.url).map_err(|err| err.to_string())?;
     let label = state.next_label();
-    let title = args.title.clone().unwrap_or_else(|| "Voquill".to_string());
+    let title = args.title.clone().unwrap_or_else(|| "Ryōiki Tenkai".to_string());
 
     let mut builder = tauri::WebviewWindowBuilder::new(
         &app,

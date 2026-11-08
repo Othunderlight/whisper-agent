@@ -87,7 +87,7 @@ export const TranscriptionDetailsDialog = () => {
       return <FormattedMessage defaultMessage="API" />;
     }
     if (transcription?.transcriptionMode === "cloud") {
-      return <FormattedMessage defaultMessage="Voquill Cloud" />;
+      return <FormattedMessage defaultMessage="Ryōiki Tenkai Cloud" />;
     }
     if (transcription?.transcriptionMode === "local") {
       return <FormattedMessage defaultMessage="Local" />;
@@ -111,7 +111,7 @@ export const TranscriptionDetailsDialog = () => {
       return <FormattedMessage defaultMessage="API" />;
     }
     if (transcription?.postProcessMode === "cloud") {
-      return <FormattedMessage defaultMessage="Voquill Cloud" />;
+      return <FormattedMessage defaultMessage="Ryōiki Tenkai Cloud" />;
     }
     return <FormattedMessage defaultMessage="Disabled" />;
   }, [transcription?.postProcessDevice, transcription?.postProcessMode]);

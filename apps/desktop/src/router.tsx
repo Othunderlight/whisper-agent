@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import AppsPage from "./components/apps/AppsPage.tsx";
-import ChatsPage from "./components/chats/ChatsPage.tsx";
+import AssistantChatsPage from "./components/assistant/AssistantChatsPage.tsx";
+import AssistantSettingsPage from "./components/assistant/AssistantSettingsPage.tsx";
 import { PageLayout } from "./components/common/PageLayout.tsx";
 import DashboardPage from "./components/dashboard/DashboardPage.tsx";
 import DictionaryPage from "./components/dictionary/DictionaryPage.tsx";
@@ -124,7 +125,15 @@ export const browserRouter = createBrowserRouter([
               },
               {
                 path: "chats",
-                element: <ChatsPage />,
+                element: <Redirect to="/dashboard/assistant" />,
+              },
+              {
+                path: "assistant",
+                element: <AssistantChatsPage />,
+              },
+              {
+                path: "assistant/settings",
+                element: <AssistantSettingsPage />,
               },
               {
                 path: "apps",

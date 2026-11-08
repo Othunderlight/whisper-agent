@@ -2,7 +2,6 @@ import { MobileAppDialog } from "../dashboard/MobileAppDialog";
 import { NativeSetupDialog } from "./NativeSetupDialog";
 import { PaymentDialog } from "../payment/PaymentDialog";
 import { UpgradePlanDialog } from "../pricing/UpgradePlanDialog";
-import { AIAgentModeDialog } from "../settings/AIAgentModeDialog";
 import { AIPostProcessingDialog } from "../settings/AIPostProcessingDialog";
 import { AITranscriptionDialog } from "../settings/AITranscriptionDialog";
 import { AppKeybindingsDialog } from "../settings/AppKeybindingsDialog";
@@ -29,7 +28,6 @@ export const RootDialogs = () => {
       <ToneEditorDialog />
       <AITranscriptionDialog />
       <AIPostProcessingDialog />
-      <AIAgentModeDialog />
       <ProfileDialog />
       <MicrophoneDialog />
       <AudioDialog />

@@ -45,7 +45,7 @@ export const AIAgentModeConfiguration = ({
             [
               {
                 value: "cloud",
-                label: "Voquill",
+                label: "Ryōiki Tenkai",
               },
             ],
           ),
@@ -57,7 +57,7 @@ export const AIAgentModeConfiguration = ({
 
       {effectiveMode === "none" && (
         <Typography variant="body2" color="text.secondary">
-          <FormattedMessage defaultMessage="Assistant mode is disabled." />
+          <FormattedMessage defaultMessage="Yuta Okkotsu is disabled." />
         </Typography>
       )}
 

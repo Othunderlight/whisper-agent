@@ -22,6 +22,7 @@ import {
   DEFAULT_FOCUS_INTERVAL_MINUTES,
   MIN_FOCUS_INTERVAL_MINUTES,
 } from "../../utils/focus.utils";
+import { FeatureStage } from "../anime/FeatureStage";
 import { DashboardEntryLayout } from "../dashboard/DashboardEntryLayout";
 
 type FormState = {
@@ -107,7 +108,7 @@ export default function FocusSettingsPage() {
     try {
       await getFocusRepo().sendNotification(
         "Focus test",
-        "This is a test notification from Voquill.",
+        "This is a test notification from Ryōiki Tenkai.",
       );
       showSnackbar(
         intl.formatMessage({ defaultMessage: "Test notification sent." }),
@@ -121,180 +122,188 @@ export default function FocusSettingsPage() {
 
   if (!form) {
     return (
-      <DashboardEntryLayout>
-        <Typography color="text.secondary">
-          <FormattedMessage defaultMessage="Loading…" />
-        </Typography>
-      </DashboardEntryLayout>
+      <FeatureStage feature="satoru">
+        <DashboardEntryLayout>
+          <Typography color="text.secondary">
+            <FormattedMessage defaultMessage="Loading…" />
+          </Typography>
+        </DashboardEntryLayout>
+      </FeatureStage>
     );
   }
 
   const configured = Boolean(settings?.accountId && settings?.tokenFull);
 
   return (
-    <DashboardEntryLayout>
-      <Typography variant="h5" fontWeight={700} sx={{ mb: 0.5 }}>
-        <FormattedMessage defaultMessage="Focus Detection" />
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        <FormattedMessage defaultMessage="Periodically screenshot your screen and let an AI vision model tell you when you drift from your focus goal." />
-      </Typography>
-
-      <SectionHeader>
-        <FormattedMessage defaultMessage="Status" />
-      </SectionHeader>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={form.enabled}
-            onChange={(event) => set("enabled", event.target.checked)}
-          />
-        }
-        label={<FormattedMessage defaultMessage="Enable focus detection" />}
-      />
-      {!configured ? (
-        <Typography variant="caption" color="warning.main">
-          <FormattedMessage defaultMessage="Add your Cloudflare account ID and API token below to start monitoring." />
+    <FeatureStage feature="satoru">
+      <DashboardEntryLayout>
+        <Typography variant="h5" fontWeight={700} sx={{ mb: 0.5 }}>
+          <FormattedMessage defaultMessage="Satoru Gojo" />
         </Typography>
-      ) : null}
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          <FormattedMessage defaultMessage="Periodically screenshot your screen and let an AI vision model tell you when you drift from your focus goal." />
+        </Typography>
 
-      <Divider sx={{ my: 2 }} />
-
-      <SectionHeader>
-        <FormattedMessage defaultMessage="Cloudflare" />
-      </SectionHeader>
-      <TextField
-        fullWidth
-        size="small"
-        label={<FormattedMessage defaultMessage="Account ID" />}
-        value={form.accountId}
-        onChange={(event) => set("accountId", event.target.value)}
-        sx={{ mb: 1.5 }}
-      />
-      <TextField
-        fullWidth
-        size="small"
-        type="password"
-        label={<FormattedMessage defaultMessage="API Token" />}
-        value={form.token}
-        placeholder={
-          settings?.tokenSuffix
-            ? intl.formatMessage(
-                { defaultMessage: "Saved (••••{suffix})" },
-                { suffix: settings.tokenSuffix },
-              )
-            : ""
-        }
-        onChange={(event) => set("token", event.target.value)}
-        helperText={
-          <FormattedMessage defaultMessage="Leave blank to keep your saved token." />
-        }
-      />
-
-      <Divider sx={{ my: 2 }} />
-
-      <SectionHeader>
-        <FormattedMessage defaultMessage="Focus Goal" />
-      </SectionHeader>
-      <TextField
-        fullWidth
-        multiline
-        minRows={3}
-        size="small"
-        label={
-          <FormattedMessage defaultMessage="What you should be working on" />
-        }
-        value={form.taskDescription}
-        onChange={(event) => set("taskDescription", event.target.value)}
-      />
-
-      <Divider sx={{ my: 2 }} />
-
-      <SectionHeader>
-        <FormattedMessage defaultMessage="Schedule" />
-      </SectionHeader>
-      <Typography variant="body2" color="text.secondary" gutterBottom>
-        <FormattedMessage
-          defaultMessage="Screenshot every {minutes} {minutes, plural, one {minute} other {minutes}}"
-          values={{ minutes: form.intervalMinutes }}
+        <SectionHeader>
+          <FormattedMessage defaultMessage="Status" />
+        </SectionHeader>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={form.enabled}
+              onChange={(event) => set("enabled", event.target.checked)}
+            />
+          }
+          label={<FormattedMessage defaultMessage="Enable Satoru Gojo" />}
         />
-      </Typography>
-      <Slider
-        min={MIN_FOCUS_INTERVAL_MINUTES}
-        max={60}
-        step={1}
-        value={form.intervalMinutes}
-        onChange={(_, value) => set("intervalMinutes", value as number)}
-        valueLabelDisplay="auto"
-        sx={{ mb: 1 }}
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={form.cleanHistoryDaily}
-            onChange={(event) => set("cleanHistoryDaily", event.target.checked)}
+        {!configured ? (
+          <Typography variant="caption" color="warning.main">
+            <FormattedMessage defaultMessage="Add your Cloudflare account ID and API token below to start monitoring." />
+          </Typography>
+        ) : null}
+
+        <Divider sx={{ my: 2 }} />
+
+        <SectionHeader>
+          <FormattedMessage defaultMessage="Cloudflare" />
+        </SectionHeader>
+        <TextField
+          fullWidth
+          size="small"
+          label={<FormattedMessage defaultMessage="Account ID" />}
+          value={form.accountId}
+          onChange={(event) => set("accountId", event.target.value)}
+          sx={{ mb: 1.5 }}
+        />
+        <TextField
+          fullWidth
+          size="small"
+          type="password"
+          label={<FormattedMessage defaultMessage="API Token" />}
+          value={form.token}
+          placeholder={
+            settings?.tokenSuffix
+              ? intl.formatMessage(
+                  { defaultMessage: "Saved (••••{suffix})" },
+                  { suffix: settings.tokenSuffix },
+                )
+              : ""
+          }
+          onChange={(event) => set("token", event.target.value)}
+          helperText={
+            <FormattedMessage defaultMessage="Leave blank to keep your saved token." />
+          }
+        />
+
+        <Divider sx={{ my: 2 }} />
+
+        <SectionHeader>
+          <FormattedMessage defaultMessage="Focus Goal" />
+        </SectionHeader>
+        <TextField
+          fullWidth
+          multiline
+          minRows={3}
+          size="small"
+          label={
+            <FormattedMessage defaultMessage="What you should be working on" />
+          }
+          value={form.taskDescription}
+          onChange={(event) => set("taskDescription", event.target.value)}
+        />
+
+        <Divider sx={{ my: 2 }} />
+
+        <SectionHeader>
+          <FormattedMessage defaultMessage="Schedule" />
+        </SectionHeader>
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          <FormattedMessage
+            defaultMessage="Screenshot every {minutes} {minutes, plural, one {minute} other {minutes}}"
+            values={{ minutes: form.intervalMinutes }}
           />
-        }
-        label={<FormattedMessage defaultMessage="Clear history every day" />}
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={form.notifyWhenFocused}
-            onChange={(event) => set("notifyWhenFocused", event.target.checked)}
-          />
-        }
-        label={
-          <FormattedMessage defaultMessage="Also notify when I stay focused" />
-        }
-      />
-      <Button
-        variant="outlined"
-        size="small"
-        onClick={handleTestNotification}
-        disabled={testingNotification}
-        sx={{ mt: 1, alignSelf: "flex-start" }}
-      >
-        {testingNotification ? (
-          <FormattedMessage defaultMessage="Sending…" />
-        ) : (
-          <FormattedMessage defaultMessage="Send test notification" />
-        )}
-      </Button>
+        </Typography>
+        <Slider
+          min={MIN_FOCUS_INTERVAL_MINUTES}
+          max={60}
+          step={1}
+          value={form.intervalMinutes}
+          onChange={(_, value) => set("intervalMinutes", value as number)}
+          valueLabelDisplay="auto"
+          sx={{ mb: 1 }}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={form.cleanHistoryDaily}
+              onChange={(event) =>
+                set("cleanHistoryDaily", event.target.checked)
+              }
+            />
+          }
+          label={<FormattedMessage defaultMessage="Clear history every day" />}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={form.notifyWhenFocused}
+              onChange={(event) =>
+                set("notifyWhenFocused", event.target.checked)
+              }
+            />
+          }
+          label={
+            <FormattedMessage defaultMessage="Also notify when I stay focused" />
+          }
+        />
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleTestNotification}
+          disabled={testingNotification}
+          sx={{ mt: 1, alignSelf: "flex-start" }}
+        >
+          {testingNotification ? (
+            <FormattedMessage defaultMessage="Sending…" />
+          ) : (
+            <FormattedMessage defaultMessage="Send test notification" />
+          )}
+        </Button>
 
-      <Divider sx={{ my: 2 }} />
+        <Divider sx={{ my: 2 }} />
 
-      <SectionHeader>
-        <FormattedMessage defaultMessage="Advanced" />
-      </SectionHeader>
-      <TextField
-        fullWidth
-        multiline
-        minRows={6}
-        size="small"
-        label={<FormattedMessage defaultMessage="Model questions (JSON)" />}
-        value={form.questionsJson}
-        onChange={(event) => set("questionsJson", event.target.value)}
-        slotProps={{
-          htmlInput: { sx: { fontFamily: "monospace", fontSize: 12 } },
-        }}
-        helperText={
-          <FormattedMessage defaultMessage="Expected answers: a focus_status choice and a distraction_score score." />
-        }
-      />
+        <SectionHeader>
+          <FormattedMessage defaultMessage="Advanced" />
+        </SectionHeader>
+        <TextField
+          fullWidth
+          multiline
+          minRows={6}
+          size="small"
+          label={<FormattedMessage defaultMessage="Model questions (JSON)" />}
+          value={form.questionsJson}
+          onChange={(event) => set("questionsJson", event.target.value)}
+          slotProps={{
+            htmlInput: { sx: { fontFamily: "monospace", fontSize: 12 } },
+          }}
+          helperText={
+            <FormattedMessage defaultMessage="Expected answers: a focus_status choice and a distraction_score score." />
+          }
+        />
 
-      <Button
-        variant="contained"
-        onClick={handleSave}
-        disabled={saving}
-        sx={{ mt: 3, alignSelf: "flex-start" }}
-      >
-        {saving ? (
-          <FormattedMessage defaultMessage="Saving…" />
-        ) : (
-          <FormattedMessage defaultMessage="Save" />
-        )}
-      </Button>
-    </DashboardEntryLayout>
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          disabled={saving}
+          sx={{ mt: 3, alignSelf: "flex-start" }}
+        >
+          {saving ? (
+            <FormattedMessage defaultMessage="Saving…" />
+          ) : (
+            <FormattedMessage defaultMessage="Save" />
+          )}
+        </Button>
+      </DashboardEntryLayout>
+    </FeatureStage>
   );
 }

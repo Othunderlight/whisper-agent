@@ -30,7 +30,7 @@ export const MobileAppDialog = () => {
       </DialogTitle>
       <DialogContent dividers>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          <FormattedMessage defaultMessage="Scan a QR code below to download Voquill on your phone. Let us know on Discord if you have any feedback! We're actively building out these apps." />
+          <FormattedMessage defaultMessage="Scan a QR code below to download Ryōiki Tenkai on your phone. Let us know on Discord if you have any feedback! We're actively building out these apps." />
         </Typography>
         <Stack
           direction="row"

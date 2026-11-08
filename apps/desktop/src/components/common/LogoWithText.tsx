@@ -21,10 +21,11 @@ export const LogoWithText = ({ sx, ...rest }: LogoWithTextProps) => {
         fontWeight="bold"
         sx={{
           userSelect: "none",
+          whiteSpace: "nowrap",
           display: { xs: "none", sm: "block" },
         }}
       >
-        Voquill
+        Ryōiki Tenkai
       </Typography>
     </Stack>
   );

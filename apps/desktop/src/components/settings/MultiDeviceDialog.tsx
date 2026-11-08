@@ -274,7 +274,7 @@ export const MultiDeviceDialog = () => {
     const invite = buildRemotePairingInvite(receiverStatus);
     if (!invite) {
       showErrorSnackbar(
-        "Enable the multi-device receiver first so Voquill can generate an invite.",
+        "Enable the multi-device receiver first so Ryōiki Tenkai can generate an invite.",
       );
       return;
     }
@@ -414,7 +414,7 @@ export const MultiDeviceDialog = () => {
                 <SettingSection
                   title={<FormattedMessage defaultMessage="Receiver port" />}
                   description={
-                    <FormattedMessage defaultMessage="Leave blank to auto-assign a port, or set a fixed port and apply it immediately. If the receiver is running, Voquill will restart it for you." />
+                    <FormattedMessage defaultMessage="Leave blank to auto-assign a port, or set a fixed port and apply it immediately. If the receiver is running, Ryōiki Tenkai will restart it for you." />
                   }
                   action={
                     <Stack direction="row" spacing={1} alignItems="center">
@@ -444,7 +444,7 @@ export const MultiDeviceDialog = () => {
                     <FormattedMessage defaultMessage="Start receiver automatically" />
                   }
                   description={
-                    <FormattedMessage defaultMessage="When enabled, Voquill will start the multi-device receiver automatically on launch using the saved receiver port." />
+                    <FormattedMessage defaultMessage="When enabled, Ryōiki Tenkai will start the multi-device receiver automatically on launch using the saved receiver port." />
                   }
                   action={
                     <Switch
@@ -543,7 +543,7 @@ export const MultiDeviceDialog = () => {
                         color="warning.main"
                         sx={{ wordBreak: "break-word" }}
                       >
-                        <FormattedMessage defaultMessage="The last delivery targeted the Voquill window itself. Focus the destination app on the receiver machine before sending text." />
+                        <FormattedMessage defaultMessage="The last delivery targeted the Ryōiki Tenkai window itself. Focus the destination app on the receiver machine before sending text." />
                       </Typography>
                     )}
                     {lastTargetMissingEditableField && (
@@ -813,7 +813,7 @@ export const MultiDeviceDialog = () => {
         <DialogContent dividers>
           <Stack spacing={2} sx={{ pt: 0.5 }}>
             <Typography variant="body2" color="text.secondary">
-              <FormattedMessage defaultMessage="Paste the invite copied from the receiver machine. Voquill will trust both devices automatically." />
+              <FormattedMessage defaultMessage="Paste the invite copied from the receiver machine. Ryōiki Tenkai will trust both devices automatically." />
             </Typography>
             <TextField
               label={intl.formatMessage({ defaultMessage: "Pairing invite" })}

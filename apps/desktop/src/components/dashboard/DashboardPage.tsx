@@ -1,7 +1,10 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { getVersion } from "@tauri-apps/api/app";
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { setActiveDashboard } from "../../actions/focus.actions";
 import { useAsyncData } from "../../hooks/async.hooks";
+import type { ActiveDashboard } from "../../state/local.state";
 import { FocusSideEffects } from "../focus/FocusSideEffects";
 import { TranscriptionDetailsDialog } from "../transcriptions/TranscriptionDetailsDialog";
 import { DashboardMenu } from "./DashboardMenu";
@@ -9,8 +12,19 @@ import { FeatureReleaseDialog } from "./FeatureReleaseDialog";
 import { PermissionsDialog } from "./PermissionsDialog";
 import { TrialEndedDialog } from "./TrialEndedDialog";
 
+const getDashboardForPath = (pathname: string): ActiveDashboard => {
+  if (pathname.startsWith("/dashboard/focus")) return "focus";
+  if (pathname.startsWith("/dashboard/assistant")) return "assistant";
+  return "transcription";
+};
+
 export default function DashboardPage() {
   const data = useAsyncData(getVersion, []);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setActiveDashboard(getDashboardForPath(pathname));
+  }, [pathname]);
 
   return (
     <>

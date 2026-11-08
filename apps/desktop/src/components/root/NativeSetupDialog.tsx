@@ -61,10 +61,10 @@ export const NativeSetupDialog = () => {
         {phase === "idle" && (
           <Stack spacing={2}>
             <Typography>
-              <FormattedMessage defaultMessage="Voquill needs to install and configure some tools to work correctly on Wayland. You'll be prompted for your password in order to complete installation." />
+              <FormattedMessage defaultMessage="Ryōiki Tenkai needs to install and configure some tools to work correctly on Wayland. You'll be prompted for your password in order to complete installation." />
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <FormattedMessage defaultMessage="Voquill needs ydotool to paste text into your apps on Wayland. This will install the package, grant the necessary permissions, and start a background service." />
+              <FormattedMessage defaultMessage="Ryōiki Tenkai needs ydotool to paste text into your apps on Wayland. This will install the package, grant the necessary permissions, and start a background service." />
             </Typography>
           </Stack>
         )}
@@ -78,7 +78,7 @@ export const NativeSetupDialog = () => {
         )}
         {phase === "require-restart" && (
           <Typography>
-            <FormattedMessage defaultMessage="All done! Log out and log back in for the permissions to take effect, then reopen Voquill." />
+            <FormattedMessage defaultMessage="All done! Log out and log back in for the permissions to take effect, then reopen Ryōiki Tenkai." />
           </Typography>
         )}
         {phase === "failed" && (

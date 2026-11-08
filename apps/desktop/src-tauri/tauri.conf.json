@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Voquill",
+  "productName": "Ryōiki Tenkai",
   "version": "0.1.0",
   "identifier": "com.voquill.desktop",
   "build": {
@@ -13,7 +13,7 @@
     "macOSPrivateApi": true,
     "windows": [
       {
-        "title": "Voquill",
+        "title": "Ryōiki Tenkai",
         "width": 1100,
         "height": 700,
         "minWidth": 800,
@@ -62,10 +62,21 @@
     },
     "linux": {
       "deb": {
-        "depends": ["libxdo3", "xdotool", "libvulkan1", "libgtk-layer-shell0", "wtype"]
+        "depends": [
+          "libxdo3",
+          "xdotool",
+          "libvulkan1",
+          "libgtk-layer-shell0",
+          "wtype"
+        ]
       },
       "rpm": {
-        "depends": ["xdotool", "vulkan-loader", "gtk-layer-shell", "wtype"]
+        "depends": [
+          "xdotool",
+          "vulkan-loader",
+          "gtk-layer-shell",
+          "wtype"
+        ]
       },
       "appimage": {
         "bundleMediaFramework": false

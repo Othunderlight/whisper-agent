@@ -58,6 +58,7 @@ import {
   PasteKeybindSupport,
 } from "../../state/app.state";
 import { getAppState, produceAppState, useAppStore } from "../../store";
+import { browserRouter } from "../../router";
 import { AuthUser } from "../../types/auth.types";
 import { OverlayPhase } from "../../types/overlay.types";
 import { CURRENT_COHORT, getMixpanel } from "../../utils/analytics.utils";
@@ -684,9 +685,7 @@ export const AppSideEffects = () => {
       openUpgradePlanDialog();
     } else if (payload.action === "open_agent_settings") {
       surfaceMainWindow();
-      produceAppState((draft) => {
-        draft.settings.agentModeDialogOpen = true;
-      });
+      browserRouter.navigate("/dashboard/assistant/settings");
     } else if (payload.action === "surface_window") {
       surfaceMainWindow();
     }
