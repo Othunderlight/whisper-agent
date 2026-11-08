@@ -34,8 +34,14 @@ const pickPose = (prefix: string): string | null => {
   return poses[Math.floor(Math.random() * poses.length)];
 };
 
-export const getCharacterPose = (feature: AnimeFeature): string | null =>
-  pickPose(ANIME_CHARACTERS[feature].imagePrefix);
+const poseByFeature = new Map<AnimeFeature, string | null>();
+
+export const getCharacterPose = (feature: AnimeFeature): string | null => {
+  if (!poseByFeature.has(feature)) {
+    poseByFeature.set(feature, pickPose(ANIME_CHARACTERS[feature].imagePrefix));
+  }
+  return poseByFeature.get(feature) ?? null;
+};
 
 const DASHBOARD_TO_FEATURE: Record<string, AnimeFeature> = {
   transcription: "toge",

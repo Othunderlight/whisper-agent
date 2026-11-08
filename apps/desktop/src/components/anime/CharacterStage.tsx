@@ -1,18 +1,12 @@
 import { Box } from "@mui/material";
-import { useCharacterPose } from "./useCharacterPose";
 import type { AnimeFeature } from "../../utils/anime.utils";
+import { useCharacterPose } from "./useCharacterPose";
 
 type CharacterStageProps = {
   feature: AnimeFeature;
-  height?: number | string;
-  sx?: object;
 };
 
-export const CharacterStage = ({
-  feature,
-  height = "100%",
-  sx,
-}: CharacterStageProps) => {
+export const CharacterStage = ({ feature }: CharacterStageProps) => {
   const pose = useCharacterPose(feature);
 
   if (!pose) return null;
@@ -21,13 +15,12 @@ export const CharacterStage = ({
     <Box
       aria-hidden
       sx={{
+        height: "100%",
         display: "flex",
         alignItems: "flex-end",
-        justifyContent: "center",
-        height,
+        justifyContent: "flex-end",
         pointerEvents: "none",
         userSelect: "none",
-        ...sx,
       }}
     >
       <Box
@@ -36,9 +29,10 @@ export const CharacterStage = ({
         alt=""
         sx={{
           height: "100%",
-          width: "100%",
+          width: "auto",
+          maxHeight: "100%",
           objectFit: "contain",
-          objectPosition: "bottom center",
+          objectPosition: "bottom right",
         }}
       />
     </Box>
