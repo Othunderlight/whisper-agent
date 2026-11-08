@@ -62,7 +62,7 @@ export const ShortcutsDialog = () => {
         />
         {isAssistantModeEnabled && (
           <HotkeySetting
-            title={<FormattedMessage defaultMessage="Yuta Okkotsu" />}
+            title={<FormattedMessage defaultMessage="Assistant mode" />}
             description={
               <FormattedMessage defaultMessage="Dictate commands for the AI to follow instead of just cleaning up text." />
             }

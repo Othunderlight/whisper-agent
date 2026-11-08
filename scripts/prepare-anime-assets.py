@@ -50,7 +50,21 @@ def cutout(source: Path, destination: Path, tolerance: int) -> None:
 
     alpha = np.where(visited, 0, 255).astype(np.uint8)
     rgba = np.dstack([pixels.astype(np.uint8), alpha])
-    Image.fromarray(rgba, "RGBA").save(destination, optimize=True)
+    image = Image.fromarray(rgba, "RGBA")
+
+    bounds = image.getbbox()
+    box = None
+    if bounds:
+        pad = 6
+        left, top, right, bottom = bounds
+        box = (
+            max(0, left - pad),
+            max(0, top - pad),
+            min(image.width, right + pad),
+            min(image.height, bottom + pad),
+        )
+        image = image.crop(box)
+    image.save(destination, optimize=True)
 
 
 def main() -> int:

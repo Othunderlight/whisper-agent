@@ -7,7 +7,6 @@ import { clearGotStartedAt } from "../../actions/user.actions";
 import { useAppStore } from "../../store";
 import { isEnterpriseFlavor } from "../../utils/env.utils";
 import { getShouldGoToOnboarding } from "../../utils/user.utils";
-import { Logo } from "../common/Logo";
 import EnterpriseWelcomePage from "../enterprise/EnterpriseWelcomePage";
 import { VectorField } from "./VectorField";
 
@@ -79,7 +78,6 @@ function StandardWelcomePage() {
         >
           <Stack spacing={2} alignItems="center">
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Logo width="4rem" height="4rem" />
               <Typography variant="h3" fontWeight={700}>
                 Ryōiki Tenkai
               </Typography>

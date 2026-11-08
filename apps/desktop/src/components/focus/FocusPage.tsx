@@ -2,7 +2,6 @@ import { Button, Stack, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store";
-import { FeatureStage } from "../anime/FeatureStage";
 import { ScrollListPage } from "../common/ScrollListPage";
 import { FocusRow } from "./FocusRow";
 
@@ -54,22 +53,20 @@ export default function FocusPage() {
   );
 
   return (
-    <FeatureStage feature="satoru">
-      <ScrollListPage
-        headerMaxWidth="md"
-        contentMaxWidth="md"
-        title={<FormattedMessage defaultMessage="Satoru Gojo" />}
-        subtitle={subtitle}
-        action={
-          <Button variant="outlined" onClick={openSettings}>
-            <FormattedMessage defaultMessage="Settings" />
-          </Button>
-        }
-        items={checkIds}
-        computeItemKey={(id) => id}
-        renderItem={(id) => <FocusRow id={id} />}
-        emptyState={emptyState}
-      />
-    </FeatureStage>
+    <ScrollListPage
+      headerMaxWidth="md"
+      contentMaxWidth="md"
+      title={<FormattedMessage defaultMessage="Focus" />}
+      subtitle={subtitle}
+      action={
+        <Button variant="outlined" onClick={openSettings}>
+          <FormattedMessage defaultMessage="Settings" />
+        </Button>
+      }
+      items={checkIds}
+      computeItemKey={(id) => id}
+      renderItem={(id) => <FocusRow id={id} />}
+      emptyState={emptyState}
+    />
   );
 }

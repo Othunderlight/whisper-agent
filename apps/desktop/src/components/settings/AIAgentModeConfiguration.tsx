@@ -57,7 +57,7 @@ export const AIAgentModeConfiguration = ({
 
       {effectiveMode === "none" && (
         <Typography variant="body2" color="text.secondary">
-          <FormattedMessage defaultMessage="Yuta Okkotsu is disabled." />
+          <FormattedMessage defaultMessage="Assistant mode is disabled." />
         </Typography>
       )}
 

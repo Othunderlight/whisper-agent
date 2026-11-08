@@ -11,7 +11,6 @@ import { FormattedMessage } from "react-intl";
 import { goToOnboardingPage } from "../../actions/onboarding.actions";
 import { setAllModesToCloud } from "../../actions/user.actions";
 import { trackButtonClick } from "../../utils/analytics.utils";
-import { Logo } from "../common/Logo";
 import {
   BackButton,
   DualPaneLayout,
@@ -161,9 +160,7 @@ export const UnlockedProForm = () => {
         initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-      >
-        <Logo width="4rem" height="4rem" />
-      </motion.div>
+      ></motion.div>
       <MotionTypography
         variant="h3"
         fontWeight={700}

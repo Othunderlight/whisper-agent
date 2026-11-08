@@ -1,9 +1,16 @@
 import { Stack, Typography, type StackProps } from "@mui/material";
-import { Logo } from "./Logo";
+import { useAppStore } from "../../store";
+import {
+  ANIME_CHARACTERS,
+  getActiveAnimeFeature,
+} from "../../utils/anime.utils";
 
 export type LogoWithTextProps = StackProps;
 
 export const LogoWithText = ({ sx, ...rest }: LogoWithTextProps) => {
+  const feature = useAppStore(getActiveAnimeFeature);
+  const character = ANIME_CHARACTERS[feature];
+
   return (
     <Stack
       direction="row"
@@ -15,17 +22,15 @@ export const LogoWithText = ({ sx, ...rest }: LogoWithTextProps) => {
       }}
       {...rest}
     >
-      <Logo sx={{ mr: 1 }} />
       <Typography
         variant="h5"
         fontWeight="bold"
         sx={{
           userSelect: "none",
           whiteSpace: "nowrap",
-          display: { xs: "none", sm: "block" },
         }}
       >
-        Ryōiki Tenkai
+        {character.name}
       </Typography>
     </Stack>
   );

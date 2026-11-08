@@ -23,19 +23,19 @@ type DashboardOption = {
 const OPTIONS: DashboardOption[] = [
   {
     id: "transcription",
-    label: <FormattedMessage defaultMessage="Toge Inumaki" />,
+    label: <FormattedMessage defaultMessage="Dictation" />,
     icon: <MicOutlined />,
     path: "/dashboard",
   },
   {
     id: "focus",
-    label: <FormattedMessage defaultMessage="Satoru Gojo" />,
+    label: <FormattedMessage defaultMessage="Focus" />,
     icon: <VisibilityOutlined />,
     path: "/dashboard/focus",
   },
   {
     id: "assistant",
-    label: <FormattedMessage defaultMessage="Yuta Okkotsu" />,
+    label: <FormattedMessage defaultMessage="Assistant mode" />,
     icon: <ChatBubbleOutline />,
     path: "/dashboard/assistant",
   },

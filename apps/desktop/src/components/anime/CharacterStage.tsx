@@ -1,21 +1,18 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { ANIME_CHARACTERS, type AnimeFeature } from "../../utils/anime.utils";
+import { Box } from "@mui/material";
 import { useCharacterPose } from "./useCharacterPose";
+import type { AnimeFeature } from "../../utils/anime.utils";
 
 type CharacterStageProps = {
   feature: AnimeFeature;
   height?: number | string;
-  showName?: boolean;
   sx?: object;
 };
 
 export const CharacterStage = ({
   feature,
   height = "100%",
-  showName = false,
   sx,
 }: CharacterStageProps) => {
-  const character = ANIME_CHARACTERS[feature];
   const pose = useCharacterPose(feature);
 
   if (!pose) return null;
@@ -24,7 +21,6 @@ export const CharacterStage = ({
     <Box
       aria-hidden
       sx={{
-        position: "relative",
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "center",
@@ -39,28 +35,12 @@ export const CharacterStage = ({
         src={pose}
         alt=""
         sx={{
-          maxHeight: "100%",
-          maxWidth: "100%",
+          height: "100%",
+          width: "100%",
           objectFit: "contain",
           objectPosition: "bottom center",
         }}
       />
-      {showName && (
-        <Stack
-          spacing={0.25}
-          sx={{
-            position: "absolute",
-            bottom: 12,
-            left: 0,
-            right: 0,
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="subtitle2" fontWeight={700}>
-            {character.name}
-          </Typography>
-        </Stack>
-      )}
     </Box>
   );
 };

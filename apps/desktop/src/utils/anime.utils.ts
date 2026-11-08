@@ -36,3 +36,13 @@ const pickPose = (prefix: string): string | null => {
 
 export const getCharacterPose = (feature: AnimeFeature): string | null =>
   pickPose(ANIME_CHARACTERS[feature].imagePrefix);
+
+const DASHBOARD_TO_FEATURE: Record<string, AnimeFeature> = {
+  transcription: "toge",
+  focus: "satoru",
+  assistant: "yuta",
+};
+
+export const getActiveAnimeFeature = (state: {
+  local: { activeDashboard: string };
+}): AnimeFeature => DASHBOARD_TO_FEATURE[state.local.activeDashboard] ?? "toge";

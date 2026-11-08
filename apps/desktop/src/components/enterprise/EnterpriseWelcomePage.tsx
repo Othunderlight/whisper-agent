@@ -1,7 +1,6 @@
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { FormattedMessage } from "react-intl";
-import { Logo } from "../common/Logo";
 import { LoginForm } from "../login/LoginForm";
 import { VectorField } from "../welcome/VectorField";
 
@@ -62,7 +61,6 @@ export default function EnterpriseWelcomePage() {
           >
             <Stack spacing={2} alignItems="center" textAlign="center">
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Logo width="4rem" height="4rem" />
                 <Typography variant="h3" fontWeight={700}>
                   Ryōiki Tenkai
                 </Typography>

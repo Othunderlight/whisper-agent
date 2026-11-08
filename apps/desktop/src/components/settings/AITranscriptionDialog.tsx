@@ -25,7 +25,7 @@ export const AITranscriptionDialog = () => {
   return (
     <Dialog open={open} onClose={closeDialog} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
-        <FormattedMessage defaultMessage="Toge Inumaki" />
+        <FormattedMessage defaultMessage="AI transcription" />
         <IconButton
           aria-label="Close"
           onClick={closeDialog}

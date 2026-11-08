@@ -129,19 +129,15 @@ export const AssistantSettings = () => {
         </DialogActions>
       </Dialog>
 
-      <Stack
-        spacing={3}
-        alignItems="flex-start"
-        sx={{ height: "100%", overflowY: "auto", px: 3, py: 3 }}
-      >
+      <Stack spacing={3} alignItems="flex-start" sx={{ pb: 8 }}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="h6" fontWeight={700}>
-            <FormattedMessage defaultMessage="Yuta Okkotsu" />
+            <FormattedMessage defaultMessage="Assistant mode" />
           </Typography>
           <Chip label="Beta" size="small" color="primary" />
         </Stack>
         <Typography variant="body1" color="text.secondary">
-          <FormattedMessage defaultMessage="Yuta Okkotsu follows commands you dictate instead of just cleaning up text." />
+          <FormattedMessage defaultMessage="Assistant mode follows commands you dictate instead of just cleaning up text." />
         </Typography>
 
         <AIAgentModeConfiguration />
@@ -160,7 +156,7 @@ export const AssistantSettings = () => {
         <SettingsRow
           title={<FormattedMessage defaultMessage="Enable assistant mode" />}
           description={
-            <FormattedMessage defaultMessage="Yuta Okkotsu is disabled by default. This is a new feature — if you have any feedback, please stop by our Discord channel" />
+            <FormattedMessage defaultMessage="Assistant mode is disabled by default. This is a new feature — if you have any feedback, please stop by our Discord channel" />
           }
           checked={assistantModeEnabled}
           onChange={handleAssistantModeToggle}

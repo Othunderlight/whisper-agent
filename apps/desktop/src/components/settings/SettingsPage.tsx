@@ -385,7 +385,7 @@ export default function SettingsPage() {
       {dictationLanguageComp}
       {allowChangeTranscription && (
         <ListTile
-          title={<FormattedMessage defaultMessage="Toge Inumaki" />}
+          title={<FormattedMessage defaultMessage="AI transcription" />}
           leading={<GraphicEqOutlined />}
           onClick={openTranscriptionDialog}
         />
@@ -401,7 +401,7 @@ export default function SettingsPage() {
         <ListTile
           title={
             <Stack direction="row" alignItems="center">
-              <FormattedMessage defaultMessage="Yuta Okkotsu" />
+              <FormattedMessage defaultMessage="Assistant mode" />
               <Chip label="Beta" size="small" color="primary" sx={{ ml: 1 }} />
             </Stack>
           }

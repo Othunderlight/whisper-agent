@@ -1,24 +1,20 @@
-import { Box, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { FeatureStage } from "../anime/FeatureStage";
+import { DashboardEntryLayout } from "../dashboard/DashboardEntryLayout";
 import { AssistantSettings } from "./AssistantSettings";
 
 export default function AssistantSettingsPage() {
   return (
-    <FeatureStage feature="yuta">
-      <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-        <Box sx={{ px: 3, pt: 1.5, pb: 1 }}>
-          <Typography variant="h4" fontWeight={700}>
-            <FormattedMessage defaultMessage="Yuta Okkotsu" />
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            <FormattedMessage defaultMessage="Configure how Yuta Okkotsu follows your commands." />
-          </Typography>
-        </Box>
-        <Box sx={{ flexGrow: 1, minHeight: 0 }}>
-          <AssistantSettings />
-        </Box>
-      </Box>
-    </FeatureStage>
+    <DashboardEntryLayout maxWidth="md">
+      <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+        <FormattedMessage defaultMessage="Assistant mode" />
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        <FormattedMessage defaultMessage="Configure how assistant mode follows your commands." />
+      </Typography>
+      <Stack spacing={3} alignItems="flex-start">
+        <AssistantSettings />
+      </Stack>
+    </DashboardEntryLayout>
   );
 }
