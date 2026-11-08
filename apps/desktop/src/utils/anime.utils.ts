@@ -28,19 +28,10 @@ const posesByPrefix = Object.entries(characterModules).reduce<
   return acc;
 }, {});
 
-const pickPose = (prefix: string): string | null => {
-  const poses = posesByPrefix[prefix] ?? [];
+export const getCharacterPose = (feature: AnimeFeature): string | null => {
+  const poses = posesByPrefix[ANIME_CHARACTERS[feature].imagePrefix] ?? [];
   if (poses.length === 0) return null;
   return poses[Math.floor(Math.random() * poses.length)];
-};
-
-const poseByFeature = new Map<AnimeFeature, string | null>();
-
-export const getCharacterPose = (feature: AnimeFeature): string | null => {
-  if (!poseByFeature.has(feature)) {
-    poseByFeature.set(feature, pickPose(ANIME_CHARACTERS[feature].imagePrefix));
-  }
-  return poseByFeature.get(feature) ?? null;
 };
 
 const DASHBOARD_TO_FEATURE: Record<string, AnimeFeature> = {

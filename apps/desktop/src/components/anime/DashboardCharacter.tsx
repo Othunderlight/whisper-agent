@@ -14,6 +14,7 @@ export const DashboardCharacter = ({ feature }: DashboardCharacterProps) => (
       height: "100%",
       flexShrink: 0,
       alignItems: "flex-end",
+      justifyContent: "flex-end",
       overflow: "hidden",
       pointerEvents: "none",
       pr: 2,

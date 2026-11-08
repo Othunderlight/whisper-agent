@@ -41,6 +41,7 @@ export const PageLayout = ({ header, footer, children }: PageLayoutProps) => (
       <Stack
         sx={{
           flexGrow: 1,
+          minHeight: 0,
           overflowY: "auto",
         }}
       >

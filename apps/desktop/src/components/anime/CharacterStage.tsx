@@ -13,28 +13,19 @@ export const CharacterStage = ({ feature }: CharacterStageProps) => {
 
   return (
     <Box
+      component="img"
+      src={pose}
+      alt=""
       aria-hidden
       sx={{
         height: "100%",
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
+        width: "auto",
+        maxWidth: { sm: 240, md: 340, lg: 460 },
+        objectFit: "contain",
+        objectPosition: "bottom right",
         pointerEvents: "none",
         userSelect: "none",
       }}
-    >
-      <Box
-        component="img"
-        src={pose}
-        alt=""
-        sx={{
-          height: "100%",
-          width: "auto",
-          maxHeight: "100%",
-          objectFit: "contain",
-          objectPosition: "bottom right",
-        }}
-      />
-    </Box>
+    />
   );
 };
