@@ -12,6 +12,8 @@ OUTPUT_DIR="${VOQUILL_LICENSE_OUTPUT_DIR:-$KEY_DIR/licenses}"
 
 PRODUCT="voquill"
 SUPPORTED_TIERS="normal pro"
+SUPPORTED_PROVIDERS="groq"
+DEFAULT_GROQ_MODEL="whisper-large-v3"
 
 die() {
   printf 'error: %s\n' "$*" >&2
@@ -42,6 +44,11 @@ Usage:
       Sign a license key for a customer. Writes <license-id>.license and
       prints the key to stdout.
 
+      Pro licenses also require a provider preset:
+        --provider <groq>        Only groq is supported for now.
+        --api-key <key>          The provider API key (or set VOQUILL_LICENSE_API_KEY).
+        --model <model>          Defaults to whisper-large-v3.
+
   issue-license.sh show-key
       Print the public key currently embedded in the app.
 
@@ -52,7 +59,8 @@ Environment:
 Examples:
   ./scripts/license/issue-license.sh init
   ./scripts/license/issue-license.sh issue --email user@example.com --tier normal
-  ./scripts/license/issue-license.sh issue --email user@example.com --tier pro --expires 2027-01-01
+  ./scripts/license/issue-license.sh issue --email user@example.com --tier pro \
+    --provider groq --api-key "gsk_..." --expires 2027-01-01
 EOF
 }
 
@@ -114,6 +122,9 @@ cmd_init() {
 cmd_issue() {
   local email=""
   local tier=""
+  local provider=""
+  local api_key=""
+  local model=""
   local expires="never"
   local out_dir="$OUTPUT_DIR"
 
@@ -127,6 +138,21 @@ cmd_issue() {
       --tier|-t)
         [[ $# -ge 2 ]] || die "--tier requires a value"
         tier="$2"
+        shift
+        ;;
+      --provider|-p)
+        [[ $# -ge 2 ]] || die "--provider requires a value"
+        provider="$2"
+        shift
+        ;;
+      --api-key|-k)
+        [[ $# -ge 2 ]] || die "--api-key requires a value"
+        api_key="$2"
+        shift
+        ;;
+      --model|-m)
+        [[ $# -ge 2 ]] || die "--model requires a value"
+        model="$2"
         shift
         ;;
       --expires|-x)
@@ -164,6 +190,22 @@ cmd_issue() {
   [[ -f "$PRIVATE_KEY" ]] ||
     die "no private key at $PRIVATE_KEY (run: $0 init)"
 
+  if [[ "$tier" == "pro" ]]; then
+    [[ -n "$provider" ]] || die "--provider is required for pro licenses"
+    case " $SUPPORTED_PROVIDERS " in
+      *" $provider "*) ;;
+      *) die "unsupported provider: $provider (the app accepts: $SUPPORTED_PROVIDERS)" ;;
+    esac
+
+    [[ -n "$api_key" ]] || api_key="${VOQUILL_LICENSE_API_KEY:-}"
+    [[ -n "$api_key" ]] ||
+      die "--api-key is required for pro licenses (or set VOQUILL_LICENSE_API_KEY)"
+    model="${model:-$DEFAULT_GROQ_MODEL}"
+  else
+    [[ -z "$provider" && -z "$api_key" && -z "$model" ]] ||
+      die "provider options (--provider, --api-key, --model) are only valid for pro licenses"
+  fi
+
   local issued_at expires_json
   issued_at="$(date +%s)"
 
@@ -177,6 +219,15 @@ cmd_issue() {
   local license_id
   license_id="lic_$(date -u +%Y%m%d)_$(openssl rand -hex 4)"
 
+  local provider_json="null"
+  if [[ "$tier" == "pro" ]]; then
+    provider_json="$(jq -cn \
+      --arg provider "$provider" \
+      --arg apiKey "$api_key" \
+      --arg model "$model" \
+      '{provider: $provider, apiKey: $apiKey, model: $model}')"
+  fi
+
   local payload
   payload="$(jq -cn \
     --argjson v 1 \
@@ -186,7 +237,8 @@ cmd_issue() {
     --arg tier "$tier" \
     --argjson iat "$issued_at" \
     --argjson expires "$expires_json" \
-    '{v: $v, product: $product, id: $id, email: $email, tier: $tier, iat: $iat, expires: $expires}')"
+    --argjson provider "$provider_json" \
+    '{v: $v, product: $product, id: $id, email: $email, tier: $tier, iat: $iat, expires: $expires, provider: $provider}')"
 
   local header='{"alg":"EdDSA","typ":"JWT"}'
   local header_b64 payload_b64 signing_input
@@ -236,12 +288,20 @@ cmd_issue() {
   note "License:  $license_id"
   note "Email:    $email"
   note "Tier:     $tier"
+  if [[ "$tier" == "pro" ]]; then
+    note "Provider: $provider"
+    note "Model:    $model"
+  fi
   if [[ "$expires" == "never" ]]; then
     note "Expires:  never"
   else
     note "Expires:  $expires (end of day, local time)"
   fi
   note "File:     $license_path"
+  if [[ "$tier" == "pro" ]]; then
+    note ""
+    note "This license embeds the provider API key. Treat it as a secret."
+  fi
   note ""
   note "$token"
 }

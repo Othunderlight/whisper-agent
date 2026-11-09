@@ -19,6 +19,9 @@ export const UserDetailsForm = () => {
   const company = useAppStore((state) => state.onboarding.company);
   const submitting = useAppStore((state) => state.onboarding.submitting);
   const isEnterprise = useAppStore((state) => state.isEnterprise);
+  const isProPreset = useAppStore(
+    (state) => state.license?.tier === "pro" && Boolean(state.license.provider),
+  );
 
   const canContinue = name && !submitting;
 
@@ -60,7 +63,9 @@ export const UserDetailsForm = () => {
 
   const handleContinue = () => {
     trackButtonClick("onboarding_user_details_continue");
-    if (isEnterprise) {
+    if (isProPreset) {
+      goToOnboardingPage("keybindings");
+    } else if (isEnterprise) {
       goToOnboardingPage(isMacOS() ? "micPerms" : "keybindings");
     } else {
       goToOnboardingPage("referralSource");
@@ -69,7 +74,7 @@ export const UserDetailsForm = () => {
 
   const form = (
     <OnboardingFormLayout
-      back={<BackButton />}
+      back={isProPreset ? undefined : <BackButton />}
       actions={
         <Button
           variant="contained"
@@ -110,7 +115,7 @@ export const UserDetailsForm = () => {
             }}
           />
 
-          {!isEnterprise && (
+          {!isEnterprise && !isProPreset && (
             <>
               <TextField
                 variant="outlined"

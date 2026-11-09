@@ -6,8 +6,12 @@ locked until a valid license is activated.
 
 ## Plans
 
-- `normal` unlocks the app.
-- `pro` unlocks the app and every Pro feature.
+Both tiers unlock the whole app. The difference is setup:
+
+- `normal` uses the full onboarding flow, where the user configures their own
+  transcription and AI providers.
+- `pro` embeds a Groq provider preset (API key and model) in the license. Pro
+  onboarding only asks for the user's name and hotkey.
 
 Both are one-time purchases. The tier is part of the signed payload, so it
 cannot be changed after issuing.
@@ -30,13 +34,36 @@ key can no longer issue licenses that this build accepts.
 
 ## Issuing a license
 
-`--tier` is required:
+`--tier` is required.
+
+Normal license:
 
 ```bash
 ./scripts/license/issue-license.sh issue --email user@example.com --tier normal
-./scripts/license/issue-license.sh issue --email user@example.com --tier pro
-./scripts/license/issue-license.sh issue --email user@example.com --tier pro --expires 2027-01-01
 ```
+
+Pro license:
+
+```bash
+./scripts/license/issue-license.sh issue \
+  --email user@example.com \
+  --tier pro \
+  --provider groq \
+  --api-key "gsk_..." \
+  --expires 2027-01-01
+```
+
+For Pro:
+
+- `--provider` is required and currently only `groq` is supported.
+- `--api-key` is required. You can also set `VOQUILL_LICENSE_API_KEY` to keep
+  the key out of shell history.
+- `--model` defaults to `whisper-large-v3`.
+
+When the Pro license is activated, the app stores the Groq key as a local API
+key, sets transcription to API/Groq with that model, and turns post-processing
+and assistant mode off. This happens once per license; later user changes are
+not overwritten.
 
 `--expires` is optional and ends at 23:59:59 local time on that date. Without
 it, the license never expires. The token is written to
@@ -57,10 +84,14 @@ VITE_PURCHASE_URL=https://example.com/buy pnpm run dev
 
 ## Design notes
 
-- The payload contains `v`, `product`, `id`, `email`, `tier`, `iat`, and
-  `expires`. `product` is `voquill`; the app rejects tokens for other products.
-- The token is not secret. It is a public, signed statement, safe to email or
-  put in a QR code.
+- The payload contains `v`, `product`, `id`, `email`, `tier`, `iat`, `expires`,
+  and an optional `provider` preset. `product` is `voquill`; the app rejects
+  tokens for other products.
+- **A Pro license embeds the provider API key, so the license itself is a
+  secret.** Anyone who has the license can extract the key. Treat Pro license
+  files like passwords and avoid putting them in public places.
+- Normal license tokens contain no secrets and are safe to email.
+- Pro requires a provider preset; normal licenses must not include one.
 - Offline licenses can be shared. Machine binding and revocation would require
   extra fields and an online check; this setup intentionally does neither.
 - Expiry uses the local system clock, so a user can bypass it by changing the
@@ -78,6 +109,6 @@ VITE_PURCHASE_URL=https://example.com/buy pnpm run dev
 ## Verifying the generator end to end
 
 ```bash
-export VOQUILL_TEST_LICENSE="$(./scripts/license/issue-license.sh issue --email test@example.com --tier pro | tail -1)"
+export VOQUILL_TEST_LICENSE="$(./scripts/license/issue-license.sh issue --email test@example.com --tier pro --provider groq --api-key gsk_test | tail -1)"
 cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml accepts_generated_token -- --ignored
 ```

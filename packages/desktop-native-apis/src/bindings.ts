@@ -1056,7 +1056,8 @@ wroteFile: boolean;
  * it picks up the bridge. Always true when `wrote_file` is true.
  */
 restartRequired: boolean }
-export type LicensePayload = { v: number; product: string; id: string; email: string; tier: string; iat: number; expires: number | null }
+export type LicensePayload = { v: number; product: string; id: string; email: string; tier: string; iat: number; expires: number | null; provider: LicenseProviderPreset | null }
+export type LicenseProviderPreset = { provider: string; apiKey: string; model: string }
 export type MenuIconVariant = "default" | "update"
 export type MonitorAtCursor = { x: number; y: number; width: number; height: number; visibleX: number; visibleY: number; visibleWidth: number; visibleHeight: number; scaleFactor: number; cursorX: number; cursorY: number }
 export type NativeSetupResult = "success" | "require-restart" | "failed"

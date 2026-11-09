@@ -3,7 +3,10 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { showErrorSnackbar } from "../../actions/app.actions";
-import { goToOnboardingPage } from "../../actions/onboarding.actions";
+import {
+  completeOnboarding,
+  goToOnboardingPage,
+} from "../../actions/onboarding.actions";
 import { getHotkeyRepo } from "../../repos";
 import { produceAppState, useAppStore } from "../../store";
 import { trackButtonClick } from "../../utils/analytics.utils";
@@ -24,7 +27,11 @@ import {
 
 export const KeybindingsForm = () => {
   const [isListening, setIsListening] = useState(false);
+  const [finishing, setFinishing] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
+  const isProPreset = useAppStore(
+    (state) => state.license?.tier === "pro" && Boolean(state.license.provider),
+  );
 
   const keysHeld = useAppStore((s) => s.keysHeld);
   const hotkeys = useAppStore((state) =>
@@ -117,9 +124,20 @@ export const KeybindingsForm = () => {
     }, 0);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     trackButtonClick("onboarding_hotkey_works");
-    goToOnboardingPage("micCheck");
+
+    if (!isProPreset) {
+      goToOnboardingPage("micCheck");
+      return;
+    }
+
+    setFinishing(true);
+    try {
+      await completeOnboarding();
+    } catch {
+      setFinishing(false);
+    }
   };
 
   const form = (
@@ -227,9 +245,13 @@ export const KeybindingsForm = () => {
           variant="contained"
           onClick={handleConfirm}
           endIcon={<ArrowForward />}
-          disabled={isListening}
+          disabled={isListening || finishing}
         >
-          <FormattedMessage defaultMessage="It works" />
+          {finishing ? (
+            <FormattedMessage defaultMessage="Finishing..." />
+          ) : (
+            <FormattedMessage defaultMessage="It works" />
+          )}
         </Button>
       </Stack>
     </Stack>

@@ -8,6 +8,15 @@ const LICENSE_PUBLIC_KEY_PEM: &str = include_str!("../../keys/license-public-key
 const SUPPORTED_VERSION: u32 = 1;
 const PRODUCT: &str = "voquill";
 const SUPPORTED_TIERS: &[&str] = &["normal", "pro"];
+const SUPPORTED_PROVIDERS: &[&str] = &["groq"];
+
+#[derive(Debug, Clone, Serialize, Deserialize, specta::Type)]
+#[serde(rename_all = "camelCase")]
+pub struct LicenseProviderPreset {
+    pub provider: String,
+    pub api_key: String,
+    pub model: String,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, specta::Type)]
 #[serde(rename_all = "camelCase")]
@@ -19,6 +28,7 @@ pub struct LicensePayload {
     pub tier: String,
     pub iat: i64,
     pub expires: Option<i64>,
+    pub provider: Option<LicenseProviderPreset>,
 }
 
 pub fn normalize_token(token: &str) -> String {
@@ -79,6 +89,33 @@ fn validate_payload(payload: &LicensePayload) -> Result<(), String> {
         return Err("This license key has an unsupported tier.".to_string());
     }
 
+    match payload.tier.as_str() {
+        "pro" => {
+            let preset = payload
+                .provider
+                .as_ref()
+                .ok_or_else(|| "Pro licenses require a provider preset.".to_string())?;
+
+            if !SUPPORTED_PROVIDERS.contains(&preset.provider.as_str()) {
+                return Err("This license key has an unsupported provider.".to_string());
+            }
+
+            if preset.api_key.trim().is_empty() {
+                return Err("This license key is missing its provider API key.".to_string());
+            }
+
+            if preset.model.trim().is_empty() {
+                return Err("This license key is missing its transcription model.".to_string());
+            }
+        }
+        "normal" => {
+            if payload.provider.is_some() {
+                return Err("Normal licenses cannot include a provider preset.".to_string());
+            }
+        }
+        _ => unreachable!("tier was validated above"),
+    }
+
     if let Some(expires) = payload.expires {
         if expires <= now_unix() {
             return Err("This license key has expired.".to_string());
@@ -125,6 +162,19 @@ mod tests {
             tier: "pro".to_string(),
             iat: now_unix(),
             expires: None,
+            provider: Some(LicenseProviderPreset {
+                provider: "groq".to_string(),
+                api_key: "gsk_test".to_string(),
+                model: "whisper-large-v3".to_string(),
+            }),
+        }
+    }
+
+    fn normal_payload() -> LicensePayload {
+        LicensePayload {
+            tier: "normal".to_string(),
+            provider: None,
+            ..payload()
         }
     }
 
@@ -140,6 +190,10 @@ mod tests {
         let verified = verify_token_with_key(&token, &decoding).expect("valid token");
         assert_eq!(verified.email, "user@example.com");
         assert_eq!(verified.tier, "pro");
+        assert_eq!(
+            verified.provider.expect("provider preset").model,
+            "whisper-large-v3"
+        );
     }
 
     #[test]
@@ -189,12 +243,44 @@ mod tests {
     #[test]
     fn accepts_normal_tier() {
         let (encoding, decoding) = test_keys();
-        let mut claims = payload();
-        claims.tier = "normal".to_string();
-        let token = sign(&claims, &encoding);
+        let token = sign(&normal_payload(), &encoding);
 
         let verified = verify_token_with_key(&token, &decoding).expect("normal token");
         assert_eq!(verified.tier, "normal");
+    }
+
+    #[test]
+    fn rejects_pro_without_provider() {
+        let (encoding, decoding) = test_keys();
+        let mut claims = payload();
+        claims.provider = None;
+        let token = sign(&claims, &encoding);
+
+        assert!(verify_token_with_key(&token, &decoding).is_err());
+    }
+
+    #[test]
+    fn rejects_unknown_provider() {
+        let (encoding, decoding) = test_keys();
+        let mut claims = payload();
+        claims.provider.as_mut().expect("provider").provider = "openai".to_string();
+        let token = sign(&claims, &encoding);
+
+        assert!(verify_token_with_key(&token, &decoding).is_err());
+    }
+
+    #[test]
+    fn rejects_normal_with_provider() {
+        let (encoding, decoding) = test_keys();
+        let mut claims = normal_payload();
+        claims.provider = Some(LicenseProviderPreset {
+            provider: "groq".to_string(),
+            api_key: "gsk_test".to_string(),
+            model: "whisper-large-v3".to_string(),
+        });
+        let token = sign(&claims, &encoding);
+
+        assert!(verify_token_with_key(&token, &decoding).is_err());
     }
 
     #[test]

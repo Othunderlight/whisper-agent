@@ -250,3 +250,13 @@ export const finishOnboarding = async () => {
     throw err;
   }
 };
+
+export const completeOnboarding = async (): Promise<void> => {
+  try {
+    await submitOnboarding();
+    await finishOnboarding();
+  } catch (err) {
+    showErrorSnackbar(err);
+    throw err;
+  }
+};

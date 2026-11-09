@@ -102,6 +102,17 @@ export const LicenseDialog = () => {
                   )}
                 </Typography>
                 <Typography variant="body2">{license.email}</Typography>
+                {license.provider && (
+                  <Typography variant="body2" color="text.secondary">
+                    <FormattedMessage
+                      defaultMessage="Transcription: {provider} · {model}"
+                      values={{
+                        provider: license.provider.provider,
+                        model: license.provider.model,
+                      }}
+                    />
+                  </Typography>
+                )}
                 {expiresLabel && (
                   <Typography variant="body2" color="text.secondary">
                     <FormattedMessage
