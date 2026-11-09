@@ -10,6 +10,7 @@ import { ClearLocalDataDialog } from "../settings/ClearLocalDataDialog";
 import { DeleteAccountDialog } from "../settings/DeleteAccountDialog";
 import { DictationLanguageDialog } from "../settings/DictationLanguageDialog";
 import { DiagnosticsDialog } from "../settings/DiagnosticsDialog";
+import { LicenseDialog } from "../settings/LicenseDialog";
 import { MicrophoneDialog } from "../settings/MicrophoneDialog";
 import { MultiDeviceDialog } from "../settings/MultiDeviceDialog";
 import { MoreSettingsDialog } from "../settings/MoreSettingsDialog";
@@ -41,6 +42,7 @@ export const RootDialogs = () => {
       <MultiDeviceDialog />
       <DictationLanguageDialog />
       <AppKeybindingsDialog />
+      <LicenseDialog />
       <DiagnosticsDialog />
       <MobileAppDialog />
       <NativeSetupDialog />

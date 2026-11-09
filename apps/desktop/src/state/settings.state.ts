@@ -80,6 +80,7 @@ export type SettingsState = {
   diagnosticsDialogOpen: boolean;
   mobileAppDialogOpen: boolean;
   wakeWordDialogOpen: boolean;
+  licenseDialogOpen: boolean;
   aiTranscription: SettingsTranscriptionState;
   aiPostProcessing: SettingsGenerativeState;
   agentMode: SettingsAgentModeState;
@@ -133,6 +134,7 @@ export const INITIAL_SETTINGS_STATE: SettingsState = {
   diagnosticsDialogOpen: false,
   mobileAppDialogOpen: false,
   wakeWordDialogOpen: false,
+  licenseDialogOpen: false,
   aiTranscription: {
     mode: null,
     modelSize: DEFAULT_MODEL_SIZE,

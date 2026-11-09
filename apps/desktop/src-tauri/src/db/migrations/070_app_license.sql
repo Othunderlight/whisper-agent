@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS app_license (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    token TEXT NOT NULL
+);

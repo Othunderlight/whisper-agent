@@ -105,5 +105,8 @@ windows = { version = "0.61.3", features = [
     "Win32_Media_Audio_Endpoints",
 ] }
 
+[dev-dependencies]
+ring = "0.17"
+
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ["cfg(feature, values(\"cargo-clippy\"))"] }

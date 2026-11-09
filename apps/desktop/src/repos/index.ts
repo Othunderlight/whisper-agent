@@ -44,6 +44,7 @@ import {
   OpenRouterGenerateTextRepo,
 } from "./generate-text.repo";
 import { BaseHotkeyRepo, LocalHotkeyRepo } from "./hotkey.repo";
+import { BaseLicenseRepo, LocalLicenseRepo } from "./license.repo";
 import {
   BaseMemberRepo,
   CloudMemberRepo,
@@ -192,6 +193,10 @@ export const getTermRepo = (): BaseTermRepo => {
 
 export const getHotkeyRepo = (): BaseHotkeyRepo => {
   return new LocalHotkeyRepo();
+};
+
+export const getLicenseRepo = (): BaseLicenseRepo => {
+  return new LocalLicenseRepo();
 };
 
 export const getApiKeyRepo = (): BaseApiKeyRepo => {

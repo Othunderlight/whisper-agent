@@ -8,6 +8,7 @@ pub mod enterprise_oidc;
 pub mod focus_screenshot;
 pub mod google_oauth;
 pub mod gpu;
+pub mod license;
 pub mod models;
 pub mod oauth_callback_page;
 pub mod paths;

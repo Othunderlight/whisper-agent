@@ -2370,6 +2370,53 @@ pub async fn auth_sign_out(
 
 #[tauri::command]
 #[specta::specta]
+pub async fn license_get(
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<Option<crate::system::license::LicensePayload>, String> {
+    let token = crate::db::license_queries::get_license_token(database.pool())
+        .await
+        .map_err(|err| err.to_string())?;
+
+    let Some(token) = token else {
+        return Ok(None);
+    };
+
+    match crate::system::license::verify_token(&token) {
+        Ok(payload) => Ok(Some(payload)),
+        Err(err) => {
+            log::warn!("Stored license key is no longer valid: {err}");
+            Ok(None)
+        }
+    }
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn license_activate(
+    token: String,
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<crate::system::license::LicensePayload, String> {
+    let payload = crate::system::license::verify_token(&token)?;
+
+    crate::db::license_queries::set_license_token(database.pool(), token.trim())
+        .await
+        .map_err(|err| err.to_string())?;
+
+    Ok(payload)
+}
+
+#[tauri::command]
+#[specta::specta]
+pub async fn license_clear(
+    database: State<'_, crate::state::OptionKeyDatabase>,
+) -> Result<(), String> {
+    crate::db::license_queries::clear_license_token(database.pool())
+        .await
+        .map_err(|err| err.to_string())
+}
+
+#[tauri::command]
+#[specta::specta]
 pub fn return_to_shell(app_handle: AppHandle) -> Result<(), String> {
     crate::system::auth_session::navigate_main_to_built_in(&app_handle)
 }

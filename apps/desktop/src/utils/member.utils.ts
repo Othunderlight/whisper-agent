@@ -13,15 +13,11 @@ export const getMyMember = (state: AppState): Nullable<Member> => {
 };
 
 export const getEffectivePlan = (state: AppState): EffectivePlan => {
-  if (state.isEnterprise) {
-    return "enterprise";
-  }
-  return getMyMember(state)?.plan ?? "community";
+  return state.license ? "pro" : "community";
 };
 
 export const getIsVoquillCloudUser = (state: AppState): boolean => {
-  const plan = getEffectivePlan(state);
-  return plan === "free" || plan === "pro";
+  return Boolean(state.auth) && Boolean(getMyMember(state));
 };
 
 export const planToDisplayName = (plan: EffectivePlan): string => {
@@ -68,12 +64,7 @@ export const getTrialProgress = (state: AppState): number | null => {
 };
 
 export const getIsPro = (state: AppState): boolean => {
-  const member = getMyMember(state);
-  if (!member) {
-    return false;
-  }
-
-  return member.plan !== "free";
+  return state.license !== null;
 };
 
 export const getIsPaidSubscriber = (state: AppState): boolean => {

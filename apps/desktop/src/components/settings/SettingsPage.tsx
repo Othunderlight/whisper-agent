@@ -13,7 +13,6 @@ import {
   LogoutOutlined,
   MicOutlined,
   MoreVertOutlined,
-  PaymentOutlined,
   PersonRemoveOutlined,
   PrivacyTipOutlined,
   RecordVoiceOverOutlined,
@@ -21,6 +20,7 @@ import {
   TroubleshootOutlined,
   VolumeUpOutlined,
   WarningAmberOutlined,
+  WorkspacePremiumOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -37,14 +37,13 @@ import {
   Typography,
 } from "@mui/material";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
-import { showErrorSnackbar } from "../../actions/app.actions";
 import { setAutoLaunchEnabled } from "../../actions/settings.actions";
 import { loadTones } from "../../actions/tone.actions";
 import { setPreferredLanguage } from "../../actions/user.actions";
-import { getAuthRepo, getStripeRepo } from "../../repos";
+import { getAuthRepo } from "../../repos";
 import { produceAppState, useAppStore } from "../../store";
 import {
   getAllowsChangePostProcessing,
@@ -56,7 +55,6 @@ import {
   KEYBOARD_LAYOUT_LANGUAGE,
   WHISPER_LANGUAGES,
 } from "../../utils/language.utils";
-import { getIsPaidSubscriber } from "../../utils/member.utils";
 import {
   getDetectedSystemLocale,
   getGenerativePrefs,
@@ -70,12 +68,10 @@ import { DashboardEntryLayout } from "../dashboard/DashboardEntryLayout";
 
 export default function SettingsPage() {
   const hasEmailProvider = useAppStore(getHasEmailProvider);
-  const isSubscribed = useAppStore(getIsPaidSubscriber);
+  const activeLicense = useAppStore((state) => state.license);
   const isEnterprise = useAppStore((state) => state.isEnterprise);
   const allowChangeTranscription = useAppStore(getAllowsChangeTranscription);
   const allowChangePostProcessing = useAppStore(getAllowsChangePostProcessing);
-  const [manageSubscriptionLoading, setManageSubscriptionLoading] =
-    useState(false);
   const isSignedIn = useAppStore(getIsSignedIn);
   const [autoLaunchEnabled, autoLaunchStatus] = useAppStore((state) => [
     state.settings.autoLaunchEnabled,
@@ -200,25 +196,15 @@ export default function SettingsPage() {
     });
   };
 
+  const openLicenseDialog = () => {
+    produceAppState((draft) => {
+      draft.settings.licenseDialogOpen = true;
+    });
+  };
+
   const handleToggleAutoLaunch = (event: ChangeEvent<HTMLInputElement>) => {
     const enabled = event.target.checked;
     void setAutoLaunchEnabled(enabled);
-  };
-
-  const handleManageSubscription = async () => {
-    setManageSubscriptionLoading(true);
-    try {
-      const url = await getStripeRepo()?.createCustomerPortalSession();
-      if (url) {
-        openUrl(url);
-      } else {
-        showErrorSnackbar("Unable to open manage subscription page.");
-      }
-    } catch (error) {
-      showErrorSnackbar(error);
-    } finally {
-      setManageSubscriptionLoading(false);
-    }
   };
 
   const handleSignOut = async () => {
@@ -412,6 +398,32 @@ export default function SettingsPage() {
     </Section>
   );
 
+  const licenseSection = (
+    <Section
+      title={<FormattedMessage defaultMessage="License" />}
+      description={
+        <FormattedMessage defaultMessage="Unlock Pro features on this device with an offline license key." />
+      }
+    >
+      <ListTile
+        title={
+          activeLicense ? (
+            <FormattedMessage defaultMessage="Pro license active" />
+          ) : (
+            <FormattedMessage defaultMessage="Activate license" />
+          )
+        }
+        subtitle={
+          activeLicense?.email ?? (
+            <FormattedMessage defaultMessage="No license key entered" />
+          )
+        }
+        leading={<WorkspacePremiumOutlined />}
+        onClick={openLicenseDialog}
+      />
+    </Section>
+  );
+
   const advanced = (
     <Section
       title={<FormattedMessage defaultMessage="Advanced" />}
@@ -424,15 +436,6 @@ export default function SettingsPage() {
           title={<FormattedMessage defaultMessage="Change password" />}
           leading={<LockOutlined />}
           onClick={openChangePasswordDialog}
-        />
-      )}
-      {isSubscribed && !isEnterprise && (
-        <ListTile
-          title={<FormattedMessage defaultMessage="Manage subscription" />}
-          leading={<PaymentOutlined />}
-          onClick={handleManageSubscription}
-          disabled={manageSubscriptionLoading}
-          trailing={<ArrowOutwardRounded />}
         />
       )}
       <ListTile
@@ -490,6 +493,7 @@ export default function SettingsPage() {
         </Typography>
         {general}
         {processing}
+        {licenseSection}
         {advanced}
         {!isEnterprise && dangerZone}
       </Stack>

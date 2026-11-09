@@ -833,6 +833,30 @@ async authIsSignedIn() : Promise<Result<boolean, string>> {
     else return { status: "error", error: e  as any };
 }
 },
+async licenseGet() : Promise<Result<LicensePayload | null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("license_get") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async licenseActivate(token: string) : Promise<Result<LicensePayload, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("license_activate", { token }) };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
+async licenseClear() : Promise<Result<null, string>> {
+    try {
+    return { status: "ok", data: await TAURI_INVOKE("license_clear") };
+} catch (e) {
+    if(e instanceof Error) throw e;
+    else return { status: "error", error: e  as any };
+}
+},
 async returnToShell() : Promise<Result<null, string>> {
     try {
     return { status: "ok", data: await TAURI_INVOKE("return_to_shell") };
@@ -1032,6 +1056,7 @@ wroteFile: boolean;
  * it picks up the bridge. Always true when `wrote_file` is true.
  */
 restartRequired: boolean }
+export type LicensePayload = { v: number; product: string; id: string; email: string; tier: string; iat: number; expires: number | null }
 export type MenuIconVariant = "default" | "update"
 export type MonitorAtCursor = { x: number; y: number; width: number; height: number; visibleX: number; visibleY: number; visibleWidth: number; visibleHeight: number; scaleFactor: number; cursorX: number; cursorY: number }
 export type NativeSetupResult = "success" | "require-restart" | "failed"
@@ -1057,7 +1082,7 @@ export type RemoteSenderPairArgs = { receiverDeviceId: string; receiverName: str
 export type RunTerminalCommandResponse = { stdout: string; stderr: string; exitCode: number }
 export type ScreenContextInfo = { screenContext: string | null }
 export type ScreenVisibleArea = { topInset: number; bottomInset: number; leftInset: number; rightInset: number }
-export type StartRecordingArgs = { preferredMicrophone: string | null; autoSilenceDetection?: boolean | null }
+export type StartRecordingArgs = { preferredMicrophone: string | null; autoSilenceDetection: boolean | null }
 export type StartRecordingResponse = { sampleRate: number }
 export type StartRemoteReceiverArgs = { port?: number | null }
 export type StopRecordingResponse = { samples: number[]; sampleRate: number }

@@ -25,6 +25,7 @@ import {
   UserPreferences,
 } from "@voquill/types";
 import { AuthUser } from "../types/auth.types";
+import { LicensePayload } from "../types/license.types";
 import { Vector2 } from "../types/math.types";
 import { OverlayPhase } from "../types/overlay.types";
 import { PermissionMap } from "../types/permission.types";
@@ -84,6 +85,7 @@ export type MyTenantMembership = {
 export type AppState = {
   initialized: boolean;
   auth: Nullable<AuthUser>;
+  license: Nullable<LicensePayload>;
   keysHeld: string[];
   isRecordingHotkey: boolean;
   activeRecordingMode: Nullable<RecordingMode>;
@@ -189,6 +191,7 @@ export const INITIAL_APP_STATE: AppState = {
   },
   hotkeyById: {},
   auth: null,
+  license: null,
   confettiCounter: 0,
   config: null,
   keysHeld: [],
