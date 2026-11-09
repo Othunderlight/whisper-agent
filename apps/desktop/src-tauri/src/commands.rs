@@ -2396,9 +2396,10 @@ pub async fn license_activate(
     token: String,
     database: State<'_, crate::state::OptionKeyDatabase>,
 ) -> Result<crate::system::license::LicensePayload, String> {
+    let token = crate::system::license::normalize_token(&token);
     let payload = crate::system::license::verify_token(&token)?;
 
-    crate::db::license_queries::set_license_token(database.pool(), token.trim())
+    crate::db::license_queries::set_license_token(database.pool(), &token)
         .await
         .map_err(|err| err.to_string())?;
 

@@ -152,7 +152,7 @@ export const PermissionsDialog = () => {
   const [permissionWasGranted, setPermissionWasGranted] = useState(false);
   const previousPermissionsRef = useRef(permissions);
   const location = useLocation();
-  const isWelcomePage = location.pathname === "/welcome";
+  const isOnboardingPage = location.pathname.startsWith("/onboarding");
 
   // Track when a permission transitions from not authorized to authorized
   useEffect(() => {
@@ -195,7 +195,7 @@ export const PermissionsDialog = () => {
     return { ready: known, blocked: missing, allAuthorized: allAuth };
   }, [permissions]);
 
-  const open = ready && blocked && !isWelcomePage;
+  const open = ready && blocked && !isOnboardingPage;
   const showRestartMessage = allAuthorized && permissionWasGranted;
 
   useEffect(() => {

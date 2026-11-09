@@ -6,11 +6,7 @@ import { useAppStore } from "../../store";
 import { trackButtonClick } from "../../utils/analytics.utils";
 import remoteImage from "../../assets/2-remote.png";
 import { AITranscriptionConfiguration } from "../settings/AITranscriptionConfiguration";
-import {
-  BackButton,
-  DualPaneLayout,
-  OnboardingFormLayout,
-} from "./OnboardingCommon";
+import { DualPaneLayout, OnboardingFormLayout } from "./OnboardingCommon";
 
 export const ChooseTranscriptionForm = () => {
   const { mode, selectedApiKeyId } = useAppStore(
@@ -26,7 +22,6 @@ export const ChooseTranscriptionForm = () => {
 
   const form = (
     <OnboardingFormLayout
-      back={<BackButton />}
       actions={
         <Button
           variant="contained"

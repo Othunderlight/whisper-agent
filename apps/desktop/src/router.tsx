@@ -5,11 +5,9 @@ import AssistantSettingsPage from "./components/assistant/AssistantSettingsPage.
 import { PageLayout } from "./components/common/PageLayout.tsx";
 import DashboardPage from "./components/dashboard/DashboardPage.tsx";
 import DictionaryPage from "./components/dictionary/DictionaryPage.tsx";
-import EnterpriseRoutingPage from "./components/enterprise/EnterpriseRoutingPage.tsx";
 import FocusPage from "./components/focus/FocusPage.tsx";
 import FocusSettingsPage from "./components/focus/FocusSettingsPage.tsx";
 import HomePage from "./components/home/HomePage.tsx";
-import LoginPage from "./components/login/LoginPage.tsx";
 import OnboardingPage from "./components/onboarding/OnboardingPage.tsx";
 import ErrorBoundary from "./components/root/ErrorBoundary.tsx";
 import { AppHeader } from "./components/root/Header.tsx";
@@ -20,7 +18,6 @@ import { Redirect } from "./components/routing/Redirectors.tsx";
 import SettingsPage from "./components/settings/SettingsPage.tsx";
 import StylingPage from "./components/styling/StylingPage.tsx";
 import TranscriptionsPage from "./components/transcriptions/TranscriptionsPage.tsx";
-import WelcomePage from "./components/welcome/WelcomePage.tsx";
 
 const AppWrapper = () => {
   return (
@@ -39,45 +36,6 @@ export const browserRouter = createBrowserRouter([
       {
         index: true,
         element: <Redirect to="/dashboard" />,
-      },
-      {
-        element: (
-          <Guard node="welcome">
-            <Outlet />
-          </Guard>
-        ),
-        children: [
-          {
-            path: "welcome",
-            element: <WelcomePage />,
-          },
-        ],
-      },
-      {
-        element: (
-          <Guard node="routing">
-            <Outlet />
-          </Guard>
-        ),
-        children: [
-          {
-            path: "routing",
-            element: <EnterpriseRoutingPage />,
-          },
-        ],
-      },
-      {
-        element: (
-          <Guard node="welcome">
-            <AppWrapper />
-          </Guard>
-        ),
-        children: [
-          {
-            path: "login",
-            element: <LoginPage />,
-          },
-        ],
       },
       {
         element: (

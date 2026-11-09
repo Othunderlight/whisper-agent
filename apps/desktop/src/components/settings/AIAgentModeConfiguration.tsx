@@ -7,7 +7,10 @@ import {
 } from "../../actions/user.actions";
 import { useAppStore } from "../../store";
 import { type AgentMode } from "../../types/ai.types";
-import { getEffectiveAgentMode } from "../../utils/user.utils";
+import {
+  getEffectiveAgentMode,
+  getHasCloudAccess,
+} from "../../utils/user.utils";
 import {
   SegmentedControl,
   SegmentedControlOption,
@@ -25,6 +28,7 @@ export const AIAgentModeConfiguration = ({
 }: AIAgentModeConfigurationProps) => {
   const agentMode = useAppStore((state) => state.settings.agentMode);
   const effectiveMode = useAppStore(getEffectiveAgentMode);
+  const hasCloudAccess = useAppStore(getHasCloudAccess);
 
   const handleModeChange = useCallback((mode: AgentMode) => {
     void setPreferredAgentMode(mode);
@@ -41,7 +45,7 @@ export const AIAgentModeConfiguration = ({
         onChange={handleModeChange}
         options={[
           ...maybeArrayElements<SegmentedControlOption<AgentMode>>(
-            !hideCloudOption,
+            !hideCloudOption && hasCloudAccess,
             [
               {
                 value: "cloud",
@@ -69,7 +73,7 @@ export const AIAgentModeConfiguration = ({
         />
       )}
 
-      {effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
     </Stack>
   );
 };

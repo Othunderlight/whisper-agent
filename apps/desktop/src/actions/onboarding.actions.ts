@@ -71,18 +71,6 @@ export const setOnboardingIsMac = (isMac: boolean) => {
   });
 };
 
-export const setDidSignUpWithAccount = (didSignUp: boolean) => {
-  produceAppState((draft) => {
-    draft.onboarding.didSignUpWithAccount = didSignUp;
-  });
-};
-
-export const setAwaitingSignInNavigation = (awaiting: boolean) => {
-  produceAppState((draft) => {
-    draft.onboarding.awaitingSignInNavigation = awaiting;
-  });
-};
-
 export const setOnboardingPreferredMicrophone = (microphone: string | null) => {
   produceAppState((draft) => {
     draft.onboarding.preferredMicrophone = microphone;

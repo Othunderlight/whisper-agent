@@ -32,7 +32,10 @@ import {
 import { useAppStore } from "../../store";
 import { CPU_DEVICE_VALUE, type TranscriptionMode } from "../../types/ai.types";
 import { getAllowsChangeTranscription } from "../../utils/enterprise.utils";
-import { getEffectiveTranscriptionMode } from "../../utils/user.utils";
+import {
+  getEffectiveTranscriptionMode,
+  getHasCloudAccess,
+} from "../../utils/user.utils";
 import { formatSize } from "../../utils/format.utils";
 import { type LocalSidecarDownloadSnapshot } from "../../sidecars";
 import {
@@ -128,6 +131,7 @@ export const AITranscriptionConfiguration = ({
   const intl = useIntl();
   const transcription = useAppStore((state) => state.settings.aiTranscription);
   const effectiveMode = useAppStore(getEffectiveTranscriptionMode);
+  const hasCloudAccess = useAppStore(getHasCloudAccess);
   const allowChange = useAppStore(getAllowsChangeTranscription);
   const localTranscriptionConfig = transcription.localModelManagement;
 
@@ -269,7 +273,7 @@ export const AITranscriptionConfiguration = ({
         onChange={handleModeChange}
         options={[
           ...maybeArrayElements<SegmentedControlOption<TranscriptionMode>>(
-            !hideCloudOption,
+            !hideCloudOption && hasCloudAccess,
             [
               {
                 value: "cloud",
@@ -543,7 +547,7 @@ export const AITranscriptionConfiguration = ({
         />
       )}
 
-      {effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
     </Stack>
   );
 };

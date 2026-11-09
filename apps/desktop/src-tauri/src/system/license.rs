@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 const LICENSE_PUBLIC_KEY_PEM: &str = include_str!("../../keys/license-public-key.pub");
 const SUPPORTED_VERSION: u32 = 1;
 const PRODUCT: &str = "voquill";
-const SUPPORTED_TIERS: &[&str] = &["pro"];
+const SUPPORTED_TIERS: &[&str] = &["normal", "pro"];
 
 #[derive(Debug, Clone, Serialize, Deserialize, specta::Type)]
 #[serde(rename_all = "camelCase")]
@@ -21,9 +21,13 @@ pub struct LicensePayload {
     pub expires: Option<i64>,
 }
 
+pub fn normalize_token(token: &str) -> String {
+    token.chars().filter(|char| !char.is_whitespace()).collect()
+}
+
 pub fn verify_token(token: &str) -> Result<LicensePayload, String> {
     let key = embedded_decoding_key()?;
-    verify_token_with_key(token, &key)
+    verify_token_with_key(&normalize_token(token), &key)
 }
 
 fn embedded_decoding_key() -> Result<DecodingKey, String> {
@@ -180,6 +184,27 @@ mod tests {
         let token = sign(&payload(), &encoding);
 
         assert!(verify_token_with_key(&token, &other_decoding).is_err());
+    }
+
+    #[test]
+    fn accepts_normal_tier() {
+        let (encoding, decoding) = test_keys();
+        let mut claims = payload();
+        claims.tier = "normal".to_string();
+        let token = sign(&claims, &encoding);
+
+        let verified = verify_token_with_key(&token, &decoding).expect("normal token");
+        assert_eq!(verified.tier, "normal");
+    }
+
+    #[test]
+    fn rejects_unknown_tier() {
+        let (encoding, decoding) = test_keys();
+        let mut claims = payload();
+        claims.tier = "gold".to_string();
+        let token = sign(&claims, &encoding);
+
+        assert!(verify_token_with_key(&token, &decoding).is_err());
     }
 
     #[test]

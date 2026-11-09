@@ -8,6 +8,7 @@ import { KeyPressSideEffects } from "./KeyPressSideEffects";
 import { MigratorSideEffects } from "./MigratorSideEffects";
 import { SessionSideEffects } from "./SessionSideEffects";
 import { LoadingApp } from "./LoadingApp";
+import { LicenseGate } from "../licensing/LicenseGate";
 import { UpdateDialog } from "./UpdateDialog";
 import { getIsVoquillCloudUser } from "../../utils/member.utils";
 
@@ -17,7 +18,7 @@ export const AppWithLoading = () => {
   const isCloud = useAppStore(getIsVoquillCloudUser);
 
   return (
-    <>
+    <LicenseGate>
       {hotkeyStrategy === "bridge" && <KeyPressSideEffects />}
       <AppSideEffects />
       <UpdateDialog />
@@ -28,6 +29,6 @@ export const AppWithLoading = () => {
       <Box sx={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
         {initialized ? <Router /> : <LoadingApp />}
       </Box>
-    </>
+    </LicenseGate>
   );
 };

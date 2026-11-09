@@ -2,6 +2,12 @@ import { getLicenseRepo } from "../repos";
 import { produceAppState } from "../store";
 import { getLogger } from "../utils/log.utils";
 
+export const openLicenseDialog = (): void => {
+  produceAppState((draft) => {
+    draft.settings.licenseDialogOpen = true;
+  });
+};
+
 export const loadLicense = async (): Promise<void> => {
   try {
     const license = await getLicenseRepo().getLicense();
@@ -14,7 +20,7 @@ export const loadLicense = async (): Promise<void> => {
 };
 
 export const activateLicense = async (token: string): Promise<void> => {
-  const license = await getLicenseRepo().activateLicense(token.trim());
+  const license = await getLicenseRepo().activateLicense(token);
   produceAppState((draft) => {
     draft.license = license;
   });

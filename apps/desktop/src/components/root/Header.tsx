@@ -7,7 +7,7 @@ import { getIdentifier } from "@tauri-apps/api/app";
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import { openUpgradePlanDialog } from "../../actions/pricing.actions";
+import { openLicenseDialog } from "../../actions/license.actions";
 import { useAsyncData } from "../../hooks/async.hooks";
 import { useHeaderPortal } from "../../hooks/header.hooks";
 import { useIsOnboarded } from "../../hooks/user.hooks";
@@ -118,7 +118,7 @@ export const AppHeader = () => {
         kind: "listItem",
         title: <FormattedMessage defaultMessage="Upgrade to Pro" />,
         onClick: ({ close }) => {
-          openUpgradePlanDialog();
+          openLicenseDialog();
           close();
         },
         leading: <RocketLaunchOutlined />,

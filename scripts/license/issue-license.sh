@@ -11,7 +11,7 @@ EMBEDDED_PUBLIC_KEY="$ROOT_DIR/apps/desktop/src-tauri/keys/license-public-key.pu
 OUTPUT_DIR="${VOQUILL_LICENSE_OUTPUT_DIR:-$KEY_DIR/licenses}"
 
 PRODUCT="voquill"
-DEFAULT_TIER="pro"
+SUPPORTED_TIERS="normal pro"
 
 die() {
   printf 'error: %s\n' "$*" >&2
@@ -38,7 +38,7 @@ Usage:
       $VOQUILL_LICENSE_KEY_DIR (default: ~/.voquill-license), and the public
       key is written into the app source. Rebuild the app afterwards.
 
-  issue-license.sh issue --email <email> [--tier pro] [--expires <date|never>] [--out <dir>]
+  issue-license.sh issue --email <email> --tier <normal|pro> [--expires <date|never>] [--out <dir>]
       Sign a license key for a customer. Writes <license-id>.license and
       prints the key to stdout.
 
@@ -51,8 +51,8 @@ Environment:
 
 Examples:
   ./scripts/license/issue-license.sh init
-  ./scripts/license/issue-license.sh issue --email user@example.com
-  ./scripts/license/issue-license.sh issue --email user@example.com --expires 2027-01-01
+  ./scripts/license/issue-license.sh issue --email user@example.com --tier normal
+  ./scripts/license/issue-license.sh issue --email user@example.com --tier pro --expires 2027-01-01
 EOF
 }
 
@@ -71,7 +71,23 @@ cmd_init() {
   require openssl
 
   if [[ -f "$PRIVATE_KEY" && "$force" != true ]]; then
+    local existing_public
+    existing_public="$(openssl pkey -in "$PRIVATE_KEY" -pubout 2>/dev/null || true)"
+    if [[ -n "$existing_public" && -f "$EMBEDDED_PUBLIC_KEY" ]] &&
+      [[ "$existing_public" == "$(cat "$EMBEDDED_PUBLIC_KEY")" ]]; then
+      note "Keys are already initialized."
+      note "Private key:  $PRIVATE_KEY"
+      note "Embedded key: $EMBEDDED_PUBLIC_KEY"
+      return 0
+    fi
+
     die "a private key already exists at $PRIVATE_KEY (use --force to replace it)"
+  fi
+
+  if [[ ! -f "$PRIVATE_KEY" && "$force" != true ]] &&
+    [[ -f "$EMBEDDED_PUBLIC_KEY" ]] &&
+    ! grep -q "REPLACE_ME" "$EMBEDDED_PUBLIC_KEY"; then
+    die "the app already embeds a public key but no private key was found at $PRIVATE_KEY; generating a new keypair would invalidate existing licenses (use --force to rotate)"
   fi
 
   mkdir -p "$KEY_DIR"
@@ -97,7 +113,7 @@ cmd_init() {
 
 cmd_issue() {
   local email=""
-  local tier="$DEFAULT_TIER"
+  local tier=""
   local expires="never"
   local out_dir="$OUTPUT_DIR"
 
@@ -140,8 +156,11 @@ cmd_issue() {
   [[ -n "$email" ]] || die "--email is required"
   [[ "$email" =~ ^[^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+$ ]] ||
     die "invalid email: $email"
-  [[ "$tier" == "$DEFAULT_TIER" ]] ||
-    die "unsupported tier: $tier (the app currently accepts: $DEFAULT_TIER)"
+  [[ -n "$tier" ]] || die "--tier is required (normal or pro)"
+  case " $SUPPORTED_TIERS " in
+    *" $tier "*) ;;
+    *) die "unsupported tier: $tier (the app currently accepts: $SUPPORTED_TIERS)" ;;
+  esac
   [[ -f "$PRIVATE_KEY" ]] ||
     die "no private key at $PRIVATE_KEY (run: $0 init)"
 

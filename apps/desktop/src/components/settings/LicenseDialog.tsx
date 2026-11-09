@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { showSnackbar } from "../../actions/app.actions";
@@ -17,11 +18,13 @@ import {
   deactivateLicense,
 } from "../../actions/license.actions";
 import { produceAppState, useAppStore } from "../../store";
+import { getPurchaseUrl } from "../../utils/purchase.utils";
 
 export const LicenseDialog = () => {
   const intl = useIntl();
   const open = useAppStore((state) => state.settings.licenseDialogOpen);
   const license = useAppStore((state) => state.license);
+  const purchaseUrl = getPurchaseUrl();
   const [token, setToken] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -92,7 +95,11 @@ export const LicenseDialog = () => {
             <Alert severity="success" variant="outlined">
               <Stack spacing={0.5}>
                 <Typography variant="body2" fontWeight="bold">
-                  <FormattedMessage defaultMessage="Pro license active" />
+                  {license.tier === "pro" ? (
+                    <FormattedMessage defaultMessage="Pro license active" />
+                  ) : (
+                    <FormattedMessage defaultMessage="Normal license active" />
+                  )}
                 </Typography>
                 <Typography variant="body2">{license.email}</Typography>
                 {expiresLabel && (
@@ -107,8 +114,18 @@ export const LicenseDialog = () => {
             </Alert>
           ) : (
             <Typography variant="body2" color="text.secondary">
-              <FormattedMessage defaultMessage="Paste the license key you received after purchase. Activation is offline and unlocks Pro features on this device." />
+              <FormattedMessage defaultMessage="Paste the license key you received after purchase. Activation is offline and unlocks the app on this device." />
             </Typography>
+          )}
+
+          {purchaseUrl && (
+            <Button
+              variant="text"
+              onClick={() => void openUrl(purchaseUrl)}
+              sx={{ alignSelf: "flex-start" }}
+            >
+              <FormattedMessage defaultMessage="Buy or upgrade a license" />
+            </Button>
           )}
 
           <TextField

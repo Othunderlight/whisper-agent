@@ -13,7 +13,11 @@ export const getMyMember = (state: AppState): Nullable<Member> => {
 };
 
 export const getEffectivePlan = (state: AppState): EffectivePlan => {
-  return state.license ? "pro" : "community";
+  if (!state.license) {
+    return "community";
+  }
+
+  return state.license.tier === "pro" ? "pro" : "normal";
 };
 
 export const getIsVoquillCloudUser = (state: AppState): boolean => {
@@ -25,6 +29,8 @@ export const planToDisplayName = (plan: EffectivePlan): string => {
     return getIntl().formatMessage({ defaultMessage: "Enterprise" });
   } else if (plan === "community") {
     return getIntl().formatMessage({ defaultMessage: "Community" });
+  } else if (plan === "normal") {
+    return getIntl().formatMessage({ defaultMessage: "Normal" });
   } else if (plan === "free") {
     return getIntl().formatMessage({ defaultMessage: "Free" });
   } else {
@@ -64,7 +70,7 @@ export const getTrialProgress = (state: AppState): number | null => {
 };
 
 export const getIsPro = (state: AppState): boolean => {
-  return state.license !== null;
+  return state.license?.tier === "pro";
 };
 
 export const getIsPaidSubscriber = (state: AppState): boolean => {

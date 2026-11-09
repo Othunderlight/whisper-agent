@@ -1,22 +1,12 @@
 import { getRec } from "@voquill/utilities";
 import { useMemo } from "react";
 import { useIsOnboarded } from "../../hooks/user.hooks";
-import { useAppStore } from "../../store";
-import { isEnterpriseFlavor } from "../../utils/env.utils";
-import { getIsLoggedIn } from "../../utils/user.utils";
 import { Redirect } from "./Redirectors";
 
-export type Node =
-  | "dashboard"
-  | "notFound"
-  | "onboarding"
-  | "routing"
-  | "welcome";
+export type Node = "dashboard" | "onboarding";
 
 type GuardState = {
   isOnboarded: boolean;
-  isLoggedIn: boolean;
-  isEnterpriseFlavor: boolean;
 };
 
 type GuardEdge = {
@@ -32,29 +22,8 @@ type NodeDefinition = {
 type Graph = Record<Node, NodeDefinition>;
 
 const graph: Graph = {
-  welcome: {
-    edges: [
-      {
-        to: "routing",
-        condition: (s) => s.isEnterpriseFlavor && s.isLoggedIn,
-      },
-      {
-        to: "dashboard",
-        condition: (s) => s.isOnboarded,
-      },
-      {
-        to: "onboarding",
-        condition: (s) => s.isLoggedIn && !s.isOnboarded,
-      },
-    ],
-    builder: () => <Redirect to="/welcome" />,
-  },
   onboarding: {
     edges: [
-      {
-        to: "routing",
-        condition: (s) => s.isEnterpriseFlavor && s.isLoggedIn,
-      },
       {
         to: "dashboard",
         condition: (s) => s.isOnboarded,
@@ -65,28 +34,11 @@ const graph: Graph = {
   dashboard: {
     edges: [
       {
-        to: "routing",
-        condition: (s) => s.isEnterpriseFlavor && s.isLoggedIn,
-      },
-      {
-        to: "welcome",
+        to: "onboarding",
         condition: (s) => !s.isOnboarded,
       },
     ],
     builder: () => <Redirect to="/dashboard" />,
-  },
-  routing: {
-    edges: [
-      {
-        to: "welcome",
-        condition: (s) => !s.isLoggedIn || !s.isEnterpriseFlavor,
-      },
-    ],
-    builder: () => <Redirect to="/routing" />,
-  },
-  notFound: {
-    edges: [],
-    builder: () => <Redirect to="/not-found" />,
   },
 };
 
@@ -97,15 +49,12 @@ export type GuardProps = {
 
 export const Guard = ({ children, node }: GuardProps) => {
   const isOnboarded = useIsOnboarded();
-  const isLoggedIn = useAppStore(getIsLoggedIn);
 
   const state = useMemo<GuardState>(
     () => ({
       isOnboarded,
-      isLoggedIn,
-      isEnterpriseFlavor: isEnterpriseFlavor(),
     }),
-    [isOnboarded, isLoggedIn],
+    [isOnboarded],
   );
 
   const redirectTo = useMemo(() => {

@@ -646,7 +646,7 @@ export const AppSideEffects = () => {
     callback: () => {
       if (getIsDevMode()) {
         showSnackbar("Refreshing application...");
-        window.location.href = "/welcome";
+        window.location.href = "/dashboard";
       }
     },
   });

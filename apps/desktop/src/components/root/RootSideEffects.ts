@@ -5,7 +5,6 @@ import {
 } from "../../actions/app-target.actions";
 import { loadDictionary } from "../../actions/dictionary.actions";
 import { loadHotkeys } from "../../actions/hotkey.actions";
-import { loadLicense } from "../../actions/license.actions";
 import {
   handleEnterpriseOidcPayload,
   handleGoogleAuthPayload,
@@ -32,10 +31,6 @@ import { minutesToMilliseconds } from "../../utils/time.utils";
 
 export const RootSideEffects = () => {
   const userId = useAppStore((state) => state.auth?.uid);
-
-  useAsyncEffect(async () => {
-    await loadLicense();
-  }, []);
 
   useAsyncEffect(async () => {
     getLogger().info(`Loading user data (userId=${userId ?? "none"})`);

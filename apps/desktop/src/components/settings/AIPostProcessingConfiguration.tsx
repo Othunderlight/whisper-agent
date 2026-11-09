@@ -7,7 +7,10 @@ import {
 } from "../../actions/user.actions";
 import { useAppStore } from "../../store";
 import { getAllowsChangePostProcessing } from "../../utils/enterprise.utils";
-import { getEffectivePostProcessingMode } from "../../utils/user.utils";
+import {
+  getEffectivePostProcessingMode,
+  getHasCloudAccess,
+} from "../../utils/user.utils";
 import { ManagedByOrgNotice } from "../common/ManagedByOrgNotice";
 import { type PostProcessingMode } from "../../types/ai.types";
 import {
@@ -32,6 +35,7 @@ export const AIPostProcessingConfiguration = ({
     (state) => state.settings.aiPostProcessing,
   );
   const effectiveMode = useAppStore(getEffectivePostProcessingMode);
+  const hasCloudAccess = useAppStore(getHasCloudAccess);
   const allowChange = useAppStore(getAllowsChangePostProcessing);
 
   const handleModeChange = useCallback((mode: PostProcessingMode) => {
@@ -53,7 +57,7 @@ export const AIPostProcessingConfiguration = ({
         onChange={handleModeChange}
         options={[
           ...maybeArrayElements<SegmentedControlOption<PostProcessingMode>>(
-            !hideCloudOption,
+            !hideCloudOption && hasCloudAccess,
             [
               {
                 value: "cloud",
@@ -81,7 +85,7 @@ export const AIPostProcessingConfiguration = ({
         />
       )}
 
-      {effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
     </Stack>
   );
 };

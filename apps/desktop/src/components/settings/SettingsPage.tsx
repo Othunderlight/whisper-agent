@@ -40,6 +40,7 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
+import { openLicenseDialog } from "../../actions/license.actions";
 import { setAutoLaunchEnabled } from "../../actions/settings.actions";
 import { loadTones } from "../../actions/tone.actions";
 import { setPreferredLanguage } from "../../actions/user.actions";
@@ -193,12 +194,6 @@ export default function SettingsPage() {
   const openDeleteAccountDialog = () => {
     produceAppState((state) => {
       state.settings.deleteAccountDialog = true;
-    });
-  };
-
-  const openLicenseDialog = () => {
-    produceAppState((draft) => {
-      draft.settings.licenseDialogOpen = true;
     });
   };
 
@@ -408,7 +403,11 @@ export default function SettingsPage() {
       <ListTile
         title={
           activeLicense ? (
-            <FormattedMessage defaultMessage="Pro license active" />
+            activeLicense.tier === "pro" ? (
+              <FormattedMessage defaultMessage="Pro license active" />
+            ) : (
+              <FormattedMessage defaultMessage="Normal license active" />
+            )
           ) : (
             <FormattedMessage defaultMessage="Activate license" />
           )
