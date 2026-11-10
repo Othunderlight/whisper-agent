@@ -16,8 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../../store";
 import { getIsAssistantModeEnabled } from "../../utils/assistant-mode.utils";
 import { ListTile } from "../common/ListTile";
-import { DiscordListTile } from "./DiscordListTile";
-import { MobileAppListTile } from "./MobileAppListTile";
+import { TelegramListTile } from "./TelegramListTile";
 import { UpdateListTile } from "./UpdateListTile";
 
 const settingsPath = "/dashboard/settings";
@@ -126,7 +125,6 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
       <Box sx={{ flexGrow: 1, overflowY: "auto" }}>{list}</Box>
       <Box sx={{ mt: 2, p: 2 }}>
         {isUpdateAvailable && <UpdateListTile />}
-        {!isEnterprise && !isUpdateAvailable && <MobileAppListTile />}
         {isEnterprise ? (
           <ListTile
             onClick={() => openUrl("mailto:support@voquill.com")}
@@ -134,7 +132,7 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
             title={<FormattedMessage defaultMessage="Support" />}
           />
         ) : (
-          <DiscordListTile />
+          <TelegramListTile />
         )}
         <ListTile
           key={settingsPath}

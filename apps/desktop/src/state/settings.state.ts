@@ -78,7 +78,6 @@ export type SettingsState = {
   dictationLanguageDialogOpen: boolean;
   appKeybindingsDialogOpen: boolean;
   diagnosticsDialogOpen: boolean;
-  mobileAppDialogOpen: boolean;
   wakeWordDialogOpen: boolean;
   licenseDialogOpen: boolean;
   aiTranscription: SettingsTranscriptionState;
@@ -132,7 +131,6 @@ export const INITIAL_SETTINGS_STATE: SettingsState = {
   dictationLanguageDialogOpen: false,
   appKeybindingsDialogOpen: false,
   diagnosticsDialogOpen: false,
-  mobileAppDialogOpen: false,
   wakeWordDialogOpen: false,
   licenseDialogOpen: false,
   aiTranscription: {

@@ -74,7 +74,7 @@ const AppWrapper = () => (
 //     apps             → <AppsPage />
 - src/components/root/Root.tsx mounts global “side effects” components: PermissionSideEffects, RootSideEffects, OverlaySyncSideEffects, RootDialogs, RootConfetti, plus SnackbarEmitter (via RootDialogs/Root side effects), ErrorBoundary, Suspense.
 - src/components/dashboard/DashboardPage.tsx = shell: 224px left DashboardMenu (nav list) + <Outlet /> content area; dialogs (FeatureReleaseDialog, PermissionsDialog, TranscriptionDetailsDialog, TrialEndedDialog) mounted here; version string bottom-left.
-- DashboardMenu.tsx = nav items: Home /dashboard, History /dashboard/transcriptions, Dictionary, Styles, conditional Chats (assistant mode), and bottom: Update tile, Mobile app tile/Discord, Support, Settings /dashboard/settings.
+- DashboardMenu.tsx = nav items: Home /dashboard, History /dashboard/transcriptions, Dictionary, Styles, conditional Chats (assistant mode), and bottom: Update tile, Telegram, Support, Settings /dashboard/settings.
 - Page convention: pages are wrapped in DashboardEntryLayout (see SettingsPage.tsx, HomePage.tsx) and list pages use ScrollListPage (src/components/common/) with ListTile + Section primitives.
 - Component folders: apps/ chats/ common/ dashboard/ dictionary/ enterprise/ home/ login/ microphone/ onboarding/ payment/ pricing/ root/ routing/ settings/ styling/ tones/ transcriptions/ welcome/.
 - i18n: react-intl with <FormattedMessage defaultMessage="..."> only (no ids); locales in src/i18n/locales/*.json, setup in src/i18n/.
