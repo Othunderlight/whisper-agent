@@ -3,8 +3,8 @@ name: Build Desktop
 on:
   pull_request:
     branches:
+      - mine
       - main
-      - linting
     paths:
       - "apps/desktop/**"
       - "apps/windows-installer/**"
