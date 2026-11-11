@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - mine
-      - main
     paths:
       - "apps/desktop/**"
       - "apps/windows-installer/**"
@@ -38,7 +37,7 @@ jobs:
             require_gpu_sidecar: false
           - label: Linux
             os: ubuntu-22.04
-            args: "--bundles deb"
+            args: "--bundles deb,rpm"
             rust_targets: ""
             tauri_platform: linux
             node_platform: linux
@@ -152,6 +151,7 @@ jobs:
             ${{ matrix.bundle_dir }}/**/*.nsis.zip
             ${{ matrix.bundle_dir }}/**/*.exe
             ${{ matrix.bundle_dir }}/**/*.deb
+            ${{ matrix.bundle_dir }}/**/*.rpm
             ${{ matrix.bundle_dir }}/**/*.AppImage
           if-no-files-found: warn
           retention-days: 7
