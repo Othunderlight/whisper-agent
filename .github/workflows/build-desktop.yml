@@ -9,6 +9,7 @@ on:
       - "apps/desktop/**"
       - "apps/windows-installer/**"
       - ".github/workflows/build-desktop.yml"
+  workflow_dispatch:
 
 jobs:
   build:
