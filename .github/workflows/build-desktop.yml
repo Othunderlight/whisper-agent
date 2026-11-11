@@ -14,7 +14,7 @@ jobs:
   build:
     name: Build Desktop (${{ matrix.label }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 35
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -29,12 +29,12 @@ jobs:
             require_gpu_sidecar: true
           - label: Windows
             os: windows-latest
-            args: ""
+            args: "--bundles nsis"
             rust_targets: ""
             tauri_platform: windows
             node_platform: win32
             bundle_dir: D:\cargo\release\bundle
-            require_gpu_sidecar: false
+            require_gpu_sidecar: true
           - label: Linux
             os: ubuntu-22.04
             args: "--bundles deb,rpm"
@@ -76,8 +76,12 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
         with:
+          key: ${{ matrix.os }}-desktop-build
           workspaces: |
             apps/desktop/src-tauri -> target
+            packages/rust_transcription -> target
+          cache-on-failure: true
+          save-if: ${{ github.ref == 'refs/heads/mine' }}
 
       - name: Set Windows-only build environment
         if: matrix.os == 'windows-latest'
@@ -108,6 +112,24 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install Vulkan SDK (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: jakoch/install-vulkan-sdk-action@v1
+        with:
+          version: "1.3.290.0"
+          cache: true
+          runtime: true
+
+      - name: Install sidecar GPU build deps (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          choco install -y llvm
+          choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' --no-progress
+          "LIBCLANG_PATH=C:\Program Files\LLVM\bin" >> $env:GITHUB_ENV
+          "CLANG_PATH=C:\Program Files\LLVM\bin\clang.exe" >> $env:GITHUB_ENV
+          "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
 
       - name: Build frontend and dependencies
         env:
