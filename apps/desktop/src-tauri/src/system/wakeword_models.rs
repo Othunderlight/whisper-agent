@@ -2,7 +2,6 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use serde::{Deserialize, Serialize};
-use tauri::path::BaseDirectory;
 use tauri::{AppHandle, Manager};
 
 use crate::platform::wakeword::{
@@ -38,9 +37,11 @@ pub struct WakewordModelInfo {
 
 /// Bundled models, next to the mel/embedding feature models the pipeline needs.
 pub fn resource_models_dir(app: &AppHandle) -> Result<PathBuf, String> {
-    app.path()
-        .resolve("resources/models", BaseDirectory::Resource)
-        .map_err(|err| err.to_string())
+    crate::system::paths::resource_dirs(app)
+        .into_iter()
+        .map(|dir| dir.join("resources").join("models"))
+        .find(|dir| dir.exists())
+        .ok_or_else(|| "Bundled wake word models not found".to_string())
 }
 
 /// User-imported models. The bundled directory ships with the RPM and is owned

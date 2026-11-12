@@ -1561,6 +1561,35 @@ pub fn sync_native_pill_assistant(app: AppHandle, payload: String) {
 }
 
 #[tauri::command]
+pub fn sidecar_spawn(
+    app: AppHandle,
+    program: String,
+    args: Vec<String>,
+    env: Option<std::collections::HashMap<String, String>>,
+    cwd: Option<String>,
+    on_event: tauri::ipc::Channel<crate::system::sidecar_process::SidecarEvent>,
+) -> Result<u32, String> {
+    crate::system::sidecar_process::spawn(
+        &app,
+        &program,
+        args,
+        env,
+        cwd.map(PathBuf::from),
+        on_event,
+    )
+}
+
+#[tauri::command]
+pub fn sidecar_write(app: AppHandle, pid: u32, buffer: String) -> Result<(), String> {
+    crate::system::sidecar_process::write(&app, pid, buffer.as_bytes())
+}
+
+#[tauri::command]
+pub fn sidecar_kill(app: AppHandle, pid: u32) -> Result<(), String> {
+    crate::system::sidecar_process::kill(&app, pid)
+}
+
+#[tauri::command]
 #[specta::specta]
 pub fn copy_to_clipboard(text: String) -> Result<(), String> {
     let mut clipboard =

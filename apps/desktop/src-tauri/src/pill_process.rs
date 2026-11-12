@@ -154,13 +154,10 @@ pub fn resolve_pill_binary_in_resources(
     app: &tauri::AppHandle,
     binary_name: &str,
 ) -> Option<std::path::PathBuf> {
-    if let Ok(resource_dir) = app.path().resource_dir() {
-        let path = resource_dir.join("resources").join(binary_name);
-        if path.exists() {
-            return Some(path);
-        }
-    }
-    None
+    crate::system::paths::resource_dirs(app)
+        .into_iter()
+        .map(|dir| dir.join("resources").join(binary_name))
+        .find(|path| path.exists())
 }
 
 pub fn resolve_pill_binary_in_dev(

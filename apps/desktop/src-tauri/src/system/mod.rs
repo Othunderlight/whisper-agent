@@ -14,6 +14,7 @@ pub mod oauth_callback_page;
 pub mod paths;
 pub mod remote_receiver;
 pub mod remote_sender;
+pub mod sidecar_process;
 pub mod storage_repo;
 pub mod tray;
 pub mod wakeword_listener;

@@ -39,24 +39,7 @@
     },
     "updater:default",
     "process:default",
-    {
-      "identifier": "shell:allow-spawn",
-      "allow": [
-        {
-          "name": "binaries/rust-transcription-cpu",
-          "sidecar": true,
-          "args": true
-        },
-        {
-          "name": "binaries/rust-transcription-gpu",
-          "sidecar": true,
-          "args": true
-        }
-      ]
-    },
-    "shell:allow-kill",
     "window-state:default",
-    "shell:allow-stdin-write",
     {
       "identifier": "http:default",
       "allow": [

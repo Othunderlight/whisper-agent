@@ -6,6 +6,39 @@ use super::models::WhisperModelSize;
 const MODELS_DIR_NAME: &str = "models";
 const STORAGE_DIR_NAME: &str = "storage";
 
+pub fn exe_dir() -> io::Result<PathBuf> {
+    let exe = std::env::current_exe()?;
+    exe.parent().map(PathBuf::from).ok_or_else(|| {
+        io::Error::new(
+            io::ErrorKind::NotFound,
+            format!("Executable path has no parent: {}", exe.display()),
+        )
+    })
+}
+
+/// Directories that may contain bundled resources.
+///
+/// Tauri's `resource_dir` derives from a canonicalized executable path, which
+/// fails on some Windows setups (non-NTFS install volumes among them). The
+/// executable's own directory is where the bundler puts resources, so it is
+/// used as a fallback.
+pub fn resource_dirs(app: &tauri::AppHandle) -> Vec<PathBuf> {
+    let mut dirs = Vec::new();
+
+    match app.path().resource_dir() {
+        Ok(dir) => dirs.push(dir),
+        Err(err) => log::warn!("Failed to resolve resource dir: {err}"),
+    }
+
+    if let Ok(dir) = exe_dir() {
+        if !dirs.contains(&dir) {
+            dirs.push(dir);
+        }
+    }
+
+    dirs
+}
+
 pub fn database_path(app: &tauri::AppHandle) -> io::Result<PathBuf> {
     let mut path = app
         .path()

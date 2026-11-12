@@ -198,6 +198,8 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
                 app.manage(crate::system::wakeword_listener::WakewordListenerHandle::default());
                 crate::system::wakeword_listener::start_wakeword_listener(app_handle.clone());
 
+                app.manage(crate::system::sidecar_process::SidecarProcesses::default());
+
                 crate::overlay::try_create_native_overlays(app_handle);
             }
 
@@ -293,6 +295,9 @@ pub fn build() -> tauri::Builder<tauri::Wry> {
             crate::commands::set_pill_visibility,
             crate::commands::notify_pill_style_info,
             crate::commands::sync_native_pill_assistant,
+            crate::commands::sidecar_spawn,
+            crate::commands::sidecar_write,
+            crate::commands::sidecar_kill,
             crate::commands::start_key_listener,
             crate::commands::stop_key_listener,
             crate::commands::sync_hotkey_combos,

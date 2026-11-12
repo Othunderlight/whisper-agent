@@ -1,5 +1,6 @@
 use std::fs;
 use std::io::Write;
+use tauri::Manager;
 
 pub fn purge_old_logs(app: &tauri::AppHandle) {
     let logs_dir = match crate::system::paths::logs_dir(app) {
@@ -74,6 +75,30 @@ pub fn write_startup_diagnostics(app: &tauri::AppHandle) {
             log_content.push_str(&format!("Hostname: {}\n", hostname_str));
         }
     }
+    log_content.push('\n');
+
+    log_content.push_str("=== Path Resolution ===\n");
+    match std::env::current_exe() {
+        Ok(exe) => {
+            log_content.push_str(&format!("current_exe: {}\n", exe.display()));
+            let canonical = exe
+                .canonicalize()
+                .map(|path| path.display().to_string())
+                .unwrap_or_else(|err| format!("<error: {err}>"));
+            log_content.push_str(&format!("current_exe canonicalized: {canonical}\n"));
+        }
+        Err(err) => log_content.push_str(&format!("current_exe: <error: {err}>\n")),
+    }
+    let resource_dir = app
+        .path()
+        .resource_dir()
+        .map(|path| path.display().to_string())
+        .unwrap_or_else(|err| format!("<error: {err}>"));
+    log_content.push_str(&format!("resource_dir: {resource_dir}\n"));
+    for dir in crate::system::paths::resource_dirs(app) {
+        log_content.push_str(&format!("resource_dir candidate: {}\n", dir.display()));
+    }
+    log_content.push('\n');
 
     // Write to file
     match fs::OpenOptions::new()

@@ -14,12 +14,11 @@ type CommandEvent =
 export type ShellSpawnOptions = {
   cwd?: string;
   env?: Record<string, string>;
-  encoding?: string;
 };
 
 export type ShellChildProcess = {
   pid: number;
-  write: (buffer: string | Uint8Array | number[]) => Promise<void>;
+  write: (buffer: string) => Promise<void>;
   kill: () => Promise<void>;
 };
 
@@ -60,23 +59,21 @@ export const spawnShellSidecar = async ({
     }
   };
 
-  const pid = await invoke<number>("plugin:shell|spawn", {
+  const pid = await invoke<number>("sidecar_spawn", {
     program,
     args,
-    options: {
-      ...options,
-      sidecar: true,
-    },
+    env: options?.env,
+    cwd: options?.cwd,
     onEvent,
   });
 
   return {
     pid,
     async write(buffer) {
-      await invoke("plugin:shell|stdin_write", { pid, buffer });
+      await invoke("sidecar_write", { pid, buffer });
     },
     async kill() {
-      await invoke("plugin:shell|kill", { pid });
+      await invoke("sidecar_kill", { pid });
     },
   };
 };
