@@ -1,11 +1,11 @@
-# @voquill/desktop-native-apis
+# @ryoiki-tenkai/desktop-native-apis
 
-Type-safe TypeScript wrappers for the Voquill desktop app's Tauri commands. A web app loaded inside the Voquill Tauri shell can import this package to call the Rust native layer (database, audio recorder, accessibility APIs, etc.) without writing raw `invoke()` strings.
+Type-safe TypeScript wrappers for the Ryōiki Tenkai desktop app's Tauri commands. A web app loaded inside the Ryōiki Tenkai Tauri shell can import this package to call the Rust native layer (database, audio recorder, accessibility APIs, etc.) without writing raw `invoke()` strings.
 
 ## Install
 
 ```bash
-pnpm add @voquill/desktop-native-apis
+pnpm add @ryoiki-tenkai/desktop-native-apis
 ```
 
 The package declares `@tauri-apps/api` as a dependency — no extra setup is needed.
@@ -13,7 +13,7 @@ The package declares `@tauri-apps/api` as a dependency — no extra setup is nee
 ## Usage
 
 ```ts
-import { commands } from "@voquill/desktop-native-apis";
+import { commands } from "@ryoiki-tenkai/desktop-native-apis";
 
 const user = await commands.userGetOne();
 if (user.status === "ok" && user.data) {
@@ -33,12 +33,12 @@ Commands that return `Result<T, E>` need a `.status` check. Commands that return
 Type definitions for every argument and return type are exported alongside the commands:
 
 ```ts
-import type { Transcription, UserPreferences, PillWindowSize } from "@voquill/desktop-native-apis";
+import type { Transcription, UserPreferences, PillWindowSize } from "@ryoiki-tenkai/desktop-native-apis";
 ```
 
 ## Runtime requirement
 
-The package calls `@tauri-apps/api`'s `invoke()`. It will throw if loaded outside the Voquill Tauri shell (no `window.__TAURI_INTERNALS__`). Consumer apps that render both in and out of Tauri should feature-detect:
+The package calls `@tauri-apps/api`'s `invoke()`. It will throw if loaded outside the Ryōiki Tenkai Tauri shell (no `window.__TAURI_INTERNALS__`). Consumer apps that render both in and out of Tauri should feature-detect:
 
 ```ts
 const isTauri = !!(window as any).__TAURI_INTERNALS__;
@@ -60,7 +60,7 @@ pnpm gen:bindings
 Both delegate to `scripts/bindings.sh`, which runs the `gen_bindings` Rust binary at `apps/desktop/src-tauri/src/bin/gen_bindings.rs`. That binary walks every annotated command and emits `packages/desktop-native-apis/src/bindings.ts`. After regenerating, rebuild the package:
 
 ```bash
-pnpm --filter @voquill/desktop-native-apis build
+pnpm --filter @ryoiki-tenkai/desktop-native-apis build
 ```
 
 ### Adding a new command

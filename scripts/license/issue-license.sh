@@ -4,13 +4,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-KEY_DIR="${VOQUILL_LICENSE_KEY_DIR:-$HOME/.voquill-license}"
+KEY_DIR="${RYOIKI_TENKAI_LICENSE_KEY_DIR:-$HOME/.ryoiki-tenkai-license}"
 PRIVATE_KEY="$KEY_DIR/private.pem"
 PUBLIC_KEY="$KEY_DIR/public.pem"
 EMBEDDED_PUBLIC_KEY="$ROOT_DIR/apps/desktop/src-tauri/keys/license-public-key.pub"
-OUTPUT_DIR="${VOQUILL_LICENSE_OUTPUT_DIR:-$KEY_DIR/licenses}"
+OUTPUT_DIR="${RYOIKI_TENKAI_LICENSE_OUTPUT_DIR:-$KEY_DIR/licenses}"
 
-PRODUCT="voquill"
+PRODUCT="ryoiki-tenkai"
 SUPPORTED_TIERS="normal pro"
 SUPPORTED_PROVIDERS="groq"
 DEFAULT_GROQ_MODEL="whisper-large-v3"
@@ -37,7 +37,7 @@ usage() {
 Usage:
   issue-license.sh init [--force]
       Generate an Ed25519 keypair. The private key stays in
-      $VOQUILL_LICENSE_KEY_DIR (default: ~/.voquill-license), and the public
+      $RYOIKI_TENKAI_LICENSE_KEY_DIR (default: ~/.ryoiki-tenkai-license), and the public
       key is written into the app source. Rebuild the app afterwards.
 
   issue-license.sh issue --email <email> --tier <normal|pro> [--expires <date|never>] [--out <dir>]
@@ -46,15 +46,15 @@ Usage:
 
       Pro licenses also require a provider preset:
         --provider <groq>        Only groq is supported for now.
-        --api-key <key>          The provider API key (or set VOQUILL_LICENSE_API_KEY).
+        --api-key <key>          The provider API key (or set RYOIKI_TENKAI_LICENSE_API_KEY).
         --model <model>          Defaults to whisper-large-v3.
 
   issue-license.sh show-key
       Print the public key currently embedded in the app.
 
 Environment:
-  VOQUILL_LICENSE_KEY_DIR       Where the private/public keypair lives.
-  VOQUILL_LICENSE_OUTPUT_DIR    Where issued license files are written.
+  RYOIKI_TENKAI_LICENSE_KEY_DIR       Where the private/public keypair lives.
+  RYOIKI_TENKAI_LICENSE_OUTPUT_DIR    Where issued license files are written.
 
 Examples:
   ./scripts/license/issue-license.sh init
@@ -197,9 +197,9 @@ cmd_issue() {
       *) die "unsupported provider: $provider (the app accepts: $SUPPORTED_PROVIDERS)" ;;
     esac
 
-    [[ -n "$api_key" ]] || api_key="${VOQUILL_LICENSE_API_KEY:-}"
+    [[ -n "$api_key" ]] || api_key="${RYOIKI_TENKAI_LICENSE_API_KEY:-}"
     [[ -n "$api_key" ]] ||
-      die "--api-key is required for pro licenses (or set VOQUILL_LICENSE_API_KEY)"
+      die "--api-key is required for pro licenses (or set RYOIKI_TENKAI_LICENSE_API_KEY)"
     model="${model:-$DEFAULT_GROQ_MODEL}"
   else
     [[ -z "$provider" && -z "$api_key" && -z "$model" ]] ||

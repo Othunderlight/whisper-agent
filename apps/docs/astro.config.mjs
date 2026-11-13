@@ -5,10 +5,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://docs.voquill.com',
+	site: 'https://docs.ryoiki-tenkai.com',
 	integrations: [
 		starlight({
-			title: 'Voquill Docs',
+			title: 'Ryōiki Tenkai Docs',
 			logo: {
 				src: './src/assets/icon.svg',
 			},

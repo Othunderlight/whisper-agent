@@ -1,4 +1,4 @@
-import type { Nullable, RemoteReceiverStatus } from "@voquill/types";
+import type { Nullable, RemoteReceiverStatus } from "@ryoiki-tenkai/types";
 import { getRemoteReceiverRepo } from "../repos";
 import { produceAppState } from "../store";
 

@@ -10,16 +10,13 @@ import type {
   Tone,
   User,
   UserWithAuth,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import {
   INITIAL_LLM_PROVIDERS_STATE,
   type LlmProvidersState,
 } from "./llm-providers.state";
 import { INITIAL_LOGIN_STATE, type LoginState } from "./login.state";
-import {
-  INITIAL_SETTINGS_STATE,
-  type SettingsState,
-} from "./settings.state";
+import { INITIAL_SETTINGS_STATE, type SettingsState } from "./settings.state";
 import {
   INITIAL_OIDC_PROVIDERS_STATE,
   type OidcProvidersState,
@@ -28,10 +25,7 @@ import {
   INITIAL_STT_PROVIDERS_STATE,
   type SttProvidersState,
 } from "./stt-providers.state";
-import {
-  INITIAL_METRICS_STATE,
-  type MetricsState,
-} from "./metrics.state";
+import { INITIAL_METRICS_STATE, type MetricsState } from "./metrics.state";
 import { INITIAL_TERMS_STATE, type TermsState } from "./terms.state";
 import { INITIAL_TONES_STATE, type TonesState } from "./tones.state";
 import { INITIAL_USERS_STATE, type UsersState } from "./users.state";

@@ -13,11 +13,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.voquill.mobile</string>
+	<string>com.ryoikitenkai.mobile</string>
 	<key>PROJECT_ID</key>
-	<string>voquill-prod</string>
+	<string>ryoiki-tenkai-prod</string>
 	<key>STORAGE_BUCKET</key>
-	<string>voquill-prod.firebasestorage.app</string>
+	<string>ryoiki-tenkai-prod.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>GOOGLE_APP_ID</key>
 	<string>1:777461284594:ios:9b264ec0d9bf8dab5e5a6b</string>
 	<key>DATABASE_URL</key>
-	<string>https://voquill-prod-default-rtdb.firebaseio.com</string>
+	<string>https://ryoiki-tenkai-prod-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

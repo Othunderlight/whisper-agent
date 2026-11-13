@@ -1,11 +1,11 @@
-package com.voquill.mobile
+package com.ryoikitenkai.mobile
 
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
-import com.voquill.flutter_video_looper.FlutterVideoLooperPlugin
+import com.ryoikitenkai.flutter_video_looper.FlutterVideoLooperPlugin
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -18,7 +18,7 @@ class MainActivity : FlutterFragmentActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        sharedChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.voquill.mobile/shared")
+        sharedChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.ryoikitenkai.mobile/shared")
         sharedChannel?.setMethodCallHandler { call, result ->
                 when (call.method) {
                     "setKeyboardAuth" -> handleSetKeyboardAuth(call.arguments, result)
@@ -30,7 +30,7 @@ class MainActivity : FlutterFragmentActivity() {
                     "setMixpanelToken" -> handleSetMixpanelToken(call.arguments, result)
                     "getDictationLanguages" -> result.success(getDictationLanguages())
                     "getActiveDictationLanguage" -> result.success(
-                        keyboardPrefs.getString(VoquillIME.KEY_DICTATION_LANGUAGE, null),
+                        keyboardPrefs.getString(RyoikiTenkaiIME.KEY_DICTATION_LANGUAGE, null),
                     )
                     "setDictationLanguages" -> handleSetDictationLanguages(call.arguments, result)
                     "setActiveDictationLanguage" -> handleSetActiveDictationLanguage(
@@ -39,18 +39,18 @@ class MainActivity : FlutterFragmentActivity() {
                     )
                     "getTranscriptions" -> result.success(getTranscriptions())
                     "getSelectedToneId" -> result.success(
-                        keyboardPrefs.getString(VoquillIME.KEY_SELECTED_TONE_ID, null),
+                        keyboardPrefs.getString(RyoikiTenkaiIME.KEY_SELECTED_TONE_ID, null),
                     )
                     "setSelectedToneId" -> handleSetSelectedToneId(call.arguments, result)
                     "getAppCounter" -> result.success(
-                        keyboardPrefs.getInt(VoquillIME.KEY_APP_UPDATE_COUNTER, 0),
+                        keyboardPrefs.getInt(RyoikiTenkaiIME.KEY_APP_UPDATE_COUNTER, 0),
                     )
                     "incrementKeyboardCounter" -> {
-                        incrementCounter(VoquillIME.KEY_KEYBOARD_UPDATE_COUNTER)
+                        incrementCounter(RyoikiTenkaiIME.KEY_KEYBOARD_UPDATE_COUNTER)
                         result.success(null)
                     }
                     "setKeyboardAiConfig" -> handleSetKeyboardAiConfig(call.arguments, result)
-                    "isKeyboardEnabled" -> result.success(isVoquillKeyboardEnabled())
+                    "isKeyboardEnabled" -> result.success(isRyoikiTenkaiKeyboardEnabled())
                     "openKeyboardSettings" -> {
                         val intent = Intent(Settings.ACTION_INPUT_METHOD_SETTINGS).apply {
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -85,7 +85,7 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private val keyboardPrefs
-        get() = getSharedPreferences(VoquillIME.PREFS_NAME, Context.MODE_PRIVATE)
+        get() = getSharedPreferences(RyoikiTenkaiIME.PREFS_NAME, Context.MODE_PRIVATE)
 
     private fun handleSetKeyboardAuth(arguments: Any?, result: MethodChannel.Result) {
         val args = arguments as? Map<*, *>
@@ -104,10 +104,10 @@ class MainActivity : FlutterFragmentActivity() {
 
         keyboardPrefs
             .edit()
-            .putString(VoquillIME.KEY_API_REFRESH_TOKEN, apiRefreshToken)
-            .putString(VoquillIME.KEY_API_KEY, apiKey)
-            .putString(VoquillIME.KEY_FUNCTION_URL, functionUrl)
-            .putString(VoquillIME.KEY_AUTH_URL, authUrl)
+            .putString(RyoikiTenkaiIME.KEY_API_REFRESH_TOKEN, apiRefreshToken)
+            .putString(RyoikiTenkaiIME.KEY_API_KEY, apiKey)
+            .putString(RyoikiTenkaiIME.KEY_FUNCTION_URL, functionUrl)
+            .putString(RyoikiTenkaiIME.KEY_AUTH_URL, authUrl)
             .apply()
         result.success(null)
     }
@@ -115,10 +115,10 @@ class MainActivity : FlutterFragmentActivity() {
     private fun handleClearKeyboardAuth(result: MethodChannel.Result) {
         keyboardPrefs
             .edit()
-            .remove(VoquillIME.KEY_API_REFRESH_TOKEN)
-            .remove(VoquillIME.KEY_API_KEY)
-            .remove(VoquillIME.KEY_FUNCTION_URL)
-            .remove(VoquillIME.KEY_AUTH_URL)
+            .remove(RyoikiTenkaiIME.KEY_API_REFRESH_TOKEN)
+            .remove(RyoikiTenkaiIME.KEY_API_KEY)
+            .remove(RyoikiTenkaiIME.KEY_FUNCTION_URL)
+            .remove(RyoikiTenkaiIME.KEY_AUTH_URL)
             .apply()
         result.success(null)
     }
@@ -133,7 +133,7 @@ class MainActivity : FlutterFragmentActivity() {
 
         keyboardPrefs
             .edit()
-            .putString(VoquillIME.KEY_USER_NAME, userName)
+            .putString(RyoikiTenkaiIME.KEY_USER_NAME, userName)
             .apply()
         result.success(null)
     }
@@ -150,9 +150,9 @@ class MainActivity : FlutterFragmentActivity() {
 
         keyboardPrefs
             .edit()
-            .putString(VoquillIME.KEY_SELECTED_TONE_ID, selectedToneId)
-            .putString(VoquillIME.KEY_ACTIVE_TONE_IDS, JSONArray(activeToneIds).toString())
-            .putString(VoquillIME.KEY_TONE_BY_ID, mapToJson(toneById).toString())
+            .putString(RyoikiTenkaiIME.KEY_SELECTED_TONE_ID, selectedToneId)
+            .putString(RyoikiTenkaiIME.KEY_ACTIVE_TONE_IDS, JSONArray(activeToneIds).toString())
+            .putString(RyoikiTenkaiIME.KEY_TONE_BY_ID, mapToJson(toneById).toString())
             .apply()
         result.success(null)
     }
@@ -168,8 +168,8 @@ class MainActivity : FlutterFragmentActivity() {
 
         keyboardPrefs
             .edit()
-            .putString(VoquillIME.KEY_TERM_IDS, JSONArray(termIds).toString())
-            .putString(VoquillIME.KEY_TERM_BY_ID, mapToJson(termById).toString())
+            .putString(RyoikiTenkaiIME.KEY_TERM_IDS, JSONArray(termIds).toString())
+            .putString(RyoikiTenkaiIME.KEY_TERM_BY_ID, mapToJson(termById).toString())
             .apply()
         result.success(null)
     }
@@ -181,7 +181,7 @@ class MainActivity : FlutterFragmentActivity() {
             result.error("INVALID_ARGS", "Missing required arguments", null)
             return
         }
-        keyboardPrefs.edit().putString(VoquillIME.KEY_MIXPANEL_UID, uid).apply()
+        keyboardPrefs.edit().putString(RyoikiTenkaiIME.KEY_MIXPANEL_UID, uid).apply()
         result.success(null)
     }
 
@@ -192,7 +192,7 @@ class MainActivity : FlutterFragmentActivity() {
             result.error("INVALID_ARGS", "Missing required arguments", null)
             return
         }
-        keyboardPrefs.edit().putString(VoquillIME.KEY_MIXPANEL_TOKEN, token).apply()
+        keyboardPrefs.edit().putString(RyoikiTenkaiIME.KEY_MIXPANEL_TOKEN, token).apply()
         result.success(null)
     }
 
@@ -205,7 +205,7 @@ class MainActivity : FlutterFragmentActivity() {
         }
         keyboardPrefs
             .edit()
-            .putString(VoquillIME.KEY_DICTATION_LANGUAGES, JSONArray(languages).toString())
+            .putString(RyoikiTenkaiIME.KEY_DICTATION_LANGUAGES, JSONArray(languages).toString())
             .apply()
         result.success(null)
     }
@@ -217,7 +217,7 @@ class MainActivity : FlutterFragmentActivity() {
             result.error("INVALID_ARGS", "Missing required arguments", null)
             return
         }
-        keyboardPrefs.edit().putString(VoquillIME.KEY_DICTATION_LANGUAGE, language).apply()
+        keyboardPrefs.edit().putString(RyoikiTenkaiIME.KEY_DICTATION_LANGUAGE, language).apply()
         result.success(null)
     }
 
@@ -228,7 +228,7 @@ class MainActivity : FlutterFragmentActivity() {
             result.error("INVALID_ARGS", "Missing required arguments", null)
             return
         }
-        keyboardPrefs.edit().putString(VoquillIME.KEY_SELECTED_TONE_ID, toneId).apply()
+        keyboardPrefs.edit().putString(RyoikiTenkaiIME.KEY_SELECTED_TONE_ID, toneId).apply()
         result.success(null)
     }
 
@@ -242,8 +242,8 @@ class MainActivity : FlutterFragmentActivity() {
         }
 
         val editor = keyboardPrefs.edit()
-            .putString(VoquillIME.KEY_AI_TRANSCRIPTION_MODE, transcriptionMode)
-            .putString(VoquillIME.KEY_AI_POST_PROCESSING_MODE, postProcessingMode)
+            .putString(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_MODE, transcriptionMode)
+            .putString(RyoikiTenkaiIME.KEY_AI_POST_PROCESSING_MODE, postProcessingMode)
 
         fun putOrRemove(key: String, argKey: String) {
             val value = args?.get(argKey) as? String
@@ -251,22 +251,22 @@ class MainActivity : FlutterFragmentActivity() {
             else editor.remove(key)
         }
 
-        putOrRemove(VoquillIME.KEY_AI_TRANSCRIPTION_PROVIDER, "transcriptionProvider")
-        putOrRemove(VoquillIME.KEY_AI_TRANSCRIPTION_API_KEY, "transcriptionApiKey")
-        putOrRemove(VoquillIME.KEY_AI_POST_PROCESSING_PROVIDER, "postProcessingProvider")
-        putOrRemove(VoquillIME.KEY_AI_POST_PROCESSING_API_KEY, "postProcessingApiKey")
-        putOrRemove(VoquillIME.KEY_AI_TRANSCRIPTION_BASE_URL, "transcriptionBaseUrl")
-        putOrRemove(VoquillIME.KEY_AI_POST_PROCESSING_BASE_URL, "postProcessingBaseUrl")
-        putOrRemove(VoquillIME.KEY_AI_TRANSCRIPTION_MODEL, "transcriptionModel")
-        putOrRemove(VoquillIME.KEY_AI_POST_PROCESSING_MODEL, "postProcessingModel")
-        putOrRemove(VoquillIME.KEY_AI_TRANSCRIPTION_AZURE_REGION, "transcriptionAzureRegion")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_PROVIDER, "transcriptionProvider")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_API_KEY, "transcriptionApiKey")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_POST_PROCESSING_PROVIDER, "postProcessingProvider")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_POST_PROCESSING_API_KEY, "postProcessingApiKey")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_BASE_URL, "transcriptionBaseUrl")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_POST_PROCESSING_BASE_URL, "postProcessingBaseUrl")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_MODEL, "transcriptionModel")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_POST_PROCESSING_MODEL, "postProcessingModel")
+        putOrRemove(RyoikiTenkaiIME.KEY_AI_TRANSCRIPTION_AZURE_REGION, "transcriptionAzureRegion")
 
         editor.apply()
         result.success(null)
     }
 
     private fun getDictationLanguages(): List<String> {
-        val raw = keyboardPrefs.getString(VoquillIME.KEY_DICTATION_LANGUAGES, null) ?: return emptyList()
+        val raw = keyboardPrefs.getString(RyoikiTenkaiIME.KEY_DICTATION_LANGUAGES, null) ?: return emptyList()
         return try {
             val json = JSONArray(raw)
             val out = ArrayList<String>(json.length())
@@ -280,7 +280,7 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private fun getTranscriptions(): List<Map<String, Any?>> {
-        val raw = keyboardPrefs.getString(VoquillIME.KEY_TRANSCRIPTIONS, null) ?: return emptyList()
+        val raw = keyboardPrefs.getString(RyoikiTenkaiIME.KEY_TRANSCRIPTIONS, null) ?: return emptyList()
         return try {
             val json = JSONArray(raw)
             val out = ArrayList<Map<String, Any?>>(json.length())
@@ -299,10 +299,10 @@ class MainActivity : FlutterFragmentActivity() {
         keyboardPrefs.edit().putInt(key, next).apply()
     }
 
-    private fun isVoquillKeyboardEnabled(): Boolean {
+    private fun isRyoikiTenkaiKeyboardEnabled(): Boolean {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager ?: return false
         return imm.enabledInputMethodList.any {
-            it.packageName == packageName && it.serviceName.endsWith("VoquillIME")
+            it.packageName == packageName && it.serviceName.endsWith("RyoikiTenkaiIME")
         }
     }
 
@@ -365,10 +365,10 @@ class MainActivity : FlutterFragmentActivity() {
     }
 
     private fun maybeShowPaywallFromIntent(intent: Intent?) {
-        if (intent?.getBooleanExtra(VoquillIME.EXTRA_SHOW_PAYWALL, false) != true) {
+        if (intent?.getBooleanExtra(RyoikiTenkaiIME.EXTRA_SHOW_PAYWALL, false) != true) {
             return
         }
-        intent.removeExtra(VoquillIME.EXTRA_SHOW_PAYWALL)
+        intent.removeExtra(RyoikiTenkaiIME.EXTRA_SHOW_PAYWALL)
         sharedChannel?.invokeMethod("showPaywall", null)
     }
 }

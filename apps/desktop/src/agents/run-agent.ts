@@ -1,7 +1,7 @@
 import { AgentLoop } from "@repo/agent";
 import type { AgentLlmProvider, AgentTool } from "@repo/agent";
-import type { LlmMessage, LlmToolCall, ToolInfo } from "@voquill/types";
-import { delayed } from "@voquill/utilities";
+import type { LlmMessage, LlmToolCall, ToolInfo } from "@ryoiki-tenkai/types";
+import { delayed } from "@ryoiki-tenkai/utilities";
 import { createChatMessage } from "../actions/chat.actions";
 import {
   executeTool,

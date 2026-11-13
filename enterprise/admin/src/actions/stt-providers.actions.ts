@@ -1,4 +1,4 @@
-import type { SttProviderInput } from "@voquill/types";
+import type { SttProviderInput } from "@ryoiki-tenkai/types";
 import { produceAppState } from "../store";
 import { invoke } from "../utils/api.utils";
 import { registerSttProviders } from "../utils/app.utils";

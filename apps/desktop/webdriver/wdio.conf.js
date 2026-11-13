@@ -27,7 +27,7 @@ function resolveTauriBinary() {
     return path.resolve(projectRoot, override);
   }
 
-  const binaryName = process.platform === 'win32' ? 'Voquill.exe' : 'Voquill';
+  const binaryName = process.platform === 'win32' ? 'ryoiki-tenkai.exe' : 'ryoiki-tenkai';
   return path.resolve(projectRoot, 'src-tauri', 'target', 'debug', binaryName);
 }
 

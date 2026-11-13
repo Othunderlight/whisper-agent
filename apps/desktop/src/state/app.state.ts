@@ -1,4 +1,4 @@
-import { HandlerOutput } from "@voquill/functions";
+import { HandlerOutput } from "@ryoiki-tenkai/functions";
 import {
   ApiKey,
   AppTarget,
@@ -23,7 +23,7 @@ import {
   Transcription,
   User,
   UserPreferences,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import { AuthUser } from "../types/auth.types";
 import { LicensePayload } from "../types/license.types";
 import { Vector2 } from "../types/math.types";

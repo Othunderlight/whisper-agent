@@ -1,7 +1,14 @@
-import type { HandlerInput, HandlerOutput } from "@voquill/functions";
-import type { AuthContext, Nullable } from "@voquill/types";
+import type { HandlerInput, HandlerOutput } from "@ryoiki-tenkai/functions";
+import type { AuthContext, Nullable } from "@ryoiki-tenkai/types";
 import { requireAuth } from "../utils/auth.utils";
-import { listTermsByUserId, upsertTerm, deleteTerm, listGlobalTerms, upsertGlobalTerm, deleteGlobalTerm } from "../repo/term.repo";
+import {
+  listTermsByUserId,
+  upsertTerm,
+  deleteTerm,
+  listGlobalTerms,
+  upsertGlobalTerm,
+  deleteGlobalTerm,
+} from "../repo/term.repo";
 import { requireAdmin } from "../utils/validation.utils";
 
 export async function listMyTerms(opts: {

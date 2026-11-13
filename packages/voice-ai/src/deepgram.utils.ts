@@ -1,4 +1,4 @@
-import { countWords, retry } from "@voquill/utilities";
+import { countWords, retry } from "@ryoiki-tenkai/utilities";
 
 export type DeepgramTestIntegrationArgs = {
   apiKey: string;

@@ -1,4 +1,4 @@
-package com.voquill.mobile.repos
+package com.ryoikitenkai.mobile.repos
 
 data class RepoConfig(
     val functionUrl: String,

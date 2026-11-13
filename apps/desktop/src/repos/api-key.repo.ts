@@ -1,4 +1,4 @@
-import { ApiKey, ApiKeyProvider, OpenRouterConfig } from "@voquill/types";
+import { ApiKey, ApiKeyProvider, OpenRouterConfig } from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import dayjs from "dayjs";
 import { BaseRepo } from "./base.repo";

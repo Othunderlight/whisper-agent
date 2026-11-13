@@ -1,4 +1,4 @@
-import type { LlmProvider } from "@voquill/types";
+import type { LlmProvider } from "@ryoiki-tenkai/types";
 import type { LlmProviderRow } from "../types/llm-provider.types";
 import { getPool } from "../utils/db.utils";
 
@@ -80,7 +80,9 @@ export async function upsertLlmProvider(opts: {
   }
 }
 
-export async function listActiveLlmProvidersWithKeys(): Promise<LlmProviderRow[]> {
+export async function listActiveLlmProvidersWithKeys(): Promise<
+  LlmProviderRow[]
+> {
   const pool = getPool();
   const result = await pool.query(
     "SELECT * FROM llm_providers WHERE tier > 0 ORDER BY tier, created_at",

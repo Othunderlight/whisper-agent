@@ -1,8 +1,8 @@
 import Foundation
 
 class CounterRepo {
-    private static let appCounterKey = "voquill_app_update_counter"
-    private static let keyboardCounterKey = "voquill_keyboard_update_counter"
+    private static let appCounterKey = "ryoiki_tenkai_app_update_counter"
+    private static let keyboardCounterKey = "ryoiki_tenkai_keyboard_update_counter"
 
     private let defaults: UserDefaults?
 

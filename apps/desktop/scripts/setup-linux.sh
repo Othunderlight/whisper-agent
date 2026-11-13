@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "${VOQUILL_DEBUG_SETUP:-}" == "1" ]]; then
+if [[ "${RYOIKI_TENKAI_DEBUG_SETUP:-}" == "1" ]]; then
   set -x
 fi
 
@@ -143,7 +143,7 @@ EOF
   exit 1
 fi
 
-if [[ "${VOQUILL_ENABLE_GPU:-}" == "1" ]]; then
+if [[ "${RYOIKI_TENKAI_ENABLE_GPU:-}" == "1" ]]; then
   install_gpu_prereqs
   echo "[INFO] Vulkan dependencies installed. Desktop builds now include the GPU sidecar automatically."
 fi

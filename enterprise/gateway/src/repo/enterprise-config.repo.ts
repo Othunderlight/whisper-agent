@@ -1,4 +1,4 @@
-import type { EnterpriseConfig } from "@voquill/types";
+import type { EnterpriseConfig } from "@ryoiki-tenkai/types";
 import { getPool } from "../utils/db.utils";
 
 interface EnterpriseConfigRow {
@@ -66,6 +66,16 @@ export async function upsertEnterpriseConfig(
        allow_email_sign_in = $7,
        allow_dev_tools = $8,
        styling_mode = $9`,
-    [config.allowPostProcessing, config.allowChangePostProcessing, config.allowChangeTranscriptionMethod, config.assistantModeEnabled, config.powerModeEnabled, config.allowMultiDeviceMode, config.allowEmailSignIn, config.allowDevTools, config.stylingMode],
+    [
+      config.allowPostProcessing,
+      config.allowChangePostProcessing,
+      config.allowChangeTranscriptionMethod,
+      config.assistantModeEnabled,
+      config.powerModeEnabled,
+      config.allowMultiDeviceMode,
+      config.allowEmailSignIn,
+      config.allowDevTools,
+      config.stylingMode,
+    ],
   );
 }

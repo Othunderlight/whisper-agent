@@ -3,18 +3,18 @@ set -euo pipefail
 
 FLAVOR=${1:-local}
 case "${FLAVOR}" in
-  local)           export IDENTIFIER="com.voquill.desktop.local" ;;
-  prod)            export IDENTIFIER="com.voquill.desktop" ;;
-  dev)             export IDENTIFIER="com.voquill.desktop.dev" ;;
-  enterprise)      export IDENTIFIER="com.voquill.desktop.enterprise" ;;
-  enterprise-dev)  export IDENTIFIER="com.voquill.desktop.enterprise-dev" ;;
+  local)           export IDENTIFIER="com.ryoikitenkai.desktop.local" ;;
+  prod)            export IDENTIFIER="com.ryoikitenkai.desktop" ;;
+  dev)             export IDENTIFIER="com.ryoikitenkai.desktop.dev" ;;
+  enterprise)      export IDENTIFIER="com.ryoikitenkai.desktop.enterprise" ;;
+  enterprise-dev)  export IDENTIFIER="com.ryoikitenkai.desktop.enterprise-dev" ;;
   *)
     echo "Unknown flavor: ${FLAVOR}" >&2
     exit 1
     ;;
 esac
 
-DB_FILENAME="voquill.db"
+DB_FILENAME="ryoiki-tenkai.db"
 
 resolve_config_dir() {
   case "$(uname -s)" in
@@ -61,7 +61,7 @@ main() {
   if [ "${removed}" -eq 0 ]; then
     echo "No database files found under ${config_dir}"
   else
-    echo "Voquill desktop SQLite data cleared."
+    echo "Ryōiki Tenkai desktop SQLite data cleared."
   fi
 }
 

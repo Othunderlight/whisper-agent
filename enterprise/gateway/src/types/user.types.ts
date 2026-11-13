@@ -1,4 +1,4 @@
-import type { Nullable } from "@voquill/types";
+import type { Nullable } from "@ryoiki-tenkai/types";
 
 export type UserRow = {
   id: string;

@@ -77,7 +77,7 @@ pub fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
     )?;
     let language_submenu = SubmenuBuilder::new(app, "Language").build()?;
     let _ = LANGUAGE_SUBMENU.set(language_submenu.clone());
-    let quit_item = MenuItem::with_id(app, "quit-voquill", "Quit Ryōiki Tenkai", true, None::<&str>)?;
+    let quit_item = MenuItem::with_id(app, "quit-ryoiki-tenkai", "Quit Ryōiki Tenkai", true, None::<&str>)?;
 
     let menu = MenuBuilder::new(app)
         .item(&open_item)
@@ -117,7 +117,7 @@ pub fn setup_tray(app: &mut tauri::App) -> tauri::Result<()> {
                     log::error!("Failed to emit register-current-app event: {err}");
                 }
             }
-            "quit-voquill" => app.exit(0),
+            "quit-ryoiki-tenkai" => app.exit(0),
             other if other.starts_with(TRAY_LANGUAGE_ITEM_PREFIX) => {
                 let code = other[TRAY_LANGUAGE_ITEM_PREFIX.len()..].to_string();
                 if let Err(err) = app.emit(EVT_SET_DICTATION_LANGUAGE, code) {

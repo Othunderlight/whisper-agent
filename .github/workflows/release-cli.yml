@@ -96,7 +96,7 @@ jobs:
             TAG_NAME="cli-dev-v${VERSION}"
             COMMIT_SHA="${GITHUB_SHA}"
             DEV_TAG_NAME="${TAG_NAME}"
-            BINARY_NAME="voquill-dev"
+            BINARY_NAME="ryoiki-tenkai-dev"
             RELEASE_SUFFIX="-dev"
           else
             if [[ -n "${INPUT_VERSION}" ]]; then
@@ -127,7 +127,7 @@ jobs:
             TAG_NAME="cli-v${VERSION}"
             COMMIT_SHA="$(git rev-parse "${TARGET_DEV_TAG}^{commit}")"
             DEV_TAG_NAME="${TARGET_DEV_TAG}"
-            BINARY_NAME="voquill"
+            BINARY_NAME="ryoiki-tenkai"
             RELEASE_SUFFIX=""
           fi
 
@@ -163,7 +163,7 @@ jobs:
           gh release create "${TAG_NAME}" \
             --target "${COMMIT_SHA}" \
             --title "cli${RELEASE_SUFFIX} v${VERSION}" \
-            --notes "Voquill CLI ${RELEASE_SUFFIX:+(dev) }release ${VERSION}" \
+            --notes "Ryōiki Tenkai CLI ${RELEASE_SUFFIX:+(dev) }release ${VERSION}" \
             ${prerelease_flag}
 
   build:
@@ -298,9 +298,9 @@ jobs:
           sudo apt-get install -y ruby ruby-dev rpm build-essential
           sudo gem install --no-document fpm
 
-          desc="Voquill CLI"
-          if [[ "${BINARY_NAME}" == "voquill-dev" ]]; then
-            desc="Voquill CLI (dev build, targets dev Firebase backend)"
+          desc="Ryōiki Tenkai CLI"
+          if [[ "${BINARY_NAME}" == "ryoiki-tenkai-dev" ]]; then
+            desc="Ryōiki Tenkai CLI (dev build, targets dev Firebase backend)"
           fi
 
           fpm \
@@ -311,8 +311,8 @@ jobs:
             -a "${DEB_ARCH}" \
             --description "${desc}" \
             --license "MIT" \
-            --url "https://voquill.com" \
-            --maintainer "Voquill <hello@voquill.com>" \
+            --url "https://ryoiki-tenkai.com" \
+            --maintainer "Ryōiki Tenkai <hello@ryoiki-tenkai.com>" \
             --deb-no-default-config-files \
             -p "dist/${BINARY_NAME}_${VERSION}_${DEB_ARCH}.deb" \
             "cli/target/${TARGET}/release/${BINARY_NAME}=/usr/bin/${BINARY_NAME}"
@@ -325,8 +325,8 @@ jobs:
             -a "${RPM_ARCH}" \
             --description "${desc}" \
             --license "MIT" \
-            --url "https://voquill.com" \
-            --maintainer "Voquill <hello@voquill.com>" \
+            --url "https://ryoiki-tenkai.com" \
+            --maintainer "Ryōiki Tenkai <hello@ryoiki-tenkai.com>" \
             --rpm-summary "${desc}" \
             -p "dist/${BINARY_NAME}-${VERSION}-1.${RPM_ARCH}.rpm" \
             "cli/target/${TARGET}/release/${BINARY_NAME}=/usr/bin/${BINARY_NAME}"
@@ -370,7 +370,7 @@ jobs:
       - name: Clone APT repository
         run: |
           set -euo pipefail
-          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/voquill/apt.git" apt-repo
+          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/ryoiki-tenkai/apt.git" apt-repo
 
       - name: Import GPG key
         env:
@@ -451,7 +451,7 @@ jobs:
       - name: Clone RPM repository
         run: |
           set -euo pipefail
-          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/voquill/rpm.git" rpm-repo
+          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/ryoiki-tenkai/rpm.git" rpm-repo
 
       - name: Import GPG key
         env:
@@ -488,8 +488,8 @@ jobs:
 
           # Match desktop's layout: metadata only at channel root.
           # createrepo scans subdirs recursively and picks up all packages
-          # (both CLI and desktop RPMs coexist by filename — voquill-* vs
-          # voquill-desktop-*). Re-signing repomd.xml with the same key is
+          # (both CLI and desktop RPMs coexist by filename — ryoiki-tenkai-* vs
+          # ryoiki-tenkai-desktop-*). Re-signing repomd.xml with the same key is
           # idempotent.
           createrepo_c --update "packages/${channel}"
           gpg --batch --yes --detach-sign --armor "packages/${channel}/repodata/repomd.xml"
@@ -539,7 +539,7 @@ jobs:
       - name: Clone Homebrew tap repository
         run: |
           set -euo pipefail
-          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/voquill/homebrew-voquill.git" brew-tap
+          git clone "https://x-access-token:${{ secrets.PACKAGE_REPO_TOKEN }}@github.com/ryoiki-tenkai/homebrew-ryoiki-tenkai.git" brew-tap
 
       - name: Write formula
         env:
@@ -552,12 +552,12 @@ jobs:
           cd brew-tap
           mkdir -p Formula
 
-          if [[ "${BINARY_NAME}" == "voquill-dev" ]]; then
-            class_name="VoquillDev"
-            desc="Voquill CLI (dev build, targets dev Firebase backend)"
+          if [[ "${BINARY_NAME}" == "ryoiki-tenkai-dev" ]]; then
+            class_name="RyoikiTenkaiDev"
+            desc="Ryōiki Tenkai CLI (dev build, targets dev Firebase backend)"
           else
-            class_name="Voquill"
-            desc="Voquill CLI"
+            class_name="RyoikiTenkai"
+            desc="Ryōiki Tenkai CLI"
           fi
 
           base_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}"
@@ -565,7 +565,7 @@ jobs:
           cat > "Formula/${BINARY_NAME}.rb" <<FORMULA
           class ${class_name} < Formula
             desc "${desc}"
-            homepage "https://voquill.com"
+            homepage "https://ryoiki-tenkai.com"
             version "${VERSION}"
             license "MIT"
 

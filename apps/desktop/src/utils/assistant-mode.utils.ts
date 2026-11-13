@@ -1,9 +1,10 @@
 import { AppState } from "../state/app.state";
 
-export const ASSISTANT_MODE_ENABLED_KEY = "voquill:assistant-mode-enabled";
+export const ASSISTANT_MODE_ENABLED_KEY =
+  "ryoiki-tenkai:assistant-mode-enabled";
 export const ASSISTANT_AUTO_SILENCE_ENABLED_KEY =
-  "voquill:assistant-auto-silence-enabled";
-export const POWER_MODE_ENABLED_KEY = "voquill:power-mode-enabled";
+  "ryoiki-tenkai:assistant-auto-silence-enabled";
+export const POWER_MODE_ENABLED_KEY = "ryoiki-tenkai:power-mode-enabled";
 
 export const getIsAssistantModeEnabled = (state: AppState): boolean => {
   if (state.isEnterprise) {

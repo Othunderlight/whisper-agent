@@ -48,14 +48,14 @@ jobs:
       - name: Build packages
         run: |
           pnpm exec turbo run build \
-            --filter='@voquill/types...' \
-            --filter='@voquill/utilities...' \
-            --filter='@voquill/functions...' \
-            --filter='@voquill/firemix...' \
-            --filter='@voquill/pricing...' \
-            --filter='@voquill/voice-ai...' \
-            --filter='@voquill/desktop-native-apis...' \
-            --filter='@voquill/desktop-utils...'
+            --filter='@ryoiki-tenkai/types...' \
+            --filter='@ryoiki-tenkai/utilities...' \
+            --filter='@ryoiki-tenkai/functions...' \
+            --filter='@ryoiki-tenkai/firemix...' \
+            --filter='@ryoiki-tenkai/pricing...' \
+            --filter='@ryoiki-tenkai/voice-ai...' \
+            --filter='@ryoiki-tenkai/desktop-native-apis...' \
+            --filter='@ryoiki-tenkai/desktop-utils...'
 
       - name: Publish packages
         run: |
@@ -78,13 +78,13 @@ jobs:
           }
 
           # Publish in dependency order (config packages first, then leaf → composite)
-          publish_pkg typescript-config "@voquill/typescript-config"
-          publish_pkg eslint-config     "@voquill/eslint-config"
-          publish_pkg types             "@voquill/types"
-          publish_pkg pricing           "@voquill/pricing"
-          publish_pkg utilities         "@voquill/utilities"
-          publish_pkg functions         "@voquill/functions"
-          publish_pkg voice-ai          "@voquill/voice-ai"
-          publish_pkg firemix           "@voquill/firemix"
-          publish_pkg desktop-native-apis "@voquill/desktop-native-apis"
-          publish_pkg desktop-utils     "@voquill/desktop-utils"
+          publish_pkg typescript-config "@ryoiki-tenkai/typescript-config"
+          publish_pkg eslint-config     "@ryoiki-tenkai/eslint-config"
+          publish_pkg types             "@ryoiki-tenkai/types"
+          publish_pkg pricing           "@ryoiki-tenkai/pricing"
+          publish_pkg utilities         "@ryoiki-tenkai/utilities"
+          publish_pkg functions         "@ryoiki-tenkai/functions"
+          publish_pkg voice-ai          "@ryoiki-tenkai/voice-ai"
+          publish_pkg firemix           "@ryoiki-tenkai/firemix"
+          publish_pkg desktop-native-apis "@ryoiki-tenkai/desktop-native-apis"
+          publish_pkg desktop-utils     "@ryoiki-tenkai/desktop-utils"

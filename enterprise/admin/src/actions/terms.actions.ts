@@ -1,4 +1,4 @@
-import type { Term } from "@voquill/types";
+import type { Term } from "@ryoiki-tenkai/types";
 import { invoke } from "../utils/api.utils";
 import { produceAppState } from "../store";
 import { registerTerms } from "../utils/app.utils";

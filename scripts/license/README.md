@@ -22,12 +22,12 @@ cannot be changed after issuing.
 ./scripts/license/issue-license.sh init
 ```
 
-This creates a keypair under `~/.voquill-license` and writes the public key to
+This creates a keypair under `~/.ryoiki-tenkai-license` and writes the public key to
 `apps/desktop/src-tauri/keys/license-public-key.pub`. Commit that public key and
 rebuild the app. The private key stays outside the repository and must never be
 committed or shared.
 
-Set `VOQUILL_LICENSE_KEY_DIR` to use a different key location. Running `init`
+Set `RYOIKI_TENKAI_LICENSE_KEY_DIR` to use a different key location. Running `init`
 again is a no-op when the existing private key matches the embedded public key.
 Use `init --force` to rotate; existing licenses still verify, but the old private
 key can no longer issue licenses that this build accepts.
@@ -56,7 +56,7 @@ Pro license:
 For Pro:
 
 - `--provider` is required and currently only `groq` is supported.
-- `--api-key` is required. You can also set `VOQUILL_LICENSE_API_KEY` to keep
+- `--api-key` is required. You can also set `RYOIKI_TENKAI_LICENSE_API_KEY` to keep
   the key out of shell history.
 - `--model` defaults to `whisper-large-v3`.
 
@@ -67,7 +67,7 @@ not overwritten.
 
 `--expires` is optional and ends at 23:59:59 local time on that date. Without
 it, the license never expires. The token is written to
-`~/.voquill-license/licenses/<license-id>.license` and printed to stdout.
+`~/.ryoiki-tenkai-license/licenses/<license-id>.license` and printed to stdout.
 
 The user pastes the token into the activation screen (or Settings → License
 after activation). The app verifies the signature, stores the raw token in
@@ -85,7 +85,7 @@ VITE_PURCHASE_URL=https://example.com/buy pnpm run dev
 ## Design notes
 
 - The payload contains `v`, `product`, `id`, `email`, `tier`, `iat`, `expires`,
-  and an optional `provider` preset. `product` is `voquill`; the app rejects
+  and an optional `provider` preset. `product` is `ryoiki-tenkai`; the app rejects
   tokens for other products.
 - **A Pro license embeds the provider API key, so the license itself is a
   secret.** Anyone who has the license can extract the key. Treat Pro license
@@ -109,6 +109,6 @@ VITE_PURCHASE_URL=https://example.com/buy pnpm run dev
 ## Verifying the generator end to end
 
 ```bash
-export VOQUILL_TEST_LICENSE="$(./scripts/license/issue-license.sh issue --email test@example.com --tier pro --provider groq --api-key gsk_test | tail -1)"
+export RYOIKI_TENKAI_TEST_LICENSE="$(./scripts/license/issue-license.sh issue --email test@example.com --tier pro --provider groq --api-key gsk_test | tail -1)"
 cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml accepts_generated_token -- --ignored
 ```

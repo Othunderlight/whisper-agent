@@ -19,7 +19,7 @@ export const TermsNotice = ({ align = "center" }: TermsNoticeProps) => {
     >
       <FormattedMessage defaultMessage="By using Ryōiki Tenkai, you agree to our" />{" "}
       <a
-        href="https://voquill.com/terms"
+        href="https://ryoiki-tenkai.com/terms"
         target="_blank"
         rel="noopener noreferrer"
         style={{ color: "inherit", textDecoration: "underline" }}
@@ -28,7 +28,7 @@ export const TermsNotice = ({ align = "center" }: TermsNoticeProps) => {
       </a>{" "}
       <FormattedMessage defaultMessage="and" />{" "}
       <a
-        href="https://voquill.com/privacy"
+        href="https://ryoiki-tenkai.com/privacy"
         target="_blank"
         rel="noopener noreferrer"
         style={{ color: "inherit", textDecoration: "underline" }}

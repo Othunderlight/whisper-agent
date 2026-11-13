@@ -2,7 +2,7 @@ import type {
   PairedRemoteDevice,
   RemoteDevicePlatform,
   RemoteReceiverStatus,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import { getAppState, produceAppState } from "../store";
 import { registerPairedRemoteDevices } from "../utils/app.utils";
@@ -12,7 +12,7 @@ import {
   setRemoteTargetDeviceId,
 } from "./user.actions";
 
-const INVITE_PREFIX = "voquill-pair:";
+const INVITE_PREFIX = "ryoiki-tenkai-pair:";
 
 type RemotePairingInvite = {
   version: 1;
@@ -72,7 +72,7 @@ export const parseRemotePairingInvite = (
 ): RemotePairingInvite => {
   const trimmed = value.trim();
   if (!trimmed.startsWith(INVITE_PREFIX)) {
-    throw new Error("Pair code is not a valid Voquill remote invite.");
+    throw new Error("Pair code is not a valid Ryōiki Tenkai remote invite.");
   }
 
   const decoded = decodeBase64Url(trimmed.slice(INVITE_PREFIX.length));

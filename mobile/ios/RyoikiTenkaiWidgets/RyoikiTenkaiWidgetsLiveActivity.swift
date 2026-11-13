@@ -10,7 +10,7 @@ struct DictationLiveActivity: Widget {
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
                     HStack(spacing: 8) {
-                        Image("VoquillLogo")
+                        Image("RyoikiTenkaiLogo")
                             .renderingMode(.template)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -18,12 +18,12 @@ struct DictationLiveActivity: Widget {
                             .foregroundColor(.primary)
                             .clipShape(RoundedRectangle(cornerRadius: 6))
 
-                        Text("Voquill is active")
+                        Text("Ryōiki Tenkai is active")
                             .font(.headline)
                     }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Link(destination: URL(string: "voquill://stop")!) {
+                    Link(destination: URL(string: "ryoiki-tenkai://stop")!) {
                         Image(systemName: "power")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.primary)
@@ -33,7 +33,7 @@ struct DictationLiveActivity: Widget {
                     }
                 }
             } compactLeading: {
-                Image("VoquillLogo")
+                Image("RyoikiTenkaiLogo")
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -51,7 +51,7 @@ struct DictationLiveActivity: Widget {
                         .foregroundColor(.gray)
                 }
             } minimal: {
-                Image("VoquillLogo")
+                Image("RyoikiTenkaiLogo")
                     .renderingMode(.template)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -68,7 +68,7 @@ private struct LockScreenView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image("VoquillLogo")
+            Image("RyoikiTenkaiLogo")
                 .renderingMode(.template)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -76,12 +76,12 @@ private struct LockScreenView: View {
                 .foregroundColor(.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
 
-            Text("Voquill is active")
+            Text("Ryōiki Tenkai is active")
                 .font(.headline)
 
             Spacer()
 
-            Link(destination: URL(string: "voquill://stop")!) {
+            Link(destination: URL(string: "ryoiki-tenkai://stop")!) {
                 Image(systemName: "power")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)

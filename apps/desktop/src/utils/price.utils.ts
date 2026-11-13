@@ -1,7 +1,7 @@
-import type { HandlerOutput } from "@voquill/functions";
-import { PRICE_KEYS, Prices, type PriceKey } from "@voquill/pricing";
-import { MemberPlan } from "@voquill/types";
-import { getRec } from "@voquill/utilities";
+import type { HandlerOutput } from "@ryoiki-tenkai/functions";
+import { PRICE_KEYS, Prices, type PriceKey } from "@ryoiki-tenkai/pricing";
+import { MemberPlan } from "@ryoiki-tenkai/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getStripeRepo } from "../repos";
 import type { AppState } from "../state/app.state";
 import { isDev, isEmulators, isProd } from "./env.utils";

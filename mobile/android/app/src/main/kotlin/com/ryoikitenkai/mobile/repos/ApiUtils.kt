@@ -1,4 +1,4 @@
-package com.voquill.mobile.repos
+package com.ryoikitenkai.mobile.repos
 
 import android.util.Log
 import org.json.JSONObject
@@ -36,7 +36,7 @@ fun postJsonSync(
         conn.disconnect()
         HttpResponse(status, body)
     } catch (e: Exception) {
-        Log.w("VoquillRepo", "HTTP call failed: ${e.message}")
+        Log.w("RyoikiTenkaiRepo", "HTTP call failed: ${e.message}")
         null
     }
 }
@@ -64,7 +64,7 @@ fun postBytesSync(
         conn.disconnect()
         HttpResponse(status, body)
     } catch (e: Exception) {
-        Log.w("VoquillRepo", "HTTP call failed: ${e.message}")
+        Log.w("RyoikiTenkaiRepo", "HTTP call failed: ${e.message}")
         null
     }
 }
@@ -87,14 +87,14 @@ fun invokeHandlerSync(
         ) ?: return null
 
         if (response.status !in 200..299) {
-            Log.w("VoquillRepo", "$name failed: HTTP ${response.status} ${response.body.take(200)}")
+            Log.w("RyoikiTenkaiRepo", "$name failed: HTTP ${response.status} ${response.body.take(200)}")
             return null
         }
 
         val json = JSONObject(response.body)
         json.optJSONObject("result")
     } catch (e: Exception) {
-        Log.w("VoquillRepo", "$name failed: ${e.message}")
+        Log.w("RyoikiTenkaiRepo", "$name failed: ${e.message}")
         null
     }
 }

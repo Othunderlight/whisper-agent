@@ -1,4 +1,4 @@
-import { Nullable } from "@voquill/types";
+import { Nullable } from "@ryoiki-tenkai/types";
 
 /**
  * Calculates the Levenshtein edit distance between two strings.

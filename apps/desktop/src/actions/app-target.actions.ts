@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
-import { AppTarget, Nullable } from "@voquill/types";
-import { getRec } from "@voquill/utilities";
+import { AppTarget, Nullable } from "@ryoiki-tenkai/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getAppTargetRepo, getStorageRepo } from "../repos";
 import { AppTargetUpsertParams } from "../repos/app-target.repo";
 import { getAppState, produceAppState } from "../store";

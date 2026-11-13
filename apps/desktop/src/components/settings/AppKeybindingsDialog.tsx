@@ -13,7 +13,7 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import { AppTarget } from "@voquill/types";
+import { AppTarget } from "@ryoiki-tenkai/types";
 import type { ChangeEvent } from "react";
 import { useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";

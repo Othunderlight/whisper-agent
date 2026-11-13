@@ -1,4 +1,4 @@
-import { User, UserPreferences } from "@voquill/types";
+import { User, UserPreferences } from "@ryoiki-tenkai/types";
 import { detectLocale } from "../i18n/intl";
 import { getUserPreferencesRepo, getUserRepo } from "../repos";
 import {
@@ -221,9 +221,9 @@ export const finishOnboarding = async () => {
     throw new Error("Cannot finish onboarding: user not found");
   }
 
-  clearLocalStorageValue("voquill:checklist-writing-style");
-  clearLocalStorageValue("voquill:checklist-dictionary");
-  clearLocalStorageValue("voquill:checklist-dismissed");
+  clearLocalStorageValue("ryoiki-tenkai:checklist-writing-style");
+  clearLocalStorageValue("ryoiki-tenkai:checklist-dictionary");
+  clearLocalStorageValue("ryoiki-tenkai:checklist-dismissed");
 
   try {
     const repo = getUserRepo();

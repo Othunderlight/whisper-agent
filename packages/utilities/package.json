@@ -1,10 +1,10 @@
 {
-  "name": "@voquill/utilities",
+  "name": "@ryoiki-tenkai/utilities",
   "version": "0.3.25",
   "description": "Shared utility functions",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/voquill/voquill.git",
+    "url": "git+https://github.com/ryoiki-tenkai/ryoiki-tenkai.git",
     "directory": "packages/utilities"
   },
   "main": "dist/index.js",
@@ -20,10 +20,10 @@
     "dist"
   ],
   "dependencies": {
-    "@voquill/types": "workspace:*"
+    "@ryoiki-tenkai/types": "workspace:*"
   },
   "devDependencies": {
-    "@voquill/typescript-config": "workspace:*",
+    "@ryoiki-tenkai/typescript-config": "workspace:*",
     "typescript": "5.9.2",
     "vite": "^7.3.2",
     "vitest": "^4.1.2"

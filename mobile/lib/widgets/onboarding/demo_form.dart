@@ -35,7 +35,7 @@ class DemoForm extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "To enable voice typing, select Voquill as your keyboard then tap the dictate button.",
+              "To enable voice typing, select Ryōiki Tenkai as your keyboard then tap the dictate button.",
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

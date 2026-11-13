@@ -6,7 +6,7 @@ import { INITIAL_APP_STATE, type AppState } from "../state/app.state";
 
 export const useAppStore = createWithEqualityFn<AppState>()(
   persist(() => INITIAL_APP_STATE, {
-    name: "voquill-local-state",
+    name: "ryoiki-tenkai-local-state",
     partialize: (state) => ({
       local: state.local,
       memberById: state.memberById,

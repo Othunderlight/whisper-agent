@@ -85,7 +85,7 @@ Future<DictationSession> createDictationSession() async {
 // ---------------------------------------------------------------------------
 
 class CloudDictationSession implements DictationSession {
-  static const _url = 'wss://api.voquill.com/v1/dictation';
+  static const _url = 'wss://api.ryoiki-tenkai.com/v1/dictation';
 
   WebSocket? _ws;
   bool _isReady = false;

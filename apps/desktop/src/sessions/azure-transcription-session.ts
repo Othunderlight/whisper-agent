@@ -1,7 +1,7 @@
 import {
   AzureStreamingSession,
   createAzureStreamingSession,
-} from "@voquill/voice-ai";
+} from "@ryoiki-tenkai/voice-ai";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { getAppState } from "../store";
 import {

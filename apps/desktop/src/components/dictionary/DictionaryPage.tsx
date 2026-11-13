@@ -1,6 +1,6 @@
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { Button } from "@mui/material";
-import { Term } from "@voquill/types";
+import { Term } from "@ryoiki-tenkai/types";
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -47,7 +47,7 @@ export default function DictionaryPage() {
         produceAppState((draft) => {
           draft.termById[created.id] = created;
         });
-        setLocalStorageValue("voquill:checklist-dictionary", true);
+        setLocalStorageValue("ryoiki-tenkai:checklist-dictionary", true);
       } catch (error) {
         produceAppState((draft) => {
           delete draft.termById[newTerm.id];

@@ -1,7 +1,7 @@
-import type { CloudModel } from "@voquill/functions";
-import type { ApiKeyProvider } from "@voquill/types";
-import { Nullable } from "@voquill/types";
-import { getRec } from "@voquill/utilities";
+import type { CloudModel } from "@ryoiki-tenkai/functions";
+import type { ApiKeyProvider } from "@ryoiki-tenkai/types";
+import { Nullable } from "@ryoiki-tenkai/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getAppState } from "../store";
 import { getIsEnterpriseEnabled } from "../utils/enterprise.utils";
 import { getLogger } from "../utils/log.utils";

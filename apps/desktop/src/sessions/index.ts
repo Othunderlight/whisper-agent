@@ -1,4 +1,4 @@
-import { getRec } from "@voquill/utilities";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getAppState } from "../store";
 import { TranscriptionSession } from "../types/transcription-session.types";
 import { getIsEnterpriseEnabled } from "../utils/enterprise.utils";

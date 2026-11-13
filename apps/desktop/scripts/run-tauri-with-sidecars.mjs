@@ -11,13 +11,13 @@ const requestedTarget = readOptionValue(tauriArgs, "--target");
 if (tauriCommand === "build" || tauriCommand === "dev") {
   const targets = resolveTargets(requestedTarget);
   const sidecarProfile =
-    process.env.VOQUILL_SIDECAR_PROFILE ||
+    process.env.RYOIKI_TENKAI_SIDECAR_PROFILE ||
     (tauriCommand === "build" ? "release" : "debug");
 
   for (const target of targets) {
     const prepareEnv = {
       ...process.env,
-      VOQUILL_SIDECAR_PROFILE: sidecarProfile,
+      RYOIKI_TENKAI_SIDECAR_PROFILE: sidecarProfile,
     };
 
     if (target) {

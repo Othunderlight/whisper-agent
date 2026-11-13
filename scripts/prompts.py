@@ -1,4 +1,4 @@
-#!/Users/josiah/repos/voquill/.venv/bin/python3
+#!/Users/josiah/repos/ryoiki-tenkai/.venv/bin/python3
 """
 Prompt testing and self-improvement tool.
 

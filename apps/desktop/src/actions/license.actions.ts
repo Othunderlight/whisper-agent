@@ -5,7 +5,7 @@ import { registerApiKeys } from "../utils/app.utils";
 import { getLogger } from "../utils/log.utils";
 import { updateUserPreferences } from "./user.actions";
 
-const PRESET_APPLIED_KEY = "voquill:license-preset-applied";
+const PRESET_APPLIED_KEY = "ryoiki-tenkai:license-preset-applied";
 
 const getAppliedLicenseId = (): string | null => {
   try {

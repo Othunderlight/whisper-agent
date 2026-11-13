@@ -22,7 +22,7 @@ class TryEmailForm extends StatelessWidget {
       child: OnboardingBody(
         title: const Text('Now try an email'),
         description: const Text(
-          'Dictate a short email. Voquill works great for longer-form content.',
+          'Dictate a short email. Ryōiki Tenkai works great for longer-form content.',
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

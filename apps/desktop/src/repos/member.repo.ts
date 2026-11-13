@@ -1,5 +1,5 @@
-import { invokeHandler } from "@voquill/functions";
-import { Member, Nullable } from "@voquill/types";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Member, Nullable } from "@ryoiki-tenkai/types";
 import { invokeEnterprise } from "../utils/enterprise.utils";
 import { BaseRepo } from "./base.repo";
 

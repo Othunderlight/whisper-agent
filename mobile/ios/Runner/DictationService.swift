@@ -35,10 +35,10 @@ class DictationService {
 
     func startDictation() {
         guard currentPhase == .idle else {
-            NSLog("[VoquillApp] startDictation ignored, phase is %@", currentPhase.rawValue)
+            NSLog("[RyoikiTenkaiApp] startDictation ignored, phase is %@", currentPhase.rawValue)
             return
         }
-        NSLog("[VoquillApp] startDictation")
+        NSLog("[RyoikiTenkaiApp] startDictation")
 
         let now = Date().timeIntervalSince1970
         defaults?.set(now, forKey: DictationConstants.startedAtKey)
@@ -47,7 +47,7 @@ class DictationService {
             try configureAudioSession()
             try startAudioEngine()
         } catch {
-            NSLog("[VoquillApp] Audio setup failed: %@", error.localizedDescription)
+            NSLog("[RyoikiTenkaiApp] Audio setup failed: %@", error.localizedDescription)
             stopDictation()
             return
         }
@@ -74,7 +74,7 @@ class DictationService {
 
     func pauseRecording() {
         guard currentPhase == .recording else { return }
-        NSLog("[VoquillApp] pauseRecording")
+        NSLog("[RyoikiTenkaiApp] pauseRecording")
         stopRecordingTimeout()
         isRecording = false
         audioFile = nil
@@ -86,11 +86,11 @@ class DictationService {
 
     func resumeRecording() {
         guard currentPhase == .active else { return }
-        NSLog("[VoquillApp] resumeRecording")
+        NSLog("[RyoikiTenkaiApp] resumeRecording")
         stopIdleTimeout()
 
         if audioEngine?.isRunning != true {
-            NSLog("[VoquillApp] Audio engine not running, attempting restart")
+            NSLog("[RyoikiTenkaiApp] Audio engine not running, attempting restart")
             do {
                 try configureAudioSession()
                 if audioEngine == nil {
@@ -99,7 +99,7 @@ class DictationService {
                     try audioEngine?.start()
                 }
             } catch {
-                NSLog("[VoquillApp] Failed to restart audio engine: %@", error.localizedDescription)
+                NSLog("[RyoikiTenkaiApp] Failed to restart audio engine: %@", error.localizedDescription)
                 stopDictation()
                 return
             }
@@ -113,7 +113,7 @@ class DictationService {
     }
 
     func stopDictation() {
-        NSLog("[VoquillApp] stopDictation")
+        NSLog("[RyoikiTenkaiApp] stopDictation")
         DarwinNotificationManager.shared.removeObserver(DictationConstants.stopRecording)
         DarwinNotificationManager.shared.removeObserver(DictationConstants.startRecording)
         DarwinNotificationManager.shared.removeObserver(DictationConstants.stopDictation)
@@ -205,7 +205,7 @@ class DictationService {
             repeats: false
         ) { [weak self] _ in
             guard let self = self, self.currentPhase == .recording else { return }
-            NSLog("[VoquillApp] Recording timeout reached")
+            NSLog("[RyoikiTenkaiApp] Recording timeout reached")
             self.pauseRecording()
         }
     }
@@ -223,18 +223,18 @@ class DictationService {
 
         // 0 with key present means "keep running" — skip timer
         if defaults?.object(forKey: DictationConstants.idleTimeoutKey) != nil && timeout == 0 {
-            NSLog("[VoquillApp] Idle timeout disabled (keep running mode)")
+            NSLog("[RyoikiTenkaiApp] Idle timeout disabled (keep running mode)")
             return
         }
 
         let duration = timeout > 0 ? timeout : DictationConstants.defaultIdleTimeout
-        NSLog("[VoquillApp] Starting idle timeout: %.0f seconds", duration)
+        NSLog("[RyoikiTenkaiApp] Starting idle timeout: %.0f seconds", duration)
         idleTimeoutTimer = Timer.scheduledTimer(
             withTimeInterval: duration,
             repeats: false
         ) { [weak self] _ in
             guard let self = self, self.currentPhase == .active else { return }
-            NSLog("[VoquillApp] Idle timeout reached, stopping dictation")
+            NSLog("[RyoikiTenkaiApp] Idle timeout reached, stopping dictation")
             self.stopDictation()
         }
     }
@@ -299,7 +299,7 @@ class DictationService {
 
         switch type {
         case .began:
-            NSLog("[VoquillApp] Audio session interrupted (e.g. phone call)")
+            NSLog("[RyoikiTenkaiApp] Audio session interrupted (e.g. phone call)")
             stopRecordingTimeout()
             stopIdleTimeout()
             isRecording = false
@@ -311,7 +311,7 @@ class DictationService {
             let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
 
             if options.contains(.shouldResume) {
-                NSLog("[VoquillApp] Audio interruption ended, resuming")
+                NSLog("[RyoikiTenkaiApp] Audio interruption ended, resuming")
                 do {
                     try AVAudioSession.sharedInstance().setActive(true)
                     if audioEngine?.isRunning != true {
@@ -325,11 +325,11 @@ class DictationService {
                         startRecordingTimeout()
                     }
                 } catch {
-                    NSLog("[VoquillApp] Failed to resume after interruption: %@", error.localizedDescription)
+                    NSLog("[RyoikiTenkaiApp] Failed to resume after interruption: %@", error.localizedDescription)
                     stopDictation()
                 }
             } else {
-                NSLog("[VoquillApp] Audio interruption ended, not resumable — stopping")
+                NSLog("[RyoikiTenkaiApp] Audio interruption ended, not resumable — stopping")
                 stopDictation()
             }
 
@@ -343,7 +343,7 @@ class DictationService {
     private func startLiveActivity() {
         guard #available(iOS 16.2, *) else { return }
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
-            NSLog("[VoquillApp] Live Activities not enabled")
+            NSLog("[RyoikiTenkaiApp] Live Activities not enabled")
             return
         }
 
@@ -356,9 +356,9 @@ class DictationService {
                 content: .init(state: state, staleDate: nil),
                 pushType: nil
             )
-            NSLog("[VoquillApp] Live Activity started")
+            NSLog("[RyoikiTenkaiApp] Live Activity started")
         } catch {
-            NSLog("[VoquillApp] Failed to start Live Activity: %@", error.localizedDescription)
+            NSLog("[RyoikiTenkaiApp] Failed to start Live Activity: %@", error.localizedDescription)
         }
     }
 

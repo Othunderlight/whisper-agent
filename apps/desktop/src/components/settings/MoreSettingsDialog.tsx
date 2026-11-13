@@ -11,7 +11,10 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import type { DictationPillVisibility, StylingMode } from "@voquill/types";
+import type {
+  DictationPillVisibility,
+  StylingMode,
+} from "@ryoiki-tenkai/types";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
@@ -36,7 +39,7 @@ import {
   getAllowsMultiDeviceMode,
 } from "../../utils/enterprise.utils";
 import { getEffectiveStylingMode } from "../../utils/feature.utils";
-import { getIsVoquillCloudUser } from "../../utils/member.utils";
+import { getIsRyoikiTenkaiCloudUser } from "../../utils/member.utils";
 import {
   getEffectivePillVisibility,
   getMyUserPreferences,
@@ -79,7 +82,7 @@ export const MoreSettingsDialog = () => {
       state.local.disablePillRewards,
       state.local.accurateDictationEnabled,
       state.local.disableAutoStyleLoading ?? false,
-      getIsVoquillCloudUser(state),
+      getIsRyoikiTenkaiCloudUser(state),
       prefs?.menuBarIconHidden ?? false,
     ] as const;
   });

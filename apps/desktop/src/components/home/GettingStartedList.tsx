@@ -99,15 +99,15 @@ export function GettingStartedList() {
   const intl = useIntl();
   const onboardedAt = useAppStore((state) => getMyUser(state)?.onboardedAt);
   const [isDismissed, setDismissed] = useLocalStorage(
-    "voquill:checklist-dismissed",
+    "ryoiki-tenkai:checklist-dismissed",
     false,
   );
   const [hasAddedDictionaryWord] = useLocalStorage(
-    "voquill:checklist-dictionary",
+    "ryoiki-tenkai:checklist-dictionary",
     false,
   );
   const [hasSelectedWritingStyle] = useLocalStorage(
-    "voquill:checklist-writing-style",
+    "ryoiki-tenkai:checklist-writing-style",
     false,
   );
   const supportsAppDetection = useAppStore(

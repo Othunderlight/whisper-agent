@@ -1,5 +1,5 @@
-import { getRec } from "@voquill/utilities";
-import { FocusStatus } from "@voquill/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
+import { FocusStatus } from "@ryoiki-tenkai/types";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { Box, Chip, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";

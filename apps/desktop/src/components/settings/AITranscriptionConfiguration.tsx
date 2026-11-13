@@ -49,7 +49,7 @@ import {
 } from "../common/SegmentedControl";
 import { maybeArrayElements } from "./AIPostProcessingConfiguration";
 import { ApiKeyList } from "./ApiKeyList";
-import { VoquillCloudSetting } from "./VoquillCloudSetting";
+import { RyoikiTenkaiCloudSetting } from "./RyoikiTenkaiCloudSetting";
 
 type ModelOption = {
   value: LocalWhisperModel;
@@ -547,7 +547,9 @@ export const AITranscriptionConfiguration = ({
         />
       )}
 
-      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && (
+        <RyoikiTenkaiCloudSetting />
+      )}
     </Stack>
   );
 };

@@ -6,13 +6,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import type { Term } from "@voquill/types";
+import type { Term } from "@ryoiki-tenkai/types";
 import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import {
-  deleteGlobalTerm,
-  loadGlobalTerms,
-} from "../../actions/terms.actions";
+import { deleteGlobalTerm, loadGlobalTerms } from "../../actions/terms.actions";
 import { useAppStore } from "../../store";
 import { AppTable, type ColumnDef } from "../common/AppTable";
 import { CenteredMessage } from "../common/CenteredMessage";
@@ -109,12 +106,19 @@ export default function TermsTab() {
     },
     {
       header: intl.formatMessage({ defaultMessage: "Destination" }),
-      cell: (row) => <Box sx={twoLineEllipsis}>{row.isReplacement ? row.destinationValue : "—"}</Box>,
+      cell: (row) => (
+        <Box sx={twoLineEllipsis}>
+          {row.isReplacement ? row.destinationValue : "—"}
+        </Box>
+      ),
       weight: 2,
     },
     {
       header: intl.formatMessage({ defaultMessage: "Type" }),
-      cell: (row) => (row.isReplacement ? intl.formatMessage({ defaultMessage: "Replacement" }) : intl.formatMessage({ defaultMessage: "Glossary" })),
+      cell: (row) =>
+        row.isReplacement
+          ? intl.formatMessage({ defaultMessage: "Replacement" })
+          : intl.formatMessage({ defaultMessage: "Glossary" }),
       getSortKey: (row) => (row.isReplacement ? 1 : 0),
       weight: 1,
     },
@@ -142,7 +146,9 @@ export default function TermsTab() {
 
   if (status === "error") {
     return (
-      <TabLayout title={intl.formatMessage({ defaultMessage: "Global Dictionary" })}>
+      <TabLayout
+        title={intl.formatMessage({ defaultMessage: "Global Dictionary" })}
+      >
         <CenteredMessage>
           <Typography color="error">
             <FormattedMessage defaultMessage="Failed to load terms." />
@@ -159,7 +165,12 @@ export default function TermsTab() {
     <TabLayout
       title={intl.formatMessage({ defaultMessage: "Global Dictionary" })}
       trailing={
-        <Button startIcon={<Add />} variant="contained" size="small" onClick={openCreate}>
+        <Button
+          startIcon={<Add />}
+          variant="contained"
+          size="small"
+          onClick={openCreate}
+        >
           <FormattedMessage defaultMessage="Add Term" />
         </Button>
       }
@@ -170,7 +181,9 @@ export default function TermsTab() {
         defaultSortColumnIndex={0}
         fixedItemHeight={52}
         sx={{ height: "100%" }}
-        emptyMessage={intl.formatMessage({ defaultMessage: "No global dictionary terms" })}
+        emptyMessage={intl.formatMessage({
+          defaultMessage: "No global dictionary terms",
+        })}
       />
 
       <TermDialog

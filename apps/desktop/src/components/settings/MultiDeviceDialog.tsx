@@ -16,7 +16,7 @@ import type {
   PairedRemoteDevice,
   RemoteDevicePlatform,
   RemoteDeviceRole,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { showErrorSnackbar, showSnackbar } from "../../actions/app.actions";
@@ -339,7 +339,7 @@ export const MultiDeviceDialog = () => {
   const lastDeliveryTimeLabel = receiverStatus?.lastDeliveryAt
     ? new Date(receiverStatus.lastDeliveryAt).toLocaleString()
     : null;
-  const lastTargetLooksLikeVoquill =
+  const lastTargetLooksLikeRyoikiTenkai =
     receiverStatus?.lastTargetClassName === "Tauri Window";
   const lastTargetMissingEditableField =
     receiverStatus?.lastTargetEditable === false &&
@@ -537,7 +537,7 @@ export const MultiDeviceDialog = () => {
                         />
                       </Typography>
                     )}
-                    {lastTargetLooksLikeVoquill && (
+                    {lastTargetLooksLikeRyoikiTenkai && (
                       <Typography
                         variant="caption"
                         color="warning.main"

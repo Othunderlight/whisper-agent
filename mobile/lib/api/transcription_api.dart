@@ -2,7 +2,7 @@ import 'package:app/api/base_api.dart';
 import 'package:app/model/transcription_model.dart';
 import 'package:flutter/services.dart';
 
-const _sharedChannel = MethodChannel('com.voquill.mobile/shared');
+const _sharedChannel = MethodChannel('com.ryoikitenkai.mobile/shared');
 
 class LoadTranscriptionsApi extends BaseApi<void, List<Transcription>> {
   @override

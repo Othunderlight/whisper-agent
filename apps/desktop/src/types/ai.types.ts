@@ -2,7 +2,7 @@ import type {
   AgentMode,
   PostProcessingMode,
   TranscriptionMode,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 
 export type { AgentMode, PostProcessingMode, TranscriptionMode };
 

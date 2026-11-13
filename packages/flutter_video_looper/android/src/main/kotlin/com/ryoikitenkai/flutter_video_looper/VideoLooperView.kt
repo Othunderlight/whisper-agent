@@ -1,4 +1,4 @@
-package com.voquill.flutter_video_looper
+package com.ryoikitenkai.flutter_video_looper
 
 import android.app.Activity
 import android.app.PictureInPictureParams

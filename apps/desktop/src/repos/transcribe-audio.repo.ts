@@ -1,6 +1,6 @@
-import { invokeHandler } from "@voquill/functions";
-import { Nullable } from "@voquill/types";
-import { batchAsync } from "@voquill/utilities";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Nullable } from "@ryoiki-tenkai/types";
+import { batchAsync } from "@ryoiki-tenkai/utilities";
 import {
   aldeaTranscribeAudio,
   azureTranscribeAudio,
@@ -14,7 +14,7 @@ import {
   TranscriptionModel,
   xaiTranscribeAudio,
   XaiTranscriptionModel,
-} from "@voquill/voice-ai";
+} from "@ryoiki-tenkai/voice-ai";
 import { getAppState } from "../store";
 import { DEFAULT_MODEL_SIZE, TranscriptionMode } from "../types/ai.types";
 import { AudioSamples } from "../types/audio.types";

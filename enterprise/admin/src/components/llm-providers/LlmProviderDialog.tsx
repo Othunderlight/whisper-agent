@@ -8,7 +8,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import type { LlmProvider } from "@voquill/types";
+import type { LlmProvider } from "@ryoiki-tenkai/types";
 import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { upsertLlmProvider } from "../../actions/llm-providers.actions";
@@ -163,7 +163,13 @@ export const LlmProviderDialog = ({
           type="password"
           value={form.apiKey}
           onChange={(e) => onFormChange({ ...form, apiKey: e.target.value })}
-          helperText={isEdit ? intl.formatMessage({ defaultMessage: "Leave empty to keep the current key" }) : undefined}
+          helperText={
+            isEdit
+              ? intl.formatMessage({
+                  defaultMessage: "Leave empty to keep the current key",
+                })
+              : undefined
+          }
         />
         <ModelAutocomplete
           label={intl.formatMessage({ defaultMessage: "Model" })}
@@ -197,7 +203,11 @@ export const LlmProviderDialog = ({
           <FormattedMessage defaultMessage="Cancel" />
         </Button>
         <Button variant="contained" onClick={handleSave} disabled={!canSave}>
-          {saving ? <CircularProgress size={20} /> : <FormattedMessage defaultMessage="Save" />}
+          {saving ? (
+            <CircularProgress size={20} />
+          ) : (
+            <FormattedMessage defaultMessage="Save" />
+          )}
         </Button>
       </DialogActions>
     </Dialog>

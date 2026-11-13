@@ -20,10 +20,10 @@
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>⌨️ Enable Voquill Keyboard</string>
+			<string>⌨️ Enable Ryōiki Tenkai Keyboard</string>
 			<key>FooterText</key>
 			<string>1. Tap "Keyboards"
-2. Enable "Voquill"
+2. Enable "Ryōiki Tenkai"
 3. Tap "Allow Full Access"
 4. Tap "Allow" again to confirm</string>
 		</dict>

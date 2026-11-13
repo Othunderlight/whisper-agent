@@ -1,5 +1,5 @@
 import { ActiveDashboard } from "../state/local.state";
-import { FocusCheck, FocusSettings } from "@voquill/types";
+import { FocusCheck, FocusSettings } from "@ryoiki-tenkai/types";
 import dayjs from "dayjs";
 import { getFocusRepo } from "../repos";
 import { getAppState, produceAppState } from "../store";

@@ -12,7 +12,10 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import type { EnterpriseConfig, EnterpriseStylingMode } from "@voquill/types";
+import type {
+  EnterpriseConfig,
+  EnterpriseStylingMode,
+} from "@ryoiki-tenkai/types";
 import { FormattedMessage, useIntl } from "react-intl";
 import { signOut } from "../../actions/login.actions";
 import { updateEnterpriseConfig } from "../../actions/settings.actions";
@@ -40,10 +43,10 @@ export default function SettingsTab() {
   }
 
   return (
-    <TabLayout
-      title={intl.formatMessage({ defaultMessage: "Settings" })}
-    >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 4, maxWidth: 600 }}>
+    <TabLayout title={intl.formatMessage({ defaultMessage: "Settings" })}>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", gap: 4, maxWidth: 600 }}
+      >
         <Card variant="outlined">
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
@@ -202,9 +205,14 @@ export default function SettingsTab() {
                   </InputLabel>
                   <Select
                     value={enterpriseConfig.stylingMode}
-                    label={intl.formatMessage({ defaultMessage: "Styling Mode" })}
+                    label={intl.formatMessage({
+                      defaultMessage: "Styling Mode",
+                    })}
                     onChange={(e) =>
-                      handleChange("stylingMode", e.target.value as EnterpriseStylingMode)
+                      handleChange(
+                        "stylingMode",
+                        e.target.value as EnterpriseStylingMode,
+                      )
                     }
                   >
                     <MenuItem value="app">

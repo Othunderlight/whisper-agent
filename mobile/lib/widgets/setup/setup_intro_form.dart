@@ -45,7 +45,7 @@ class SetupIntroForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Voquill is a voice keyboard. It lets you type with your voice in any app.',
+                  'Ryōiki Tenkai is a voice keyboard. It lets you type with your voice in any app.',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

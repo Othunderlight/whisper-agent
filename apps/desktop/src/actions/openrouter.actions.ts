@@ -1,6 +1,9 @@
-import { OpenRouterConfig, OpenRouterProviderRouting } from "@voquill/types";
-import { openrouterFetchProviders } from "@voquill/voice-ai";
-import { getRec } from "@voquill/utilities";
+import {
+  OpenRouterConfig,
+  OpenRouterProviderRouting,
+} from "@ryoiki-tenkai/types";
+import { openrouterFetchProviders } from "@ryoiki-tenkai/voice-ai";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getAppState, produceAppState } from "../store";
 import { getOpenRouterRepo } from "../repos/openrouter.repo";
 import { updateApiKey } from "./api-key.actions";
@@ -121,7 +124,8 @@ export const toggleOpenRouterFavoriteModel = async (
   modelId: string,
 ): Promise<void> => {
   // Import dynamically to avoid circular dependency
-  const { OPENROUTER_FAVORITE_MODELS } = await import("@voquill/voice-ai");
+  const { OPENROUTER_FAVORITE_MODELS } =
+    await import("@ryoiki-tenkai/voice-ai");
 
   const state = getAppState();
   const apiKey = getRec(state.apiKeyById, apiKeyId);

@@ -3,7 +3,7 @@ import {
   ApiKeyProvider,
   OpenRouterModel,
   OpenRouterProvider,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import type {
   LocalSidecarDevice,
   LocalSidecarDownloadSnapshot,

@@ -1,4 +1,4 @@
-import type { Tone } from "@voquill/types";
+import type { Tone } from "@ryoiki-tenkai/types";
 import type { ToneRow } from "../types/tone.types";
 import { getPool } from "../utils/db.utils";
 

@@ -18,7 +18,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.voquill.mobile"
+    namespace = "com.ryoikitenkai.mobile"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.voquill.mobile"
+        applicationId = "com.ryoikitenkai.mobile"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -44,15 +44,15 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            applicationId = "com.voquill.mobile"
+            applicationId = "com.ryoikitenkai.mobile"
         }
         create("dev") {
             dimension = "environment"
-            applicationId = "com.voquill.mobile.dev"
+            applicationId = "com.ryoikitenkai.mobile.dev"
         }
         create("emulators") {
             dimension = "environment"
-            applicationId = "com.voquill.mobile.emulators"
+            applicationId = "com.ryoikitenkai.mobile.emulators"
         }
     }
 

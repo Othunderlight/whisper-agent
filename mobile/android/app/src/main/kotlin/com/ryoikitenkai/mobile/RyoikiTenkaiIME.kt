@@ -1,4 +1,4 @@
-package com.voquill.mobile
+package com.ryoikitenkai.mobile
 
 import android.Manifest
 import android.animation.Animator
@@ -45,14 +45,14 @@ import java.util.TimeZone
 import java.util.UUID
 import java.net.HttpURLConnection
 import java.net.URL
-import com.voquill.mobile.repos.*
+import com.ryoikitenkai.mobile.repos.*
 import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 
-class VoquillIME : InputMethodService() {
+class RyoikiTenkaiIME : InputMethodService() {
 
     enum class Phase { IDLE, RECORDING, LOADING, ERROR }
 
@@ -134,7 +134,7 @@ class VoquillIME : InputMethodService() {
     private var pendingErrorMessage = ""
 
     private fun dbg(msg: String) {
-        Log.d("[VoquillKB]", msg)
+        Log.d("[RyoikiTenkaiKB]", msg)
         lastDebugLog = msg
     }
 
@@ -145,7 +145,7 @@ class VoquillIME : InputMethodService() {
     }
 
     private val audioFilePath: String
-        get() = File(cacheDir, "voquill_kb.m4a").absolutePath
+        get() = File(cacheDir, "ryoiki_tenkai_kb.m4a").absolutePath
 
     override fun onCreate() {
         super.onCreate()
@@ -377,7 +377,7 @@ class VoquillIME : InputMethodService() {
         when (currentPhase) {
             Phase.IDLE -> {
                 if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                    showPillError("Mic permission needed — open Voquill")
+                    showPillError("Mic permission needed — open Ryōiki Tenkai")
                     return
                 }
                 if (!startAudioCapture()) {
@@ -968,14 +968,14 @@ class VoquillIME : InputMethodService() {
                 val idToken = fetchIdTokenSync()
                 if (idToken == null) {
                     handler.post {
-                        showPillError("Sign in required — open Voquill")
+                        showPillError("Sign in required — open Ryōiki Tenkai")
                     }
                     return@execute
                 }
                 val functionUrl = prefs.getString(KEY_FUNCTION_URL, null)
                 if (functionUrl.isNullOrBlank()) {
                     handler.post {
-                        showPillError("Setup error — open Voquill")
+                        showPillError("Setup error — open Ryōiki Tenkai")
                     }
                     return@execute
                 }
@@ -1297,7 +1297,7 @@ class VoquillIME : InputMethodService() {
         userName: String,
     ): String {
         val glossary = ArrayList<String>()
-        glossary.add("Voquill")
+        glossary.add("Ryōiki Tenkai")
         glossary.add(userName)
         for (termId in termIds) {
             val term = termById[termId] ?: continue
@@ -1457,36 +1457,36 @@ class VoquillIME : InputMethodService() {
     }
 
     companion object {
-        const val PREFS_NAME = "voquill_keyboard"
-        const val KEY_API_REFRESH_TOKEN = "voquill_api_refresh_token"
-        const val KEY_API_KEY = "voquill_api_key"
-        const val KEY_FUNCTION_URL = "voquill_function_url"
-        const val KEY_AUTH_URL = "voquill_auth_url"
-        const val KEY_USER_NAME = "voquill_user_name"
-        const val KEY_DICTATION_LANGUAGE = "voquill_dictation_language"
-        const val KEY_DICTATION_LANGUAGES = "voquill_dictation_languages"
-        const val KEY_SELECTED_TONE_ID = "voquill_selected_tone_id"
-        const val KEY_ACTIVE_TONE_IDS = "voquill_active_tone_ids"
-        const val KEY_TONE_BY_ID = "voquill_tone_by_id"
-        const val KEY_TERM_IDS = "voquill_term_ids"
-        const val KEY_TERM_BY_ID = "voquill_term_by_id"
-        const val KEY_TRANSCRIPTIONS = "voquill_transcriptions"
-        const val KEY_MIXPANEL_UID = "voquill_mixpanel_uid"
-        const val KEY_MIXPANEL_TOKEN = "voquill_mixpanel_token"
-        const val KEY_APP_UPDATE_COUNTER = "voquill_app_update_counter"
-        const val KEY_KEYBOARD_UPDATE_COUNTER = "voquill_keyboard_update_counter"
-        const val KEY_AI_TRANSCRIPTION_MODE = "voquill_ai_transcription_mode"
-        const val KEY_AI_POST_PROCESSING_MODE = "voquill_ai_post_processing_mode"
-        const val KEY_AI_TRANSCRIPTION_PROVIDER = "voquill_ai_transcription_provider"
-        const val KEY_AI_TRANSCRIPTION_API_KEY = "voquill_ai_transcription_api_key"
-        const val KEY_AI_POST_PROCESSING_PROVIDER = "voquill_ai_post_processing_provider"
-        const val KEY_AI_POST_PROCESSING_API_KEY = "voquill_ai_post_processing_api_key"
-        const val KEY_AI_TRANSCRIPTION_BASE_URL = "voquill_ai_transcription_base_url"
-        const val KEY_AI_POST_PROCESSING_BASE_URL = "voquill_ai_post_processing_base_url"
-        const val KEY_AI_TRANSCRIPTION_MODEL = "voquill_ai_transcription_model"
-        const val KEY_AI_POST_PROCESSING_MODEL = "voquill_ai_post_processing_model"
-        const val KEY_AI_TRANSCRIPTION_AZURE_REGION = "voquill_ai_transcription_azure_region"
-        const val EXTRA_SHOW_PAYWALL = "voquill_show_paywall"
+        const val PREFS_NAME = "ryoiki_tenkai_keyboard"
+        const val KEY_API_REFRESH_TOKEN = "ryoiki_tenkai_api_refresh_token"
+        const val KEY_API_KEY = "ryoiki_tenkai_api_key"
+        const val KEY_FUNCTION_URL = "ryoiki_tenkai_function_url"
+        const val KEY_AUTH_URL = "ryoiki_tenkai_auth_url"
+        const val KEY_USER_NAME = "ryoiki_tenkai_user_name"
+        const val KEY_DICTATION_LANGUAGE = "ryoiki_tenkai_dictation_language"
+        const val KEY_DICTATION_LANGUAGES = "ryoiki_tenkai_dictation_languages"
+        const val KEY_SELECTED_TONE_ID = "ryoiki_tenkai_selected_tone_id"
+        const val KEY_ACTIVE_TONE_IDS = "ryoiki_tenkai_active_tone_ids"
+        const val KEY_TONE_BY_ID = "ryoiki_tenkai_tone_by_id"
+        const val KEY_TERM_IDS = "ryoiki_tenkai_term_ids"
+        const val KEY_TERM_BY_ID = "ryoiki_tenkai_term_by_id"
+        const val KEY_TRANSCRIPTIONS = "ryoiki_tenkai_transcriptions"
+        const val KEY_MIXPANEL_UID = "ryoiki_tenkai_mixpanel_uid"
+        const val KEY_MIXPANEL_TOKEN = "ryoiki_tenkai_mixpanel_token"
+        const val KEY_APP_UPDATE_COUNTER = "ryoiki_tenkai_app_update_counter"
+        const val KEY_KEYBOARD_UPDATE_COUNTER = "ryoiki_tenkai_keyboard_update_counter"
+        const val KEY_AI_TRANSCRIPTION_MODE = "ryoiki_tenkai_ai_transcription_mode"
+        const val KEY_AI_POST_PROCESSING_MODE = "ryoiki_tenkai_ai_post_processing_mode"
+        const val KEY_AI_TRANSCRIPTION_PROVIDER = "ryoiki_tenkai_ai_transcription_provider"
+        const val KEY_AI_TRANSCRIPTION_API_KEY = "ryoiki_tenkai_ai_transcription_api_key"
+        const val KEY_AI_POST_PROCESSING_PROVIDER = "ryoiki_tenkai_ai_post_processing_provider"
+        const val KEY_AI_POST_PROCESSING_API_KEY = "ryoiki_tenkai_ai_post_processing_api_key"
+        const val KEY_AI_TRANSCRIPTION_BASE_URL = "ryoiki_tenkai_ai_transcription_base_url"
+        const val KEY_AI_POST_PROCESSING_BASE_URL = "ryoiki_tenkai_ai_post_processing_base_url"
+        const val KEY_AI_TRANSCRIPTION_MODEL = "ryoiki_tenkai_ai_transcription_model"
+        const val KEY_AI_POST_PROCESSING_MODEL = "ryoiki_tenkai_ai_post_processing_model"
+        const val KEY_AI_TRANSCRIPTION_AZURE_REGION = "ryoiki_tenkai_ai_transcription_azure_region"
+        const val EXTRA_SHOW_PAYWALL = "ryoiki_tenkai_show_paywall"
 
         const val COLOR_BLUE = 0xFF3380FF.toInt()
         const val COLOR_GRAY_LIGHT = 0xFFC7C7CC.toInt()

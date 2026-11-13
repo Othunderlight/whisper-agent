@@ -1,7 +1,7 @@
 import {
   useTauriListen as useTauriListenBase,
   type UseTauriListenOptions,
-} from "@voquill/desktop-utils";
+} from "@ryoiki-tenkai/desktop-utils";
 import { showErrorSnackbar } from "../actions/app.actions";
 
 const surfaceError = (error: unknown) => showErrorSnackbar(error);

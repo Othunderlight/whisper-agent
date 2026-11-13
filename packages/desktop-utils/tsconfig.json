@@ -1,5 +1,5 @@
 {
-  "extends": "@voquill/typescript-config/package-config.json",
+  "extends": "@ryoiki-tenkai/typescript-config/package-config.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",

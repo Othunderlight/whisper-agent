@@ -157,13 +157,13 @@ class _CloudContent extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Voquill Cloud',
+          'Ryōiki Tenkai Cloud',
           style: theme.textTheme.titleMedium,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
         Text(
-          'Transcription and post-processing are handled by Voquill\'s cloud service. No configuration needed.',
+          'Transcription and post-processing are handled by Ryōiki Tenkai\'s cloud service. No configuration needed.',
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurface.withAlpha(153),
           ),

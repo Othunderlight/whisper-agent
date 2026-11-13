@@ -39,7 +39,7 @@ import {
   type TenantRole,
   type User,
   type UserWithAuth,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import { z } from "zod";
 
 export const CLOUD_MODELS = ["low", "medium", "large"] as const;
@@ -637,13 +637,17 @@ export const StripeCreateTenantCheckoutSessionInputZod = z
     priceId: z.string().min(1),
     quantity: z.number().int().positive(),
   })
-  .strict() satisfies z.ZodType<HandlerInput<"stripe/createTenantCheckoutSession">>;
+  .strict() satisfies z.ZodType<
+  HandlerInput<"stripe/createTenantCheckoutSession">
+>;
 
 export const StripeCreateTenantCustomerPortalSessionInputZod = z
   .object({
     tenantId: z.string().min(1),
   })
-  .strict() satisfies z.ZodType<HandlerInput<"stripe/createTenantCustomerPortalSession">>;
+  .strict() satisfies z.ZodType<
+  HandlerInput<"stripe/createTenantCustomerPortalSession">
+>;
 
 export const StripeUpdateTenantSubscriptionInputZod = z
   .object({
@@ -651,7 +655,9 @@ export const StripeUpdateTenantSubscriptionInputZod = z
     priceId: z.string().min(1),
     quantity: z.number().int().positive(),
   })
-  .strict() satisfies z.ZodType<HandlerInput<"stripe/updateTenantSubscription">>;
+  .strict() satisfies z.ZodType<
+  HandlerInput<"stripe/updateTenantSubscription">
+>;
 
 export const SetMyUserInputZod = z
   .object({

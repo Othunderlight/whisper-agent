@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import type { HandlerInput, HandlerOutput } from "@voquill/functions";
-import type { AuthContext, Nullable } from "@voquill/types";
+import type { HandlerInput, HandlerOutput } from "@ryoiki-tenkai/functions";
+import type { AuthContext, Nullable } from "@ryoiki-tenkai/types";
 import {
   existsByEmail,
   findAuthByEmail,
@@ -12,7 +12,12 @@ import {
   countAll,
   updatePasswordHash,
 } from "../repo/auth.repo";
-import { requireAuth, signAuthToken, signRefreshToken, verifyRefreshToken } from "../utils/auth.utils";
+import {
+  requireAuth,
+  signAuthToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} from "../utils/auth.utils";
 import {
   ClientError,
   ConflictError,
@@ -40,7 +45,11 @@ export async function register(
   const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
   const auth = await createAuth(input.email, passwordHash);
 
-  return { token: signAuthToken(auth), refreshToken: signRefreshToken(auth), auth };
+  return {
+    token: signAuthToken(auth),
+    refreshToken: signRefreshToken(auth),
+    auth,
+  };
 }
 
 export async function login(
@@ -53,7 +62,9 @@ export async function login(
   }
 
   if (!row.password_hash) {
-    throw new ClientError("This account uses SSO. Please sign in with your identity provider.");
+    throw new ClientError(
+      "This account uses SSO. Please sign in with your identity provider.",
+    );
   }
 
   const isValid = await bcrypt.compare(input.password, row.password_hash);
@@ -68,7 +79,11 @@ export async function login(
     createdAt: row.created_at.toISOString(),
   };
 
-  return { token: signAuthToken(auth), refreshToken: signRefreshToken(auth), auth };
+  return {
+    token: signAuthToken(auth),
+    refreshToken: signRefreshToken(auth),
+    auth,
+  };
 }
 
 export async function refresh(opts: {
@@ -80,7 +95,11 @@ export async function refresh(opts: {
     throw new UnauthorizedError("User not found");
   }
 
-  return { token: signAuthToken(auth), refreshToken: signRefreshToken(auth), auth };
+  return {
+    token: signAuthToken(auth),
+    refreshToken: signRefreshToken(auth),
+    auth,
+  };
 }
 
 export async function makeAdmin(opts: {

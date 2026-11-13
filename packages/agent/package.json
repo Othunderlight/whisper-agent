@@ -14,11 +14,11 @@
     "dist"
   ],
   "dependencies": {
-    "@voquill/types": "workspace:*"
+    "@ryoiki-tenkai/types": "workspace:*"
   },
   "devDependencies": {
-    "@voquill/typescript-config": "workspace:*",
-    "@voquill/voice-ai": "workspace:*",
+    "@ryoiki-tenkai/typescript-config": "workspace:*",
+    "@ryoiki-tenkai/voice-ai": "workspace:*",
     "tsx": "^4.21.0",
     "typescript": "5.9.2"
   }

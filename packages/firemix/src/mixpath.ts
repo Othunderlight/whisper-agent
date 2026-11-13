@@ -12,8 +12,8 @@ import {
   TermDoc,
   ToneDoc,
   Transcription,
-} from "@voquill/types";
-import { listify } from "@voquill/utilities";
+} from "@ryoiki-tenkai/types";
+import { listify } from "@ryoiki-tenkai/utilities";
 
 export const members = (
   memberId?: Nullable<string>,
@@ -74,4 +74,3 @@ export const globalDictionaries = (
 ): FiremixPath<DatabaseGlobalDictionary> => {
   return ["globalDictionaries", ...listify(tenantId)];
 };
-

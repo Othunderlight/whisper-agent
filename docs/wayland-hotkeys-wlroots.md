@@ -1,13 +1,13 @@
 # Wayland Setup
 
 Wayland compositors block app-level global key capture and input simulation by design.
-Voquill handles this with compositor-level keybindings and kernel-level input simulation.
+Ryōiki Tenkai handles this with compositor-level keybindings and kernel-level input simulation.
 
 ## Prerequisites
 
 ### ydotool (required for text pasting)
 
-Voquill uses `ydotool` to simulate Ctrl+V after placing transcribed text on the clipboard.
+Ryōiki Tenkai uses `ydotool` to simulate Ctrl+V after placing transcribed text on the clipboard.
 ydotool works on all Wayland compositors (GNOME, Sway, Hyprland, etc.) by writing directly
 to `/dev/uinput` at the kernel level, bypassing Wayland's input restrictions.
 
@@ -75,7 +75,7 @@ If "hello" appears in the editor, ydotool is working.
 **Known issues:**
 
 - ydotool 0.1.x uses `modifier+key` syntax (e.g. `ctrl+v`). Version 1.0+ uses keycode
-  press/release syntax (e.g. `29:1 47:1 47:0 29:0`). Voquill uses the 0.1.x syntax which
+  press/release syntax (e.g. `29:1 47:1 47:0 29:0`). Ryōiki Tenkai uses the 0.1.x syntax which
   is supported across both versions.
 - Without `/dev/uinput` access, ydotool will fail with `failed to open uinput device`.
   Make sure the permissions are set as described above.
@@ -83,7 +83,7 @@ If "hello" appears in the editor, ydotool is working.
 ### wtype (fallback for Sway/Hyprland)
 
 On Sway and Hyprland, `wtype` is an alternative that uses the `virtual-keyboard-unstable-v1`
-Wayland protocol. Voquill bundles wtype in production builds. For development, install it separately:
+Wayland protocol. Ryōiki Tenkai bundles wtype in production builds. For development, install it separately:
 
 ```bash
 # Debian / Ubuntu
@@ -104,7 +104,7 @@ Use ydotool on GNOME instead.
 
 ### How it works
 
-1. Voquill starts a local HTTP bridge server on a random port at launch.
+1. Ryōiki Tenkai starts a local HTTP bridge server on a random port at launch.
 2. The port is written to `<app_config_dir>/bridge-server.json`.
 3. A bundled trigger script (`trigger-hotkey.sh`) is deployed to the config dir.
 4. Compositor keybindings call the trigger script, which POSTs to the bridge server.
@@ -112,22 +112,22 @@ Use ydotool on GNOME instead.
 
 ### Automatic sync
 
-When you configure hotkeys in Voquill's settings on Linux, the app automatically registers them with your compositor:
+When you configure hotkeys in Ryōiki Tenkai's settings on Linux, the app automatically registers them with your compositor:
 
-- **GNOME**: Registers via `gsettings` custom keybindings (dconf paths prefixed `voquill-`).
-- **Sway**: Writes `~/.config/sway/voquill-hotkeys` and reloads.
-- **Hyprland**: Writes `~/.config/hypr/voquill-hotkeys.conf` and reloads.
+- **GNOME**: Registers via `gsettings` custom keybindings (dconf paths prefixed `ryoiki-tenkai-`).
+- **Sway**: Writes `~/.config/sway/ryoiki-tenkai-hotkeys` and reloads.
+- **Hyprland**: Writes `~/.config/hypr/ryoiki-tenkai-hotkeys.conf` and reloads.
 
 Old bindings are cleaned up automatically on each sync.
 
 ### One-time setup for Sway/Hyprland
 
-Voquill manages a dedicated include file for your hotkeys, but you need to source it once.
+Ryōiki Tenkai manages a dedicated include file for your hotkeys, but you need to source it once.
 
 **Sway** — add to `~/.config/sway/config`:
 
 ```
-include ~/.config/sway/voquill-hotkeys
+include ~/.config/sway/ryoiki-tenkai-hotkeys
 ```
 
 Then reload: `swaymsg reload`
@@ -135,7 +135,7 @@ Then reload: `swaymsg reload`
 **Hyprland** — add to `~/.config/hypr/hyprland.conf`:
 
 ```
-source = ~/.config/hypr/voquill-hotkeys.conf
+source = ~/.config/hypr/ryoiki-tenkai-hotkeys.conf
 ```
 
 Then reload: `hyprctl reload`
@@ -144,7 +144,7 @@ Then reload: `hyprctl reload`
 
 ## Text pasting
 
-Voquill pastes transcribed text by:
+Ryōiki Tenkai pastes transcribed text by:
 
 1. Saving the current clipboard contents
 2. Setting the clipboard to the transcribed text (via `arboard`, no external tools needed)
@@ -164,9 +164,9 @@ If no keystroke simulation tool is available, pasting will fail. Install ydotool
 Use the deployed trigger script directly:
 
 ```bash
-~/.config/com.voquill.desktop/trigger-hotkey.sh dictate
-~/.config/com.voquill.desktop/trigger-hotkey.sh agent-dictate
-~/.config/com.voquill.desktop/trigger-hotkey.sh cancel-transcription
+~/.config/com.ryoikitenkai.desktop/trigger-hotkey.sh dictate
+~/.config/com.ryoikitenkai.desktop/trigger-hotkey.sh agent-dictate
+~/.config/com.ryoikitenkai.desktop/trigger-hotkey.sh cancel-transcription
 ```
 
 ## Bridge server details
@@ -178,5 +178,5 @@ The bridge server accepts `POST /hotkey/<action-name>` on `127.0.0.1`.
 - `405 Method Not Allowed` — non-POST request
 
 The port file is at:
-- Dev: `$XDG_CONFIG_HOME/com.voquill.desktop.local/bridge-server.json`
-- Prod: `$XDG_CONFIG_HOME/com.voquill.desktop/bridge-server.json`
+- Dev: `$XDG_CONFIG_HOME/com.ryoikitenkai.desktop.local/bridge-server.json`
+- Prod: `$XDG_CONFIG_HOME/com.ryoikitenkai.desktop/bridge-server.json`

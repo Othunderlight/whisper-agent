@@ -1,7 +1,7 @@
 [2026-10-16][08:53:20.486][INFO][desktop_lib::platform::linux::wl::compositor] Synced 2 GNOME compositor hotkeys
 [2026-10-16][08:53:42.216][DEBUG][webview:debug@http://localhost:1420/node_modules/.vite/deps/@tauri-apps_plugin-log.js:71:12] Loading enterprise target
-[2026-10-16][08:53:42.217][INFO][desktop_lib::commands] Reading enterprise target from "/home/omar/.config/com.voquill.desktop.local/enterprise.json"
-[2026-10-16][08:53:42.219][DEBUG][webview:debug@http://localhost:1420/node_modules/.vite/deps/@tauri-apps_plugin-log.js:71:12] Enterprise target reloaded from {"path":"/home/omar/.config/com.voquill.desktop.local/enterprise.json","raw":null} null
+[2026-10-16][08:53:42.217][INFO][desktop_lib::commands] Reading enterprise target from "/home/omar/.config/com.ryoikitenkai.desktop.local/enterprise.json"
+[2026-10-16][08:53:42.219][DEBUG][webview:debug@http://localhost:1420/node_modules/.vite/deps/@tauri-apps_plugin-log.js:71:12] Enterprise target reloaded from {"path":"/home/omar/.config/com.ryoikitenkai.desktop.local/enterprise.json","raw":null} null
 [2026-10-16][08:53:42.573][INFO][zbus::connection::handshake::common] write_command; command=Auth(Some(External), Some([49, 48, 48, 48]))
 [2026-10-16][08:53:42.573][INFO][zbus::connection::handshake::common] write_commands; commands=[Auth(Some(External), Some([49, 48, 48, 48]))] extra_bytes=None
 [2026-10-16][08:53:42.573][INFO][tracing::span] read_command;

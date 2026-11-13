@@ -1,16 +1,19 @@
-interface VoquillEnv {
-  VOQUILL_GATEWAY_URL?: string;
-  VOQUILL_APP_NAME?: string;
+interface RyoikiTenkaiEnv {
+  RYOIKI_TENKAI_GATEWAY_URL?: string;
+  RYOIKI_TENKAI_APP_NAME?: string;
 }
 
 declare global {
   interface Window {
-    __VOQUILL__?: VoquillEnv;
+    __RYOIKI_TENKAI__?: RyoikiTenkaiEnv;
   }
 }
 
 export function getGatewayUrl(): string {
-  return window.__VOQUILL__?.VOQUILL_GATEWAY_URL || "http://localhost:4630";
+  return (
+    window.__RYOIKI_TENKAI__?.RYOIKI_TENKAI_GATEWAY_URL ||
+    "http://localhost:4630"
+  );
 }
 
 export function isDev(): boolean {
@@ -18,7 +21,10 @@ export function isDev(): boolean {
 }
 
 export function getAppName(): string {
-  return window.__VOQUILL__?.VOQUILL_APP_NAME || "Voquill Enterprise";
+  return (
+    window.__RYOIKI_TENKAI__?.RYOIKI_TENKAI_APP_NAME ||
+    "Ryōiki Tenkai Enterprise"
+  );
 }
 
 export function getAppVersion(): string {

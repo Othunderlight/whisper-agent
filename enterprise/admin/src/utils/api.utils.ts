@@ -1,4 +1,8 @@
-import type { HandlerInput, HandlerName, HandlerOutput } from "@voquill/functions";
+import type {
+  HandlerInput,
+  HandlerName,
+  HandlerOutput,
+} from "@ryoiki-tenkai/functions";
 import { getAppState } from "../store";
 import { getGatewayUrl } from "./env.utils";
 

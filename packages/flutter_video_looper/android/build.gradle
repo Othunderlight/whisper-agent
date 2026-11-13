@@ -1,4 +1,4 @@
-group = "com.voquill.flutter_video_looper"
+group = "com.ryoikitenkai.flutter_video_looper"
 version = "1.0-SNAPSHOT"
 
 buildscript {
@@ -25,7 +25,7 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
-    namespace = "com.voquill.flutter_video_looper"
+    namespace = "com.ryoikitenkai.flutter_video_looper"
 
     compileSdk = 36
 

@@ -1,4 +1,4 @@
-import { getRec } from "@voquill/utilities";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import z from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 import { Locale } from "../i18n/config";
@@ -67,7 +67,7 @@ export const collectDictionaryEntries = (
   }
 
   // These should always be added to the vocabulary
-  recordSource("Voquill");
+  recordSource("Ryōiki Tenkai");
   recordSource(getMyUserName(state));
 
   return {

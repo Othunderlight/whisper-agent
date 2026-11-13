@@ -7,8 +7,8 @@ import {
   Nullable,
   Term,
   User,
-} from "@voquill/types";
-import { getRec, listify } from "@voquill/utilities";
+} from "@ryoiki-tenkai/types";
+import { getRec, listify } from "@ryoiki-tenkai/utilities";
 import dayjs from "dayjs";
 import { isEqual } from "lodash-es";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

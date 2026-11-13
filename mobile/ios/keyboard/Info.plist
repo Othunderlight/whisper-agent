@@ -21,6 +21,6 @@
 		<string>$(PRODUCT_MODULE_NAME).KeyboardViewController</string>
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Voquill needs microphone access to transcribe your voice into text.</string>
+	<string>Ryōiki Tenkai needs microphone access to transcribe your voice into text.</string>
 </dict>
 </plist>

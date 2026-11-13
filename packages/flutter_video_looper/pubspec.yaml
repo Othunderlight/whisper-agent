@@ -19,7 +19,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.voquill.flutter_video_looper
+        package: com.ryoikitenkai.flutter_video_looper
         pluginClass: FlutterVideoLooperPlugin
       ios:
         pluginClass: FlutterVideoLooperPlugin

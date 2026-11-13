@@ -1,5 +1,5 @@
 {
-  "productName": "Ryōiki Tenkai (local)",
-  "identifier": "com.voquill.desktop.local",
-  "mainBinaryName": "Voquill (local)"
+  "productName": "ryoiki-tenkai-local",
+  "identifier": "com.ryoikitenkai.desktop.local",
+  "mainBinaryName": "ryoiki-tenkai-local"
 }

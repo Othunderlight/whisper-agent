@@ -1,42 +1,42 @@
 ---
 title: GCP
-description: Deploy Voquill Enterprise on Google Cloud Platform.
+description: Deploy Ryōiki Tenkai Enterprise on Google Cloud Platform.
 ---
 
-This guide walks you through deploying Voquill Enterprise on GCP using Cloud Run and Cloud SQL.
+This guide walks you through deploying Ryōiki Tenkai Enterprise on GCP using Cloud Run and Cloud SQL.
 
 ## Prerequisites
 
 - A GCP project with billing enabled.
 - The [gcloud CLI](https://cloud.google.com/sdk/docs/install) installed and configured.
-- Your Voquill Enterprise license key.
+- Your Ryōiki Tenkai Enterprise license key.
 
 ## 1. Provision a Cloud SQL PostgreSQL Instance
 
 ```bash
-gcloud sql instances create voquill-db \
+gcloud sql instances create ryoiki-tenkai-db \
   --database-version=POSTGRES_16 \
   --tier=db-f1-micro \
   --region=us-central1
 
-gcloud sql databases create voquill --instance=voquill-db
+gcloud sql databases create ryoiki-tenkai --instance=ryoiki-tenkai-db
 
 gcloud sql users set-password postgres \
-  --instance=voquill-db \
+  --instance=ryoiki-tenkai-db \
   --password=your-db-password
 ```
 
-Note the instance connection name (shown in `gcloud sql instances describe voquill-db`). You'll need it for the Cloud Run configuration.
+Note the instance connection name (shown in `gcloud sql instances describe ryoiki-tenkai-db`). You'll need it for the Cloud Run configuration.
 
 ## 2. Deploy the Gateway
 
 ```bash
-gcloud run deploy voquill-gateway \
-  --image=ghcr.io/voquill/voquill/enterprise-gateway:latest \
+gcloud run deploy ryoiki-tenkai-gateway \
+  --image=ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-gateway:latest \
   --port=4630 \
   --allow-unauthenticated \
-  --add-cloudsql-instances=your-project:us-central1:voquill-db \
-  --set-env-vars="DATABASE_URL=postgres://postgres:your-db-password@/voquill?host=/cloudsql/your-project:us-central1:voquill-db" \
+  --add-cloudsql-instances=your-project:us-central1:ryoiki-tenkai-db \
+  --set-env-vars="DATABASE_URL=postgres://postgres:your-db-password@/ryoiki-tenkai?host=/cloudsql/your-project:us-central1:ryoiki-tenkai-db" \
   --set-env-vars="JWT_SECRET=your-jwt-secret" \
   --set-env-vars="ENCRYPTION_SECRET=your-encryption-secret" \
   --set-env-vars="LICENSE_KEY=your-license-key" \
@@ -47,14 +47,14 @@ For production deployments, store secrets in Secret Manager and reference them w
 
 ## 3. Deploy the Admin Portal
 
-Set `VOQUILL_GATEWAY_URL` to the public URL of the gateway service you deployed in the previous step. The admin portal needs this to communicate with the gateway.
+Set `RYOIKI_TENKAI_GATEWAY_URL` to the public URL of the gateway service you deployed in the previous step. The admin portal needs this to communicate with the gateway.
 
 ```bash
-gcloud run deploy voquill-admin \
-  --image=ghcr.io/voquill/voquill/enterprise-admin:latest \
+gcloud run deploy ryoiki-tenkai-admin \
+  --image=ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-admin:latest \
   --port=5173 \
   --allow-unauthenticated \
-  --set-env-vars="VOQUILL_GATEWAY_URL=https://voquill-gateway-xxxxx-uc.a.run.app" \
+  --set-env-vars="RYOIKI_TENKAI_GATEWAY_URL=https://ryoiki-tenkai-gateway-xxxxx-uc.a.run.app" \
   --region=us-central1
 ```
 
@@ -65,12 +65,12 @@ Note the URLs that Cloud Run assigns to each service. Use the gateway URL when c
 To deploy a new version, redeploy the service with the latest image:
 
 ```bash
-gcloud run deploy voquill-gateway \
-  --image=ghcr.io/voquill/voquill/enterprise-gateway:latest \
+gcloud run deploy ryoiki-tenkai-gateway \
+  --image=ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-gateway:latest \
   --region=us-central1
 
-gcloud run deploy voquill-admin \
-  --image=ghcr.io/voquill/voquill/enterprise-admin:latest \
+gcloud run deploy ryoiki-tenkai-admin \
+  --image=ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-admin:latest \
   --region=us-central1
 ```
 

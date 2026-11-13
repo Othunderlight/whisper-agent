@@ -1,10 +1,10 @@
 {
-  "name": "@voquill/types",
+  "name": "@ryoiki-tenkai/types",
   "version": "0.3.25",
   "description": "Shared types for the monorepo",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/voquill/voquill.git",
+    "url": "git+https://github.com/ryoiki-tenkai/ryoiki-tenkai.git",
     "directory": "packages/types"
   },
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.15",
-    "@voquill/typescript-config": "workspace:*",
+    "@ryoiki-tenkai/typescript-config": "workspace:*",
     "typescript": "5.9.2"
   },
   "files": [

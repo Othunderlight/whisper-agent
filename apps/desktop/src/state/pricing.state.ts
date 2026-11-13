@@ -1,5 +1,5 @@
-import { PriceKey } from "@voquill/pricing";
-import { Nullable } from "@voquill/types";
+import { PriceKey } from "@ryoiki-tenkai/pricing";
+import { Nullable } from "@ryoiki-tenkai/types";
 import { PricingPlan } from "../utils/price.utils";
 
 export type PricingState = {

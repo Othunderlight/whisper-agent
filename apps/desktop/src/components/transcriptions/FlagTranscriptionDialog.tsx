@@ -10,8 +10,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { invokeHandler } from "@voquill/functions";
-import { getRec } from "@voquill/utilities";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { useCallback, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";

@@ -1,4 +1,4 @@
-import { FocusCheck, FocusStatus } from "@voquill/types";
+import { FocusCheck, FocusStatus } from "@ryoiki-tenkai/types";
 
 /** A distraction score above this (on CLEF's 0–2 scale) triggers a warning
  * notification, matching the value used in the reference CLEF script. */

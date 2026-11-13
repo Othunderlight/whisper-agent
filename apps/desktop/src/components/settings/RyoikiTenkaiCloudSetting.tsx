@@ -5,7 +5,7 @@ import { openUpgradePlanDialog } from "../../actions/pricing.actions";
 import { useAppStore } from "../../store";
 import { getIsPro } from "../../utils/member.utils";
 
-export const VoquillCloudSetting = () => {
+export const RyoikiTenkaiCloudSetting = () => {
   const isPro = useAppStore(getIsPro);
 
   return (

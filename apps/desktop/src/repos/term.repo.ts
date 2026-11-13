@@ -1,5 +1,5 @@
-import { invokeHandler } from "@voquill/functions";
-import { Term } from "@voquill/types";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Term } from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import dayjs from "dayjs";
 import { invokeEnterprise } from "../utils/enterprise.utils";

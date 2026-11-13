@@ -86,7 +86,7 @@ class _MicrophonePermissionsState extends State<MicrophonePermissions>
       child: OnboardingBody(
         title: const Text('Microphone access'),
         description: const Text(
-          'Voquill needs access to your microphone to transcribe your voice.',
+          'Ryōiki Tenkai needs access to your microphone to transcribe your voice.',
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

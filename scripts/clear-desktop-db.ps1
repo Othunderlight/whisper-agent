@@ -6,14 +6,14 @@ param(
 $ErrorActionPreference = "Stop"
 
 $Identifier = switch ($Flavor) {
-    "local"          { "com.voquill.desktop.local" }
-    "dev"            { "com.voquill.desktop.dev" }
-    "prod"           { "com.voquill.desktop" }
-    "enterprise"     { "com.voquill.desktop.enterprise" }
-    "enterprise-dev" { "com.voquill.desktop.enterprise-dev" }
+    "local"          { "com.ryoikitenkai.desktop.local" }
+    "dev"            { "com.ryoikitenkai.desktop.dev" }
+    "prod"           { "com.ryoikitenkai.desktop" }
+    "enterprise"     { "com.ryoikitenkai.desktop.enterprise" }
+    "enterprise-dev" { "com.ryoikitenkai.desktop.enterprise-dev" }
 }
 
-$DbFilename = "voquill.db"
+$DbFilename = "ryoiki-tenkai.db"
 $ConfigDir = Join-Path $env:APPDATA $Identifier
 $DbPath = Join-Path $ConfigDir $DbFilename
 
@@ -31,5 +31,5 @@ foreach ($Suffix in "", "-wal", "-shm") {
 if (-not $Removed) {
     Write-Host "No database files found under $ConfigDir"
 } else {
-    Write-Host "Voquill desktop SQLite data cleared."
+    Write-Host "Ryōiki Tenkai desktop SQLite data cleared."
 }

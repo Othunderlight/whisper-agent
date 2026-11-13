@@ -1,5 +1,5 @@
-import { Transcription } from "@voquill/types";
-import { getRec } from "@voquill/utilities";
+import { Transcription } from "@ryoiki-tenkai/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getTranscriptionRepo } from "../repos";
 import { getAppState, produceAppState } from "../store";
 import {

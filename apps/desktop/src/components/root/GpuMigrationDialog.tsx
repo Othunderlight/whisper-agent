@@ -21,7 +21,7 @@ export const GpuMigrationDialog = ({
   onClose,
 }: GpuMigrationDialogProps) => {
   const handleOpenDownloadPage = () => {
-    openUrl("https://voquill.com");
+    openUrl("https://ryoiki-tenkai.com");
   };
 
   return (

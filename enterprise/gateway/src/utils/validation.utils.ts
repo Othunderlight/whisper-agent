@@ -1,4 +1,4 @@
-import type { AuthContext } from "@voquill/types";
+import type { AuthContext } from "@ryoiki-tenkai/types";
 import { z } from "zod";
 import { getLicenseKey } from "./license-key.utils";
 import { ClientError, UnauthorizedError } from "./error.utils";

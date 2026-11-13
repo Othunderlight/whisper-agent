@@ -1,4 +1,4 @@
-import type { Auth } from "@voquill/types";
+import type { Auth } from "@ryoiki-tenkai/types";
 import type { AuthRow } from "../types/auth.types";
 import { getPool } from "../utils/db.utils";
 
@@ -17,9 +17,7 @@ export async function findAuthById(id: string): Promise<Auth | null> {
   return result.rows[0] ? rowToAuth(result.rows[0]) : null;
 }
 
-export async function findAuthByEmail(
-  email: string
-): Promise<AuthRow | null> {
+export async function findAuthByEmail(email: string): Promise<AuthRow | null> {
   const pool = getPool();
   const result = await pool.query("SELECT * FROM auth WHERE email = $1", [
     email,
@@ -52,10 +50,9 @@ export async function findAuthByOidcSub(
   oidcSub: string,
 ): Promise<AuthRow | null> {
   const pool = getPool();
-  const result = await pool.query(
-    "SELECT * FROM auth WHERE oidc_sub = $1",
-    [oidcSub],
-  );
+  const result = await pool.query("SELECT * FROM auth WHERE oidc_sub = $1", [
+    oidcSub,
+  ]);
   return result.rows[0] ?? null;
 }
 
@@ -101,7 +98,9 @@ export async function updatePasswordHash(
 
 export async function hasAnyAdmin(): Promise<boolean> {
   const pool = getPool();
-  const result = await pool.query("SELECT id FROM auth WHERE is_admin = TRUE LIMIT 1");
+  const result = await pool.query(
+    "SELECT id FROM auth WHERE is_admin = TRUE LIMIT 1",
+  );
   return result.rows.length > 0;
 }
 

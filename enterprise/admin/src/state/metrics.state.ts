@@ -4,7 +4,7 @@ import type {
   MetricsPerUser,
   MetricsRange,
   MetricsSummary,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import type { ActionStatus } from "./login.state";
 
 export type MetricsState = {

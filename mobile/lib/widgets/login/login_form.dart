@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     if (Flavor.current.isEmulators) {
-      _email = 'emulator@voquill.com';
+      _email = 'emulator@ryoiki-tenkai.com';
       _password = 'P@ssw0rd!';
       _confirmPassword = 'P@ssw0rd!';
     }

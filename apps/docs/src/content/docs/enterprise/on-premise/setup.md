@@ -1,14 +1,14 @@
 ---
 title: On-Premise Setup
-description: Set up Voquill Enterprise on your own infrastructure using Docker.
+description: Set up Ryōiki Tenkai Enterprise on your own infrastructure using Docker.
 ---
 
-This guide walks you through deploying Voquill Enterprise on-premise using Docker Compose.
+This guide walks you through deploying Ryōiki Tenkai Enterprise on-premise using Docker Compose.
 
 ## Prerequisites
 
 - Docker and Docker Compose installed on a host machine accessible to your network.
-- A Voquill Enterprise license. Contact [enterprise@voquill.com](mailto:enterprise@voquill.com) if you don't have one yet.
+- A Ryōiki Tenkai Enterprise license. Contact [enterprise@ryoiki-tenkai.com](mailto:enterprise@ryoiki-tenkai.com) if you don't have one yet.
 
 ## 1. Create a Docker Compose File
 
@@ -17,37 +17,37 @@ Create a `docker-compose.yml` on your host machine. Make sure to set `JWT_SECRET
 ```yaml
 services:
   admin:
-    image: ghcr.io/voquill/voquill/enterprise-admin:latest
+    image: ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-admin:latest
     platform: linux/amd64
     ports:
       - "5100:5173"
     environment:
-      - VOQUILL_GATEWAY_URL=http://localhost:4630
+      - RYOIKI_TENKAI_GATEWAY_URL=http://localhost:4630
     networks:
-      - voquill
+      - ryoiki-tenkai
 
   gateway:
-    image: ghcr.io/voquill/voquill/enterprise-gateway:latest
+    image: ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-gateway:latest
     platform: linux/amd64
     ports:
       - "4630:4630"
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/voquill
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/ryoiki-tenkai
       - JWT_SECRET=fill-me-in
       - ENCRYPTION_SECRET=fill-me-in
-      - LICENSE_KEY=your-license-key # email enterprise@voquill.com
+      - LICENSE_KEY=your-license-key # email enterprise@ryoiki-tenkai.com
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - voquill
+      - ryoiki-tenkai
 
   postgres:
     image: postgres:16-alpine
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=voquill
+      - POSTGRES_DB=ryoiki-tenkai
     ports:
       - "5432:5432"
     volumes:
@@ -58,10 +58,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - voquill
+      - ryoiki-tenkai
 
 networks:
-  voquill:
+  ryoiki-tenkai:
     driver: bridge
 
 volumes:
@@ -86,15 +86,15 @@ docker compose up -d
 
 ## 5. Configure the Desktop App
 
-Each Voquill desktop client needs an `enterprise.json` file placed in the app config directory. If you're distributing Voquill with a tool like Microsoft Intune, this file can be placed automatically as part of the deployment.
+Each Ryōiki Tenkai desktop client needs an `enterprise.json` file placed in the app config directory. If you're distributing Ryōiki Tenkai with a tool like Microsoft Intune, this file can be placed automatically as part of the deployment.
 
 If you're doing this manually, place the file at the following path for each platform:
 
 | Platform | Path |
 | --- | --- |
-| macOS | `~/Library/Application Support/com.voquill.desktop/enterprise.json` |
-| Linux | `~/.config/com.voquill.desktop/enterprise.json` |
-| Windows | `C:\Users\<User>\AppData\Roaming\com.voquill.desktop\enterprise.json` |
+| macOS | `~/Library/Application Support/com.ryoikitenkai.desktop/enterprise.json` |
+| Linux | `~/.config/com.ryoikitenkai.desktop/enterprise.json` |
+| Windows | `C:\Users\<User>\AppData\Roaming\com.ryoikitenkai.desktop\enterprise.json` |
 
 The file should contain:
 
@@ -108,8 +108,8 @@ Replace `your-host` with the hostname or IP of the machine running your Docker s
 
 ## 6. Create the First Admin
 
-Once your services are running, open `http://your-host:5100` in your browser. This is the Voquill admin portal.
+Once your services are running, open `http://your-host:5100` in your browser. This is the Ryōiki Tenkai admin portal.
 
 The first person to sign up becomes the organization admin. Use a strong password and save it somewhere safe -- there is no password recovery for the initial admin account.
 
-From here you can manage users, configure settings, and control how Voquill operates across your organization. See the Admin Portal guide for more details.
+From here you can manage users, configure settings, and control how Ryōiki Tenkai operates across your organization. See the Admin Portal guide for more details.

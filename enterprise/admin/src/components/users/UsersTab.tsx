@@ -3,7 +3,7 @@ import {
   DeleteOutline,
   InfoOutlined,
   LockResetOutlined,
-  MoreVert
+  MoreVert,
 } from "@mui/icons-material";
 import {
   Box,
@@ -14,7 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import type { UserWithAuth } from "@voquill/types";
+import type { UserWithAuth } from "@ryoiki-tenkai/types";
 import { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { loadUsers, setUserAdmin } from "../../actions/users.actions";
@@ -201,10 +201,10 @@ export default function UsersTab() {
                     values={{
                       email: (
                         <a
-                          href="mailto:enterprise@voquill.com"
+                          href="mailto:enterprise@ryoiki-tenkai.com"
                           style={{ color: "inherit" }}
                         >
-                          enterprise@voquill.com
+                          enterprise@ryoiki-tenkai.com
                         </a>
                       ),
                     }}

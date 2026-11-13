@@ -136,7 +136,7 @@ export const ReferralSourceForm = () => {
             autoFocus
             slotProps={{
               inputLabel: { shrink: true },
-              htmlInput: { "data-voquill-ignore": "true" },
+              htmlInput: { "data-ryoiki-tenkai-ignore": "true" },
             }}
           />
         )}

@@ -27,8 +27,8 @@ import {
   type HandlerName,
   type StreamHandlerInput,
   type StreamHandlerName,
-} from "@voquill/functions";
-import type { LlmStreamEvent } from "@voquill/types";
+} from "@ryoiki-tenkai/functions";
+import type { LlmStreamEvent } from "@ryoiki-tenkai/types";
 import cors from "cors";
 import type { Request, Response } from "express";
 import express from "express";
@@ -344,7 +344,9 @@ app.post("/stream-handler", async (req: Request, res: Response) => {
         res.write(JSON.stringify(event) + "\n");
       }
     } else {
-      res.status(404).json({ success: false, error: `Unknown stream handler: ${name}` });
+      res
+        .status(404)
+        .json({ success: false, error: `Unknown stream handler: ${name}` });
       return;
     }
 
@@ -359,7 +361,9 @@ app.post("/stream-handler", async (req: Request, res: Response) => {
         res.status(400).json({ success: false, error: error.message });
       } else {
         console.error("Unexpected error:", error);
-        res.status(500).json({ success: false, error: "Internal server error" });
+        res
+          .status(500)
+          .json({ success: false, error: "Internal server error" });
       }
     } else {
       const errorEvent: LlmStreamEvent = {

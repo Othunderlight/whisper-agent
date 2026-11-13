@@ -1,9 +1,9 @@
-import { Member, Nullable } from "@voquill/types";
+import { Member, Nullable } from "@ryoiki-tenkai/types";
 import {
   getMemberExceedsLimits,
   getRec,
   TRIAL_DURATION_DAYS,
-} from "@voquill/utilities";
+} from "@ryoiki-tenkai/utilities";
 import { getIntl } from "../i18n";
 import type { AppState } from "../state/app.state";
 import { EffectivePlan } from "../types/member.types";
@@ -20,7 +20,7 @@ export const getEffectivePlan = (state: AppState): EffectivePlan => {
   return state.license.tier === "pro" ? "pro" : "normal";
 };
 
-export const getIsVoquillCloudUser = (state: AppState): boolean => {
+export const getIsRyoikiTenkaiCloudUser = (state: AppState): boolean => {
   return Boolean(state.auth) && Boolean(getMyMember(state));
 };
 

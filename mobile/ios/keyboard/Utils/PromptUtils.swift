@@ -17,7 +17,7 @@ let postProcessingJsonResponse: [String: Any] = [
 ]
 
 func buildTranscriptionPrompt(termIds: [String], termById: [String: SharedTerm], userName: String) -> String {
-    var glossary = ["Voquill", userName]
+    var glossary = ["Ryōiki Tenkai", userName]
     for termId in termIds {
         guard let term = termById[termId], !term.isReplacement else { continue }
         let sanitized = term.sourceValue
@@ -54,8 +54,8 @@ func buildSystemPostProcessingPrompt() -> String {
 
 func buildPostProcessingPrompt(transcript: String, tonePromptTemplate: String) -> String {
     let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-    let userName = defaults?.string(forKey: "voquill_user_name") ?? "User"
-    let dictationLanguage = defaults?.string(forKey: "voquill_dictation_language") ?? "en"
+    let userName = defaults?.string(forKey: "ryoiki_tenkai_user_name") ?? "User"
+    let dictationLanguage = defaults?.string(forKey: "ryoiki_tenkai_dictation_language") ?? "en"
 
     return """
     Your task is to REWRITE an audio transcription — transform raw speech into what the speaker would have written. Be faithful to the speaker's intent and phrasing while following the rules below.

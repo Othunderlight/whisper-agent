@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "778214168359",
-    "project_id": "voquill-dev",
-    "storage_bucket": "voquill-dev.firebasestorage.app"
+    "project_id": "ryoiki-tenkai-dev",
+    "storage_bucket": "ryoiki-tenkai-dev.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:778214168359:android:44302d780bb11229d77b02",
         "android_client_info": {
-          "package_name": "com.voquill.mobile.dev"
+          "package_name": "com.ryoikitenkai.mobile.dev"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "778214168359-062ds2e4o27utk6q7htloo6re9857lfb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.voquill.mobile.dev"
+                "bundle_id": "com.ryoikitenkai.mobile.dev"
               }
             }
           ]

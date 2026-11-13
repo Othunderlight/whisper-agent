@@ -3,9 +3,13 @@ import type {
   HandlerInput,
   HandlerOutput,
   StreamHandlerInput,
-} from "@voquill/functions";
-import type { AuthContext, LlmStreamEvent, Nullable } from "@voquill/types";
-import { retry } from "@voquill/utilities";
+} from "@ryoiki-tenkai/functions";
+import type {
+  AuthContext,
+  LlmStreamEvent,
+  Nullable,
+} from "@ryoiki-tenkai/types";
+import { retry } from "@ryoiki-tenkai/utilities";
 import { listActiveLlmProvidersWithKeys } from "../repo/llm-provider.repo";
 import { insertMetric } from "../repo/metrics.repo";
 import { listActiveSttProvidersWithKeys } from "../repo/stt-provider.repo";

@@ -3,8 +3,8 @@ use rand::{rngs::OsRng, RngCore};
 use sha2::{Digest, Sha256};
 use std::sync::OnceLock;
 
-const SECRET_ENV: &str = "VOQUILL_API_KEY_SECRET";
-const DEFAULT_SECRET: &str = "voquill-default-secret";
+const SECRET_ENV: &str = "RYOIKI_TENKAI_API_KEY_SECRET";
+const DEFAULT_SECRET: &str = "ryoiki-tenkai-default-secret";
 static RUNTIME_SECRET: OnceLock<Vec<u8>> = OnceLock::new();
 static LOGGED_FALLBACK: OnceLock<()> = OnceLock::new();
 

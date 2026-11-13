@@ -12,7 +12,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { getRec } from "@voquill/utilities";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import {

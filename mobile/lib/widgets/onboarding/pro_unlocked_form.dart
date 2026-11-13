@@ -103,7 +103,7 @@ class _ProUnlockedFormState extends State<ProUnlockedForm> {
                     .rotate(begin: -0.05, end: 0),
                 const SizedBox(width: 12),
                 Text(
-                      'Voquill',
+                      'Ryōiki Tenkai',
                       style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),

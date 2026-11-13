@@ -87,7 +87,7 @@ powershell -ExecutionPolicy Bypass -File apps/desktop/scripts/setup-windows.ps1
 ```
 
 Pass `-EnableGpu` to the Windows script, or set
-`VOQUILL_ENABLE_GPU=1` before running the Linux script, to install the optional
+`RYOIKI_TENKAI_ENABLE_GPU=1` before running the Linux script, to install the optional
 Vulkan build dependencies.
 
 Start the desktop app with the platform selected automatically:
@@ -132,7 +132,7 @@ Build the installer on Windows after the desktop app has produced its installer
 input:
 
 ```sh
-pnpm --filter @voquill/windows-installer run tauri:build
+pnpm --filter @ryoiki-tenkai/windows-installer run tauri:build
 ```
 
 The installer workflow and its other commands live in
@@ -161,7 +161,7 @@ These commands are owned by
 [`enterprise/admin/package.json`](../enterprise/admin/package.json) and
 [`enterprise/gateway/package.json`](../enterprise/gateway/package.json). The
 gateway tests require PostgreSQL. They use `DATABASE_URL` when set and otherwise
-connect to `postgres://postgres:postgres@localhost:5432/voquill`.
+connect to `postgres://postgres:postgres@localhost:5432/ryoiki-tenkai`.
 
 ## Shared packages
 
@@ -169,11 +169,11 @@ The root build compiles shared packages before their consumers. To work on one
 package, filter by the name in its manifest:
 
 ```sh
-pnpm --filter @voquill/types run build
-pnpm --filter @voquill/functions run build
+pnpm --filter @ryoiki-tenkai/types run build
+pnpm --filter @ryoiki-tenkai/functions run build
 ```
 
-Rebuild `@voquill/types` or `@voquill/functions` after changing them so
+Rebuild `@ryoiki-tenkai/types` or `@ryoiki-tenkai/functions` after changing them so
 downstream workspaces see the updated output.
 
 ## Mobile app
@@ -234,5 +234,5 @@ details.
 - [Local model integration](local-model-integration.md)
 - [Resources](resources.md)
 
-Unless otherwise noted, Voquill is released under the AGPLv3. See
+Unless otherwise noted, Ryōiki Tenkai is released under the AGPLv3. See
 [`LICENCE`](../LICENCE) for the complete terms and third-party attributions.

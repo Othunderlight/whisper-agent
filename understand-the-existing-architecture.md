@@ -1,4 +1,4 @@
-this is an exoration of this monorepo at /home/omar/Desktop/foss/voquill with "very thorough" depth. This is a Turborepo with a Tauri desktop app at apps/desktop. thos file >
+this is an exoration of this monorepo at /home/omar/Desktop/foss/ryoiki-tenkai with "very thorough" depth. This is a Turborepo with a Tauri desktop app at apps/desktop. thos file >
 
 1. Overall repo structure (top-level dirs, packages/, apps/)
 2. apps/desktop structure in detail:
@@ -21,19 +21,19 @@ Report back with concrete file paths, key code excerpts, and pattern description
 
 
 Exploration complete. Here is the full report.
-Note: /home/omar/Desktop/foss/voquill was populated from the session instructions as /Users/dev/workspace-b5c6af6d — paths below use the real path. Also, some read calls on large offsets of commands.rs returned spurious README content (large-file preview artifact), so all command details there were verified via targeted grep instead.
+Note: /home/omar/Desktop/foss/ryoiki-tenkai was populated from the session instructions as /Users/dev/workspace-b5c6af6d — paths below use the real path. Also, some read calls on large offsets of commands.rs returned spurious README content (large-file preview artifact), so all command details there were verified via targeted grep instead.
 1. Overall repo structure
-voquill/                       (Turborepo root, pnpm@10, turbo@2, TS 6)
+ryoiki-tenkai/                       (Turborepo root, pnpm@10, turbo@2, TS 6)
 ├── apps/
 │   ├── desktop/               Tauri desktop app (React/MUI + Rust) — the focus
 │   ├── docs/                  Astro + Starlight docs site
 │   └── windows-installer/     Tauri-based Windows installer
 ├── packages/
-│   ├── types/                 @voquill/types — shared domain types (Transcription, ApiKey, Term…)
-│   ├── functions/             @voquill/functions — cloud function handler helpers (invokeHandler, CloudModel)
-│   ├── utilities/             @voquill/utilities (getRec, listify…)
+│   ├── types/                 @ryoiki-tenkai/types — shared domain types (Transcription, ApiKey, Term…)
+│   ├── functions/             @ryoiki-tenkai/functions — cloud function handler helpers (invokeHandler, CloudModel)
+│   ├── utilities/             @ryoiki-tenkai/utilities (getRec, listify…)
 │   ├── desktop-utils/         shared hooks incl. base useTauriListen
-│   ├── desktop-native-apis/   @voquill/desktop-native-apis — generated tauri-specta TS bindings (src/bindings.ts)
+│   ├── desktop-native-apis/   @ryoiki-tenkai/desktop-native-apis — generated tauri-specta TS bindings (src/bindings.ts)
 │   ├── agent/, pricing/, voice-ai/, firemix/, flutter_video_looper/
 │   ├── rust_macos_pill/, rust_gtk_pill/, rust_windows_pill/   native overlay “pill”
 │   ├── rust_transcription/    local Whisper sidecar
@@ -52,7 +52,7 @@ voquill/                       (Turborepo root, pnpm@10, turbo@2, TS 6)
 Workspace globs (pnpm-workspace.yaml): apps/*, apps/firebase/functions, packages/*, enterprise/*. Root scripts: pnpm run build|dev|lint|check-types|test, plus gen:bindings → regenerates specta bindings.
 2. apps/desktop in detail
 2.1 UI organization (routes/pages/components)
-- Entry: /home/omar/Desktop/foss/voquill/apps/desktop/src/main.tsx, theme in src/theme.ts, router in src/router.tsx.
+- Entry: /home/omar/Desktop/foss/ryoiki-tenkai/apps/desktop/src/main.tsx, theme in src/theme.ts, router in src/router.tsx.
 - Router (createBrowserRouter) — routes are guarded and nested under a dashboard shell:
 // src/router.tsx
 const AppWrapper = () => (
@@ -79,10 +79,10 @@ const AppWrapper = () => (
 - Component folders: apps/ chats/ common/ dashboard/ dictionary/ enterprise/ home/ login/ microphone/ onboarding/ payment/ pricing/ root/ routing/ settings/ styling/ tones/ transcriptions/ welcome/.
 - i18n: react-intl with <FormattedMessage defaultMessage="..."> only (no ids); locales in src/i18n/locales/*.json, setup in src/i18n/.
 2.2 Zustand store (single store, “slice” state files)
-One store, not multiple. /home/omar/Desktop/foss/voquill/apps/desktop/src/store/index.ts:
+One store, not multiple. /home/omar/Desktop/foss/ryoiki-tenkai/apps/desktop/src/store/index.ts:
 export const useAppStore = createWithEqualityFn<AppState>()(
   persist(() => INITIAL_APP_STATE, {
-    name: "voquill-local-state",
+    name: "ryoiki-tenkai-local-state",
     partialize: (state) => ({ local: state.local, memberById: ..., userById: ..., myTenant: ... }),
   }),
   isEqual,
@@ -122,7 +122,7 @@ export class LocalTranscriptionRepo extends BaseTranscriptionRepo {
   }
   // ... delete/update/audio_load/purge → invoke("transcription_delete"|"transcription_update"|...)
 }
-The 3-variant example — src/repos/term.repo.ts: LocalTermRepo → invoke("term_list"); CloudTermRepo → invokeHandler("term/listMyTerms", {}) from @voquill/functions (Firebase-backed cloud); EnterpriseTermRepo → invokeEnterprise("term/listMyTerms", {}) (src/utils/enterprise.utils.ts, routes to the enterprise gateway).
+The 3-variant example — src/repos/term.repo.ts: LocalTermRepo → invoke("term_list"); CloudTermRepo → invokeHandler("term/listMyTerms", {}) from @ryoiki-tenkai/functions (Firebase-backed cloud); EnterpriseTermRepo → invokeEnterprise("term/listMyTerms", {}) (src/utils/enterprise.utils.ts, routes to the enterprise gateway).
 Factories (src/repos/index.ts):
 export const getTermRepo = (): BaseTermRepo => {
   if (isEnterprise()) return new EnterpriseTermRepo();
@@ -164,7 +164,7 @@ export const TranscriptionsSideEffects = () => {
   return null;
 };
 2.5 Tauri commands (Rust)
-- /home/omar/Desktop/foss/voquill/apps/desktop/src-tauri/src/commands.rs (~2,500+ lines, 118 commands). Every command is:
+- /home/omar/Desktop/foss/ryoiki-tenkai/apps/desktop/src-tauri/src/commands.rs (~2,500+ lines, 118 commands). Every command is:
 #[tauri::command]
 #[specta::specta]                      // tauri-specta for TS bindings
 pub async fn transcription_create(
@@ -176,7 +176,7 @@ pub async fn transcription_create(
         .map_err(|err| err.to_string())
 }
   Commands delegate to src-tauri/src/db/*_queries.rs (sqlx) or src-tauri/src/platform/, src-tauri/src/system/ modules; errors are stringified (Result<T, String>); response structs derive serde::Serialize + specta::Type with #[serde(rename_all = "camelCase")].
-- Registration: /home/omar/Desktop/foss/voquill/apps/desktop/src-tauri/src/app.rs, .invoke_handler(tauri::generate_handler![ crate::commands::user_get_one, crate::commands::user_set_one, ... ]) starting at line 220 (~119 entries: user/preferences, auth (custom token + Google OIDC + enterprise OIDC), microphones/GPU/monitor, permissions, app targets, paired remote devices + remote receiver/sender, recording, audio storage, tray, api keys, tones, terms, hotkeys, conversations/chat messages, accessibility/paste, wakeword, floating windows, diagnostics, etc.).
+- Registration: /home/omar/Desktop/foss/ryoiki-tenkai/apps/desktop/src-tauri/src/app.rs, .invoke_handler(tauri::generate_handler![ crate::commands::user_get_one, crate::commands::user_set_one, ... ]) starting at line 220 (~119 entries: user/preferences, auth (custom token + Google OIDC + enterprise OIDC), microphones/GPU/monitor, permissions, app targets, paired remote devices + remote receiver/sender, recording, audio storage, tray, api keys, tones, terms, hotkeys, conversations/chat messages, accessibility/paste, wakeword, floating windows, diagnostics, etc.).
 - Rust module layout: src-tauri/src/{app.rs, commands.rs, errors.rs, overlay.rs, pill_process.rs, db/, domain/, platform/, state/, system/, utils/}. Managed state: state/ (OptionKeyDatabase(SqlitePool), GoogleOAuthState, OverlayState, FloatingWindowState, RemoteReceiverState).
 - TS bindings: #[specta::specta] + cargo run --example gen_bindings (scripts/bindings.sh, apps/desktop/src-tauri/examples/gen_bindings.rs) → emits packages/desktop-native-apis/src/bindings.ts (export const commands = { async userGetOne(): Promise<Result<User|null,string>> ... }, camelCase wrappers with Result tagging). However, in practice the app's repos call invoke("snake_case_cmd", args) directly from @tauri-apps/api/core, not the generated bindings.
 2.6 Database migrations
@@ -190,18 +190,18 @@ tauri_plugin_sql::Migration {
     sql: APP_TARGET_INSERTION_METHOD_MIGRATION_SQL,
     kind: tauri_plugin_sql::MigrationKind::Up,
 },
-- Applied by tauri-plugin-sql against sqlite:voquill.db (declared in src-tauri/tauri.conf.json → plugins.sql, and DB_CONNECTION const in db/mod.rs). Query layer: db/<entity>_queries.rs (e.g. transcription_queries.rs, api_key_queries.rs) using sqlx SqlitePool from State<'_, OptionKeyDatabase>.
+- Applied by tauri-plugin-sql against sqlite:ryoiki-tenkai.db (declared in src-tauri/tauri.conf.json → plugins.sql, and DB_CONNECTION const in db/mod.rs). Query layer: db/<entity>_queries.rs (e.g. transcription_queries.rs, api_key_queries.rs) using sqlx SqlitePool from State<'_, OptionKeyDatabase>.
 - Naming convention for a new migration: next integer + snake_case description, e.g. 069_something.sql + SOMETHING_MIGRATION_SQL const + {version: 69, description: "add_something", ...}.
 2.7 Settings/configuration screens
 - src/components/settings/SettingsPage.tsx (route /dashboard/settings): sections General (auto-launch switch, Microphone, Audio, Wake words, Hotkeys, Diagnostics, Text insertion, More settings), Processing (dictation language select, AI transcription, AI post-processing, Assistant mode), Advanced (change password, manage subscription, terms, sign out), Danger zone (clear local data / delete account).
 - Settings state: src/state/settings.state.ts — dialog-open booleans (microphoneDialogOpen, aiTranscriptionDialogOpen, …) plus data (aiTranscription, aiPostProcessing, agentMode, apiKeys, hotkeyIds, openRouterModels). Opening a dialog = produceAppState((d) => { d.settings.xxxDialogOpen = true; }).
 - Dialogs: AudioDialog, MicrophoneDialog, WakeWordDialog, ShortcutsDialog, AppKeybindingsDialog, AITranscriptionDialog, AIPostProcessingDialog, AIAgentModeDialog, MoreSettingsDialog, DiagnosticsDialog, MultiDeviceDialog, DictationLanguageDialog, ClearLocalDataDialog, DeleteAccountDialog, ProfileDialog — all in src/components/settings/. Root-level dialogs are mounted in RootDialogs.tsx; dashboard-level in DashboardPage.tsx.
-- API key management UI: ApiKeyList.tsx, api-key-provider-config.tsx, ProviderFormFields.tsx, VoquillCloudSetting.tsx, provider pickers (OllamaModelPicker, OpenRouterModelPicker, …).
+- API key management UI: ApiKeyList.tsx, api-key-provider-config.tsx, ProviderFormFields.tsx, RyoikiTenkaiCloudSetting.tsx, provider pickers (OllamaModelPicker, OpenRouterModelPicker, …).
 - Persisted prefs: UserPreferences row in SQLite (via user_preferences_set/get commands + preferences.repo.ts LocalUserPreferencesRepo); UI-only toggles go to persisted zustand local slice.
 2.8 Notifications
 - There are no OS-level notifications. In-app feedback = snackbar toasts: state (snackbarMessage/Counter/Mode/Duration) set via src/actions/app.actions.ts → showSnackbar() / showErrorSnackbar() (helpers setSnackbar in utils/app.utils.ts), rendered by src/components/root/SnackbarEmitter.tsx (MUI Snackbar, bottom-center, keyed by snackbarCounter).
 - Overlay “pill” flash messages: sendPillFlashMessage() / sendPillFireworks() in src/utils/overlay.utils.ts (Rust set_phase/overlay events).
-- Rust→TS event push exists (app_handle.emit_to(...), e.g. Google OAuth event; constants like EVT_OVERLAY_PHASE, EVT_AUDIO_CHUNK in domain), consumed in TS via useTauriListen (src/hooks/tauri.hooks.ts, wrapping @voquill/desktop-utils).
+- Rust→TS event push exists (app_handle.emit_to(...), e.g. Google OAuth event; constants like EVT_OVERLAY_PHASE, EVT_AUDIO_CHUNK in domain), consumed in TS via useTauriListen (src/hooks/tauri.hooks.ts, wrapping @ryoiki-tenkai/desktop-utils).
 2.9 History / records display
 - Route /dashboard/transcriptions → src/components/transcriptions/TranscriptionsPage.tsx (uses ScrollListPage + TranscriptionRow (TranscriptRow.tsx), data loaded by TranscriptionsSideEffects, ids in state.transcriptions.transcriptionIds, entities in transcriptionById).
 - Details/ops: TranscriptionDetailsDialog.tsx, RetranscribeDialog.tsx, FlagTranscriptionDialog.tsx, TranscriptionToneMenu.tsx, AudioPlayerPill.tsx (audio playback via transcription_audio_load).
@@ -212,17 +212,17 @@ tauri_plugin_sql::Migration {
 - Timer-ish utilities: src/utils/time.utils.ts (minutesToMilliseconds, hoursToMilliseconds), src/utils/dictation-limit.utils.ts (dictation minute limits), useInterval/useIntervalAsync hooks (§4), plus wakeword config commands (list_wakeword_models, get/set_wakeword_config).
 2.11 API keys / credentials storage
 - Table api_keys (migration 009_api_keys.sql) with columns extended over time (026 model, 034 openrouter_config, 035 base_url, 036 azure_region, 056 include_v1_path).
-- Encryption at rest (Rust): src-tauri/src/system/crypto.rs — protect_api_key() derives salt (OsRng), SHA-256 hash, and XOR-keystream ciphertext keyed by runtime_secret() = env VOQUILL_API_KEY_SECRET (falls back to a hard-coded default with a warning); reveal_api_key(salt, ciphertext) reverses it. Only last-4 key_suffix is stored in plaintext. See api_key_create/api_key_list in commands.rs (lines ~1035–1100): stored as ApiKey { salt, key_hash, key_ciphertext, key_suffix, ... }, returned to TS as ApiKeyView with keyFull revealed.
+- Encryption at rest (Rust): src-tauri/src/system/crypto.rs — protect_api_key() derives salt (OsRng), SHA-256 hash, and XOR-keystream ciphertext keyed by runtime_secret() = env RYOIKI_TENKAI_API_KEY_SECRET (falls back to a hard-coded default with a warning); reveal_api_key(salt, ciphertext) reverses it. Only last-4 key_suffix is stored in plaintext. See api_key_create/api_key_list in commands.rs (lines ~1035–1100): stored as ApiKey { salt, key_hash, key_ciphertext, key_suffix, ... }, returned to TS as ApiKeyView with keyFull revealed.
 - TS side: src/repos/api-key.repo.ts (LocalApiKeyRepo → api_key_list/create/update/delete), state in apiKeyById + settings.apiKeys; actions in src/actions/api-key.actions.ts. Note keys are revealed to the frontend and used from TS (repos read apiKeyRecord.keyFull).
-- Other credentials: auth session in Rust system/auth_session.rs + commands auth_sign_in_with_custom_token|auth_mint_custom_token|auth_sign_out|auth_is_signed_in; Google OAuth secrets via env (VOQUILL_GOOGLE_CLIENT_ID/SECRET); enterprise gateway token in settings.agentMode.openclawToken etc.
+- Other credentials: auth session in Rust system/auth_session.rs + commands auth_sign_in_with_custom_token|auth_mint_custom_token|auth_sign_out|auth_is_signed_in; Google OAuth secrets via env (RYOIKI_TENKAI_GOOGLE_CLIENT_ID/SECRET); enterprise gateway token in settings.agentMode.openclawToken etc.
 - There is no OS keychain/keyring integration — encryption is the XOR scheme above.
 2.12 IPC / invoke pattern (TS ↔ Rust)
-- Command calls: import { invoke } from "@tauri-apps/api/core" used directly inside repos/actions, always with snake_case command names and camelCase-ish arg keys matching Rust parameter names, e.g. invoke<LocalTerm[]>("term_list"), invoke("transcription_create", { transcription }), invoke("api_key_update", { request }). Return values are untyped-with-local-type: each repo declares a LocalXxx type mirroring the Rust #[serde(rename_all = "camelCase")] struct, then fromLocalXxx() maps to the @voquill/types domain type.
+- Command calls: import { invoke } from "@tauri-apps/api/core" used directly inside repos/actions, always with snake_case command names and camelCase-ish arg keys matching Rust parameter names, e.g. invoke<LocalTerm[]>("term_list"), invoke("transcription_create", { transcription }), invoke("api_key_update", { request }). Return values are untyped-with-local-type: each repo declares a LocalXxx type mirroring the Rust #[serde(rename_all = "camelCase")] struct, then fromLocalXxx() maps to the @ryoiki-tenkai/types domain type.
 - Typed bindings exist but are peripheral: packages/desktop-native-apis/src/bindings.ts (generated commands.* camelCase wrappers returning Result<T,string>); regenerate with root pnpm run gen:bindings / scripts/bindings.sh (cargo run --example gen_bindings).
-- Events Rust→TS: useTauriListen(eventName, cb) (src/hooks/tauri.hooks.ts → @voquill/desktop-utils, errors routed to snackbar). Events TS→(pill/window): emit helpers in src/utils/overlay.utils.ts, window.utils.ts.
+- Events Rust→TS: useTauriListen(eventName, cb) (src/hooks/tauri.hooks.ts → @ryoiki-tenkai/desktop-utils, errors routed to snackbar). Events TS→(pill/window): emit helpers in src/utils/overlay.utils.ts, window.utils.ts.
 - Guard pattern for non-Tauri env: settings.actions.ts isTauriEnvironment() checks __TAURI_INTERNALS__ etc.
 3. Where the logo/title is in the top bar (target for a “dashboard switcher” dropdown)
-The header lives at /home/omar/Desktop/foss/voquill/apps/desktop/src/components/root/Header.tsx and is rendered for all dashboard routes by AppWrapper in router.tsx via PageLayout header={<AppHeader />} (src/components/common/PageLayout.tsx — sticky top Stack, scrollable children).
+The header lives at /home/omar/Desktop/foss/ryoiki-tenkai/apps/desktop/src/components/root/Header.tsx and is rendered for all dashboard routes by AppWrapper in router.tsx via PageLayout header={<AppHeader />} (src/components/common/PageLayout.tsx — sticky top Stack, scrollable children).
 // Header.tsx
 export const BaseHeader = ({ logo, leftContent, rightContent }: BaseHeaderProps) => (
   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ py: 1, px: 2 }}>
@@ -244,7 +244,7 @@ export const AppHeader = () => {
   );
   return <BaseHeader logo={logo} leftContent={leftContent} rightContent={rightContent} />;
 };
-- LogoWithText = src/components/common/LogoWithText.tsx (<Logo /> from common/Logo.tsx + bold “Voquill” Typography, hidden on xs). SenderReceiverChip sits immediately right of the logo — a precedent for putting a compact chip/control next to the logo.
+- LogoWithText = src/components/common/LogoWithText.tsx (<Logo /> from common/Logo.tsx + bold “Ryōiki Tenkai” Typography, hidden on xs). SenderReceiverChip sits immediately right of the logo — a precedent for putting a compact chip/control next to the logo.
 - Right side of the header: GPU upgrade button, FreeWordsRemaining, TrialCountdown, then a MenuPopoverBuilder avatar menu (profile, upgrade) — src/components/common/MenuPopover.tsx is the existing reusable dropdown/popover pattern to copy for a dashboard selector.
 - There is also a header extension point: HeaderPortalProvider (src/components/root/HeaderPortalContext.tsx + src/hooks/header.hooks.ts → useSetHeaderContent(node)) lets pages inject leftContent next to the logo (currently leftContent slot, rendered after the logo box).
 Recommended insertion point for the “switch dashboards” dropdown: the logo Stack in AppHeader (between LogoWithText and SenderReceiverChip), or the leftContent slot; use MenuPopoverBuilder for the dropdown UI.

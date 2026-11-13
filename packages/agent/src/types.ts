@@ -3,7 +3,7 @@ import type {
   LlmChatInput,
   LlmMessage,
   LlmStreamEvent,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 
 export interface AgentToolInput {
   params: Record<string, unknown>;
@@ -27,11 +27,7 @@ export interface AgentLlmProvider {
   streamChat(input: LlmChatInput): AsyncGenerator<LlmStreamEvent>;
 }
 
-export type AgentFinishReason =
-  | "stop"
-  | "max-iterations"
-  | "aborted"
-  | "error";
+export type AgentFinishReason = "stop" | "max-iterations" | "aborted" | "error";
 
 export type AgentEvent =
   | { type: "text-delta"; text: string }

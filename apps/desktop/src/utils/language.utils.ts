@@ -1,4 +1,4 @@
-import { getRec } from "@voquill/utilities";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { getIntl, matchSupportedLocale } from "../i18n";
 import { DEFAULT_LOCALE, type Locale } from "../i18n/config";
 

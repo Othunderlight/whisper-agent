@@ -1,5 +1,5 @@
 import { Dialog } from "@mui/material";
-import { delayed, retry } from "@voquill/utilities";
+import { delayed, retry } from "@ryoiki-tenkai/utilities";
 import {
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,

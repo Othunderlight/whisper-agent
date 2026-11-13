@@ -1,6 +1,6 @@
 # Local Model Integration Guide
 
-This guide explains how to add a new locally-run model to the Voquill desktop app. It covers the complete flow from UI settings to Rust inference, and explains how to adapt the patterns for different model types.
+This guide explains how to add a new locally-run model to the Ryōiki Tenkai desktop app. It covers the complete flow from UI settings to Rust inference, and explains how to adapt the patterns for different model types.
 
 ## Overview
 
@@ -175,8 +175,8 @@ impl WhisperModelSize {
 
 Models are downloaded from HuggingFace by default. You can override URLs via environment variables:
 
-- `VOQUILL_WHISPER_MODEL_URL_{SIZE}` - Override specific model URL
-- `VOQUILL_WHISPER_MODEL_URL` - Override base model URL (fallback)
+- `RYOIKI_TENKAI_WHISPER_MODEL_URL_{SIZE}` - Override specific model URL
+- `RYOIKI_TENKAI_WHISPER_MODEL_URL` - Override base model URL (fallback)
 
 ## Step 2: Implement Model Download & Storage
 
@@ -211,9 +211,9 @@ fn download_model(url: &str, destination: &Path) -> Result<(), String> {
 
 Models are stored in the platform-specific app data directory:
 
-- **macOS**: `~/Library/Application Support/Voquill/models/`
-- **Windows**: `C:\Users\{user}\AppData\Roaming\Voquill\models\`
-- **Linux**: `~/.config/Voquill/models/`
+- **macOS**: `~/Library/Application Support/com.ryoikitenkai.desktop/models/`
+- **Windows**: `C:\Users\{user}\AppData\Roaming\com.ryoikitenkai.desktop\models\`
+- **Linux**: `~/.config/Ryōiki Tenkai/models/`
 
 Path helpers in `src-tauri/src/system/paths.rs`:
 
@@ -742,13 +742,13 @@ The same executable runs in different "modes" based on environment variables. Th
 ```rust
 fn main() {
     // Check for child process modes BEFORE starting Tauri
-    if std::env::var("VOQUILL_GPU_ENUMERATOR").as_deref() == Ok("1") {
+    if std::env::var("RYOIKI_TENKAI_GPU_ENUMERATOR").as_deref() == Ok("1") {
         // Run GPU enumeration and exit
         desktop_lib::system::gpu::run_gpu_enumerator_process();
         return;
     }
 
-    if std::env::var("VOQUILL_KEYBOARD_LISTENER").as_deref() == Ok("1") {
+    if std::env::var("RYOIKI_TENKAI_KEYBOARD_LISTENER").as_deref() == Ok("1") {
         // Run keyboard listener and exit
         desktop_lib::platform::keyboard::run_listener_process();
         return;
@@ -771,7 +771,7 @@ fn enumerate_gpus_in_child_process() -> Vec<GpuAdapterInfo> {
     // Spawn self with mode env var
     let mut command = Command::new(exe);
     command
-        .env("VOQUILL_GPU_ENUMERATOR", "1")  // Trigger child mode
+        .env("RYOIKI_TENKAI_GPU_ENUMERATOR", "1")  // Trigger child mode
         .stdin(Stdio::null())
         .stdout(Stdio::piped())   // Capture output
         .stderr(Stdio::inherit()); // Share stderr for logging
@@ -817,7 +817,7 @@ To add model inference as a child process (useful for crash isolation):
 
 1. **Add env var check in main.rs:**
 ```rust
-if std::env::var("VOQUILL_MODEL_INFERENCE").as_deref() == Ok("1") {
+if std::env::var("RYOIKI_TENKAI_MODEL_INFERENCE").as_deref() == Ok("1") {
     desktop_lib::platform::whisper::run_inference_process();
     return;
 }
@@ -828,7 +828,7 @@ if std::env::var("VOQUILL_MODEL_INFERENCE").as_deref() == Ok("1") {
 // In platform/whisper.rs
 pub fn run_inference_process() -> Result<(), String> {
     // Read input from stdin or env var
-    let input: InferenceInput = serde_json::from_str(&std::env::var("VOQUILL_INFERENCE_INPUT")?)?;
+    let input: InferenceInput = serde_json::from_str(&std::env::var("RYOIKI_TENKAI_INFERENCE_INPUT")?)?;
 
     // Run inference
     let result = transcribe_samples(&input.samples, input.sample_rate, input.model_path)?;
@@ -846,8 +846,8 @@ fn transcribe_in_child(input: &InferenceInput) -> Result<String, String> {
     let input_json = serde_json::to_string(input)?;
 
     let output = Command::new(exe)
-        .env("VOQUILL_MODEL_INFERENCE", "1")
-        .env("VOQUILL_INFERENCE_INPUT", input_json)
+        .env("RYOIKI_TENKAI_MODEL_INFERENCE", "1")
+        .env("RYOIKI_TENKAI_INFERENCE_INPUT", input_json)
         .output()?;
 
     String::from_utf8(output.stdout)
@@ -866,8 +866,8 @@ let listener = TcpListener::bind(("127.0.0.1", 0))?;
 let port = listener.local_addr()?.port();
 
 Command::new(exe)
-    .env("VOQUILL_KEYBOARD_LISTENER", "1")
-    .env("VOQUILL_KEYBOARD_PORT", port.to_string())
+    .env("RYOIKI_TENKAI_KEYBOARD_LISTENER", "1")
+    .env("RYOIKI_TENKAI_KEYBOARD_PORT", port.to_string())
     .spawn()?;
 
 // Child: connect back to parent
@@ -931,8 +931,8 @@ Avoid when:
 5. **Default model on startup** - Base model downloads on app startup if missing. Startup fails if download fails.
 
 6. **Environment variables**:
-   - `VOQUILL_WHISPER_DISABLE_GPU=1` - Force CPU-only mode
-   - `VOQUILL_WHISPER_MODEL_URL_{SIZE}` - Override model download URL
+   - `RYOIKI_TENKAI_WHISPER_DISABLE_GPU=1` - Force CPU-only mode
+   - `RYOIKI_TENKAI_WHISPER_MODEL_URL_{SIZE}` - Override model download URL
 
 ## Quick Reference
 

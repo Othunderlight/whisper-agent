@@ -3,7 +3,7 @@ import UIKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
-  private static let appGroupId = "group.com.voquill.mobile"
+  private static let appGroupId = "group.com.ryoikitenkai.mobile"
   private var channel: FlutterMethodChannel?
 
   override func application(
@@ -14,7 +14,7 @@ import UIKit
 
     let controller = window?.rootViewController as! FlutterViewController
     let channel = FlutterMethodChannel(
-      name: "com.voquill.mobile/shared",
+      name: "com.ryoikitenkai.mobile/shared",
       binaryMessenger: controller.binaryMessenger
     )
     self.channel = channel
@@ -31,18 +31,18 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(apiRefreshToken, forKey: "voquill_api_refresh_token")
-        defaults.set(apiKey, forKey: "voquill_api_key")
-        defaults.set(functionUrl, forKey: "voquill_function_url")
-        defaults.set(authUrl, forKey: "voquill_auth_url")
+        defaults.set(apiRefreshToken, forKey: "ryoiki_tenkai_api_refresh_token")
+        defaults.set(apiKey, forKey: "ryoiki_tenkai_api_key")
+        defaults.set(functionUrl, forKey: "ryoiki_tenkai_function_url")
+        defaults.set(authUrl, forKey: "ryoiki_tenkai_auth_url")
         result(nil)
 
       case "clearKeyboardAuth":
         if let defaults = UserDefaults(suiteName: AppDelegate.appGroupId) {
-          defaults.removeObject(forKey: "voquill_api_refresh_token")
-          defaults.removeObject(forKey: "voquill_api_key")
-          defaults.removeObject(forKey: "voquill_function_url")
-          defaults.removeObject(forKey: "voquill_auth_url")
+          defaults.removeObject(forKey: "ryoiki_tenkai_api_refresh_token")
+          defaults.removeObject(forKey: "ryoiki_tenkai_api_key")
+          defaults.removeObject(forKey: "ryoiki_tenkai_function_url")
+          defaults.removeObject(forKey: "ryoiki_tenkai_auth_url")
         }
         result(nil)
 
@@ -53,7 +53,7 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(userName, forKey: "voquill_user_name")
+        defaults.set(userName, forKey: "ryoiki_tenkai_user_name")
         result(nil)
 
       case "setKeyboardTones":
@@ -65,10 +65,10 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(selectedToneId, forKey: "voquill_selected_tone_id")
-        defaults.set(activeToneIds, forKey: "voquill_active_tone_ids")
+        defaults.set(selectedToneId, forKey: "ryoiki_tenkai_selected_tone_id")
+        defaults.set(activeToneIds, forKey: "ryoiki_tenkai_active_tone_ids")
         if let data = try? JSONSerialization.data(withJSONObject: toneById) {
-          defaults.set(data, forKey: "voquill_tone_by_id")
+          defaults.set(data, forKey: "ryoiki_tenkai_tone_by_id")
         }
         result(nil)
 
@@ -80,9 +80,9 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(termIds, forKey: "voquill_term_ids")
+        defaults.set(termIds, forKey: "ryoiki_tenkai_term_ids")
         if let data = try? JSONSerialization.data(withJSONObject: termById) {
-          defaults.set(data, forKey: "voquill_term_by_id")
+          defaults.set(data, forKey: "ryoiki_tenkai_term_by_id")
         }
         result(nil)
 
@@ -93,7 +93,7 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(uid, forKey: "voquill_mixpanel_uid")
+        defaults.set(uid, forKey: "ryoiki_tenkai_mixpanel_uid")
         result(nil)
 
       case "setMixpanelToken":
@@ -103,17 +103,17 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(token, forKey: "voquill_mixpanel_token")
+        defaults.set(token, forKey: "ryoiki_tenkai_mixpanel_token")
         result(nil)
 
       case "getDictationLanguages":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        let languages = defaults?.stringArray(forKey: "voquill_dictation_languages") ?? []
+        let languages = defaults?.stringArray(forKey: "ryoiki_tenkai_dictation_languages") ?? []
         result(languages)
 
       case "getActiveDictationLanguage":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        let language = defaults?.string(forKey: "voquill_dictation_language")
+        let language = defaults?.string(forKey: "ryoiki_tenkai_dictation_language")
         result(language)
 
       case "setDictationLanguages":
@@ -123,7 +123,7 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(languages, forKey: "voquill_dictation_languages")
+        defaults.set(languages, forKey: "ryoiki_tenkai_dictation_languages")
         result(nil)
 
       case "setActiveDictationLanguage":
@@ -133,17 +133,17 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(language, forKey: "voquill_dictation_language")
+        defaults.set(language, forKey: "ryoiki_tenkai_dictation_language")
         result(nil)
 
       case "getTranscriptions":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        let transcriptions = defaults?.array(forKey: "voquill_transcriptions") as? [[String: Any]] ?? []
+        let transcriptions = defaults?.array(forKey: "ryoiki_tenkai_transcriptions") as? [[String: Any]] ?? []
         result(transcriptions)
 
       case "getSelectedToneId":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        result(defaults?.string(forKey: "voquill_selected_tone_id"))
+        result(defaults?.string(forKey: "ryoiki_tenkai_selected_tone_id"))
 
       case "setSelectedToneId":
         guard let args = call.arguments as? [String: String],
@@ -152,18 +152,18 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(toneId, forKey: "voquill_selected_tone_id")
+        defaults.set(toneId, forKey: "ryoiki_tenkai_selected_tone_id")
         result(nil)
 
       case "getAppCounter":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        let counter = defaults?.integer(forKey: "voquill_app_update_counter") ?? 0
+        let counter = defaults?.integer(forKey: "ryoiki_tenkai_app_update_counter") ?? 0
         result(counter)
 
       case "incrementKeyboardCounter":
         let defaults = UserDefaults(suiteName: AppDelegate.appGroupId)
-        let counter = defaults?.integer(forKey: "voquill_keyboard_update_counter") ?? 0
-        defaults?.set(counter + 1, forKey: "voquill_keyboard_update_counter")
+        let counter = defaults?.integer(forKey: "ryoiki_tenkai_keyboard_update_counter") ?? 0
+        defaults?.set(counter + 1, forKey: "ryoiki_tenkai_keyboard_update_counter")
         result(nil)
 
       case "isKeyboardEnabled":
@@ -186,52 +186,52 @@ import UIKit
           result(FlutterError(code: "INVALID_ARGS", message: nil, details: nil))
           return
         }
-        defaults.set(transcriptionMode, forKey: "voquill_ai_transcription_mode")
-        defaults.set(postProcessingMode, forKey: "voquill_ai_post_processing_mode")
+        defaults.set(transcriptionMode, forKey: "ryoiki_tenkai_ai_transcription_mode")
+        defaults.set(postProcessingMode, forKey: "ryoiki_tenkai_ai_post_processing_mode")
         if let provider = args["transcriptionProvider"] {
-          defaults.set(provider, forKey: "voquill_ai_transcription_provider")
+          defaults.set(provider, forKey: "ryoiki_tenkai_ai_transcription_provider")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_transcription_provider")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_transcription_provider")
         }
         if let apiKey = args["transcriptionApiKey"] {
-          defaults.set(apiKey, forKey: "voquill_ai_transcription_api_key")
+          defaults.set(apiKey, forKey: "ryoiki_tenkai_ai_transcription_api_key")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_transcription_api_key")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_transcription_api_key")
         }
         if let provider = args["postProcessingProvider"] {
-          defaults.set(provider, forKey: "voquill_ai_post_processing_provider")
+          defaults.set(provider, forKey: "ryoiki_tenkai_ai_post_processing_provider")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_post_processing_provider")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_post_processing_provider")
         }
         if let apiKey = args["postProcessingApiKey"] {
-          defaults.set(apiKey, forKey: "voquill_ai_post_processing_api_key")
+          defaults.set(apiKey, forKey: "ryoiki_tenkai_ai_post_processing_api_key")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_post_processing_api_key")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_post_processing_api_key")
         }
         if let baseUrl = args["transcriptionBaseUrl"] {
-          defaults.set(baseUrl, forKey: "voquill_ai_transcription_base_url")
+          defaults.set(baseUrl, forKey: "ryoiki_tenkai_ai_transcription_base_url")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_transcription_base_url")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_transcription_base_url")
         }
         if let baseUrl = args["postProcessingBaseUrl"] {
-          defaults.set(baseUrl, forKey: "voquill_ai_post_processing_base_url")
+          defaults.set(baseUrl, forKey: "ryoiki_tenkai_ai_post_processing_base_url")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_post_processing_base_url")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_post_processing_base_url")
         }
         if let model = args["transcriptionModel"] {
-          defaults.set(model, forKey: "voquill_ai_transcription_model")
+          defaults.set(model, forKey: "ryoiki_tenkai_ai_transcription_model")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_transcription_model")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_transcription_model")
         }
         if let model = args["postProcessingModel"] {
-          defaults.set(model, forKey: "voquill_ai_post_processing_model")
+          defaults.set(model, forKey: "ryoiki_tenkai_ai_post_processing_model")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_post_processing_model")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_post_processing_model")
         }
         if let azureRegion = args["transcriptionAzureRegion"] {
-          defaults.set(azureRegion, forKey: "voquill_ai_transcription_azure_region")
+          defaults.set(azureRegion, forKey: "ryoiki_tenkai_ai_transcription_azure_region")
         } else {
-          defaults.removeObject(forKey: "voquill_ai_transcription_azure_region")
+          defaults.removeObject(forKey: "ryoiki_tenkai_ai_transcription_azure_region")
         }
         result(nil)
 
@@ -297,7 +297,7 @@ import UIKit
 
   @discardableResult
   private func handleDictationURL(_ url: URL) -> Bool {
-    guard url.scheme == "voquill" else { return false }
+    guard url.scheme == "ryoiki-tenkai" else { return false }
 
     switch url.host {
     case "dictate":

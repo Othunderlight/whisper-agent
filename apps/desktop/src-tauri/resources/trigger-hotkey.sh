@@ -18,9 +18,9 @@ try_trigger() {
     -X POST "http://127.0.0.1:${port}/hotkey/${ACTION}" >/dev/null
 }
 
-DEV_INFO_FILE="$CONFIG_ROOT/com.voquill.desktop.dev/bridge-server.json"
-LOCAL_INFO_FILE="$CONFIG_ROOT/com.voquill.desktop.local/bridge-server.json"
-PROD_INFO_FILE="$CONFIG_ROOT/com.voquill.desktop/bridge-server.json"
+DEV_INFO_FILE="$CONFIG_ROOT/com.ryoikitenkai.desktop.dev/bridge-server.json"
+LOCAL_INFO_FILE="$CONFIG_ROOT/com.ryoikitenkai.desktop.local/bridge-server.json"
+PROD_INFO_FILE="$CONFIG_ROOT/com.ryoikitenkai.desktop/bridge-server.json"
 
 for info_file in "$DEV_INFO_FILE" "$LOCAL_INFO_FILE" "$PROD_INFO_FILE"; do
   port="$(read_port_from_file "$info_file" || true)"

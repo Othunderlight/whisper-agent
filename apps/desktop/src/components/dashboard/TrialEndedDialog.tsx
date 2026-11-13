@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { delayed } from "@voquill/utilities";
+import { delayed } from "@ryoiki-tenkai/utilities";
 import { useEffect, useRef } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { openUpgradePlanDialog } from "../../actions/pricing.actions";

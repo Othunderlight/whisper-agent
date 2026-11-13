@@ -1,4 +1,4 @@
-import { Nullable } from "@voquill/types";
+import { Nullable } from "@ryoiki-tenkai/types";
 import { getIsDevMode } from "../utils/env.utils";
 
 export type OnboardingPageKey =

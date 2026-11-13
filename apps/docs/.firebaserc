@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "voquill-prod"
+    "default": "ryoiki-tenkai-prod"
   },
   "targets": {
-    "voquill-prod": {
+    "ryoiki-tenkai-prod": {
       "hosting": {
-        "voquill-docs": [
-          "voquill-docs"
+        "ryoiki-tenkai-docs": [
+          "ryoiki-tenkai-docs"
         ]
       }
     }

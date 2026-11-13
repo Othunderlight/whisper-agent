@@ -6,7 +6,7 @@ import {
   installAvailableUpdate as pkgInstallAvailableUpdate,
   isReadOnlyFilesystemInstallError,
   relaunchApp,
-} from "@voquill/desktop-utils";
+} from "@ryoiki-tenkai/desktop-utils";
 import { getIntl } from "../i18n/intl";
 import { getAppState, produceAppState } from "../store";
 import { getPlatform } from "../utils/env.utils";

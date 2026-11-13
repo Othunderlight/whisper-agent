@@ -1,4 +1,11 @@
-import type { LlmProvider, OidcProvider, SttProvider, Term, Tone, UserWithAuth } from "@voquill/types";
+import type {
+  LlmProvider,
+  OidcProvider,
+  SttProvider,
+  Term,
+  Tone,
+  UserWithAuth,
+} from "@ryoiki-tenkai/types";
 import type { AppState, SnackbarMode } from "../state/app.state";
 
 export type ShowSnackbarOpts = {

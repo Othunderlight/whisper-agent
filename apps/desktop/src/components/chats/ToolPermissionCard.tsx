@@ -1,4 +1,4 @@
-import type { ToolPermission } from "@voquill/types";
+import type { ToolPermission } from "@ryoiki-tenkai/types";
 import {
   resolveToolPermission,
   setToolAlwaysAllow,

@@ -43,5 +43,5 @@ jobs:
         working-directory: apps/docs
         run: |
           set -euo pipefail
-          echo "Deploying docs hosting for project: voquill-prod"
-          npx firebase-tools@latest deploy --only hosting:voquill-docs --project voquill-prod --non-interactive --force --config firebase.json
+          echo "Deploying docs hosting for project: ryoiki-tenkai-prod"
+          npx firebase-tools@latest deploy --only hosting:ryoiki-tenkai-docs --project ryoiki-tenkai-prod --non-interactive --force --config firebase.json

@@ -28,7 +28,7 @@ on:
         type: string
 
 env:
-  IMAGE_NAME: ghcr.io/voquill/voquill/enterprise-admin
+  IMAGE_NAME: ghcr.io/ryoiki-tenkai/ryoiki-tenkai/enterprise-admin
 
 jobs:
   metadata:

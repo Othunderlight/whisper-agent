@@ -1,5 +1,5 @@
-import { invokeHandler } from "@voquill/functions";
-import { Tenant, TenantRole } from "@voquill/types";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Tenant, TenantRole } from "@ryoiki-tenkai/types";
 import { BaseRepo } from "./base.repo";
 
 export type TenantWithRole = {

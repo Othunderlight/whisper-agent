@@ -1,5 +1,5 @@
-import { invokeHandler } from "@voquill/functions";
-import { Nullable, User } from "@voquill/types";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Nullable, User } from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import { nowIso } from "../utils/date.utils";
 import { invokeEnterprise } from "../utils/enterprise.utils";

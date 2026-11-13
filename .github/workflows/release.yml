@@ -245,7 +245,7 @@ jobs:
           commit_first_line="${COMMIT_MSG%%$'\n'*}"
           short_sha="${COMMIT_SHA:0:7}"
 
-          text="🎙️ *Voquill* — release to *${CHANNEL}* ${outcome}"$'\n'
+          text="🎙️ *Ryōiki Tenkai* — release to *${CHANNEL}* ${outcome}"$'\n'
           text+="${short_sha} by ${ACTOR}"
           if [ -n "${commit_first_line}" ]; then
             text+=": ${commit_first_line}"

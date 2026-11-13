@@ -9,7 +9,7 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
-import { Nullable } from "@voquill/types";
+import { Nullable } from "@ryoiki-tenkai/types";
 import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { setPreferredMicrophone } from "../../actions/user.actions";

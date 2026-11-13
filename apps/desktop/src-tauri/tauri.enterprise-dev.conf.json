@@ -1,7 +1,7 @@
 {
-  "productName": "Ryōiki Tenkai Enterprise (dev)",
-  "identifier": "com.voquill.desktop.enterprise-dev",
-  "mainBinaryName": "voquill-desktop-enterprise-dev",
+  "productName": "ryoiki-tenkai-enterprise-dev",
+  "identifier": "com.ryoikitenkai.desktop.enterprise-dev",
+  "mainBinaryName": "ryoiki-tenkai-enterprise-dev",
   "app": {
     "windows": [
       {
@@ -38,7 +38,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://github.com/voquill/voquill/releases/download/desktop-enterprise-dev/latest.json"
+        "https://github.com/ryoiki-tenkai/ryoiki-tenkai/releases/download/desktop-enterprise-dev/latest.json"
       ]
     }
   }

@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 
 final _logger = createNamedLogger('channel_utils');
 
-const _sharedChannel = MethodChannel('com.voquill.mobile/shared');
+const _sharedChannel = MethodChannel('com.ryoikitenkai.mobile/shared');
 
 bool get _canSync => Platform.isIOS || Platform.isAndroid;
 

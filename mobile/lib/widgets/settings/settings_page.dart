@@ -139,13 +139,13 @@ class SettingsPage extends StatelessWidget {
                   leading: const Icon(Icons.description_outlined),
                   title: const Text('Terms & conditions'),
                   trailing: const Icon(Icons.open_in_new, size: 18),
-                  onTap: () => openUrl('https://voquill.com/terms'),
+                  onTap: () => openUrl('https://ryoiki-tenkai.com/terms'),
                 ),
                 AppListTile(
                   leading: const Icon(Icons.privacy_tip_outlined),
                   title: const Text('Privacy policy'),
                   trailing: const Icon(Icons.open_in_new, size: 18),
-                  onTap: () => openUrl('https://voquill.com/privacy'),
+                  onTap: () => openUrl('https://ryoiki-tenkai.com/privacy'),
                 ),
                 AppListTile(
                   leading: const Icon(Icons.logout_outlined),

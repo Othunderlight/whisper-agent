@@ -312,7 +312,7 @@ class KeyboardViewController: UIInputViewController {
 
     private func initMixpanel() {
         let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-        guard let token = defaults?.string(forKey: "voquill_mixpanel_token"),
+        guard let token = defaults?.string(forKey: "ryoiki_tenkai_mixpanel_token"),
               !token.isEmpty else { return }
         Mixpanel.initialize(token: token, trackAutomaticEvents: false)
         syncMixpanelUser()
@@ -320,7 +320,7 @@ class KeyboardViewController: UIInputViewController {
 
     private func syncMixpanelUser() {
         let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-        guard let uid = defaults?.string(forKey: "voquill_mixpanel_uid"),
+        guard let uid = defaults?.string(forKey: "ryoiki_tenkai_mixpanel_uid"),
               !uid.isEmpty else { return }
         Mixpanel.mainInstance().identify(distinctId: uid)
     }
@@ -339,7 +339,7 @@ class KeyboardViewController: UIInputViewController {
 
     private func syncFullAccessStatus() {
         let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-        defaults?.set(hasFullAccess, forKey: "voquill_keyboard_has_full_access")
+        defaults?.set(hasFullAccess, forKey: "ryoiki_tenkai_keyboard_has_full_access")
         updateFullAccessState()
     }
 
@@ -370,7 +370,7 @@ class KeyboardViewController: UIInputViewController {
         var newPhase = DictationPhase(rawValue: phaseStr) ?? .idle
 
         if newPhase != .idle && isHeartbeatStale(defaults) {
-            NSLog("[VoquillKB] Heartbeat stale, resetting phase to idle")
+            NSLog("[RyoikiTenkaiKB] Heartbeat stale, resetting phase to idle")
             defaults?.set("idle", forKey: DictationConstants.phaseKey)
             newPhase = .idle
         }
@@ -422,7 +422,7 @@ class KeyboardViewController: UIInputViewController {
         addButtonFeedback(logoButton)
         view.addSubview(logoButton)
 
-        let logoImageView = UIImageView(image: UIImage(named: "VoquillLogo")?.withRenderingMode(.alwaysTemplate))
+        let logoImageView = UIImageView(image: UIImage(named: "RyoikiTenkaiLogo")?.withRenderingMode(.alwaysTemplate))
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.tintColor = .label
@@ -692,7 +692,7 @@ class KeyboardViewController: UIInputViewController {
                 self.waveformView.isActive = false
                 self.progressView.alpha = 0
                 self.pillButton.backgroundColor = UIColor(red: 0.2, green: 0.5, blue: 1.0, alpha: 1.0)
-                self.pillLabel.text = self.dictationPhase == .idle ? "Activate Voquill" : "Tap to dictate"
+                self.pillLabel.text = self.dictationPhase == .idle ? "Activate Ryōiki Tenkai" : "Tap to dictate"
                 self.pillLabel.alpha = 1
                 self.pillButton.isUserInteractionEnabled = true
             }
@@ -761,7 +761,7 @@ class KeyboardViewController: UIInputViewController {
                 switch dictationPhase {
                 case .idle:
                     Mixpanel.mainInstance().track(event: "Activate Dictation Mode")
-                    openURL("voquill://dictate")
+                    openURL("ryoiki-tenkai://dictate")
                 case .active:
                     DarwinNotificationManager.shared.post(DictationConstants.startRecording)
                 case .recording:
@@ -853,26 +853,26 @@ class KeyboardViewController: UIInputViewController {
 
     private func loadLanguage() {
         let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-        let language = defaults?.string(forKey: "voquill_dictation_language") ?? "en"
-        dictationLanguages = defaults?.stringArray(forKey: "voquill_dictation_languages") ?? ["en"]
+        let language = defaults?.string(forKey: "ryoiki_tenkai_dictation_language") ?? "en"
+        dictationLanguages = defaults?.stringArray(forKey: "ryoiki_tenkai_dictation_languages") ?? ["en"]
         let code = language.components(separatedBy: "-").first ?? language
         languageChip.setTitle(code.uppercased(), for: .normal)
         languageChip.isHidden = dictationLanguages.count <= 1
     }
 
     @objc private func onLogoButtonTap() {
-        openURL("voquill://open")
+        openURL("ryoiki-tenkai://open")
     }
 
     @objc private func onLanguageChipTap() {
         guard !dictationLanguages.isEmpty else { return }
         let defaults = UserDefaults(suiteName: DictationConstants.appGroupId)
-        let current = defaults?.string(forKey: "voquill_dictation_language") ?? "en"
+        let current = defaults?.string(forKey: "ryoiki_tenkai_dictation_language") ?? "en"
         let currentIndex = dictationLanguages.firstIndex(of: current) ?? 0
         let nextIndex = (currentIndex + 1) % dictationLanguages.count
         let next = dictationLanguages[nextIndex]
 
-        defaults?.set(next, forKey: "voquill_dictation_language")
+        defaults?.set(next, forKey: "ryoiki_tenkai_dictation_language")
         let code = next.components(separatedBy: "-").first ?? next
         languageChip.setTitle(code.uppercased(), for: .normal)
 
@@ -886,7 +886,7 @@ class KeyboardViewController: UIInputViewController {
         let toneData = defaults.flatMap { SharedTone.loadFromDefaults($0) }
         activeToneIds = toneData?.activeToneIds ?? []
         toneById = toneData?.toneById ?? [:]
-        selectedToneId = defaults?.string(forKey: "voquill_selected_tone_id") ?? activeToneIds.first
+        selectedToneId = defaults?.string(forKey: "ryoiki_tenkai_selected_tone_id") ?? activeToneIds.first
         renderToneChips()
     }
 
@@ -953,7 +953,7 @@ class KeyboardViewController: UIInputViewController {
         selectedToneId = activeToneIds[index]
 
         if let defaults = UserDefaults(suiteName: DictationConstants.appGroupId) {
-            defaults.set(selectedToneId, forKey: "voquill_selected_tone_id")
+            defaults.set(selectedToneId, forKey: "ryoiki_tenkai_selected_tone_id")
         }
 
         for view in toneContainer.subviews {
@@ -975,7 +975,7 @@ class KeyboardViewController: UIInputViewController {
         fetchIdToken { [weak self] idToken in
             guard let self = self, let idToken = idToken else { return }
             guard let defaults = UserDefaults(suiteName: DictationConstants.appGroupId),
-                  let functionUrl = defaults.string(forKey: "voquill_function_url") else { return }
+                  let functionUrl = defaults.string(forKey: "ryoiki_tenkai_function_url") else { return }
 
             let config = RepoConfig(functionUrl: functionUrl, idToken: idToken)
             let repo = MemberRepo(config: config)
@@ -992,7 +992,7 @@ class KeyboardViewController: UIInputViewController {
                         self.updateStatusBanner()
                     }
                 } catch {
-                    NSLog("[VoquillKB] Failed to refresh member: %@", error.localizedDescription)
+                    NSLog("[RyoikiTenkaiKB] Failed to refresh member: %@", error.localizedDescription)
                 }
             }
         }
@@ -1000,8 +1000,8 @@ class KeyboardViewController: UIInputViewController {
 
     private func updateStatusBanner() {
         if let defaults = UserDefaults(suiteName: DictationConstants.appGroupId) {
-            let transcriptionMode = defaults.string(forKey: "voquill_ai_transcription_mode") ?? "cloud"
-            let postProcessingMode = defaults.string(forKey: "voquill_ai_post_processing_mode") ?? "cloud"
+            let transcriptionMode = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_mode") ?? "cloud"
+            let postProcessingMode = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_mode") ?? "cloud"
             if transcriptionMode == "api" && postProcessingMode == "api" {
                 setStatusBannerVisible(false)
                 return
@@ -1071,7 +1071,7 @@ class KeyboardViewController: UIInputViewController {
 
     @objc private func onUpgradeTap() {
         Mixpanel.mainInstance().track(event: "Button Click", properties: ["name": "upgrade keyboard"])
-        openURL("voquill://upgrade")
+        openURL("ryoiki-tenkai://upgrade")
     }
 
     @objc private func onUtilButtonTap(_ sender: UIButton) {
@@ -1135,18 +1135,18 @@ class KeyboardViewController: UIInputViewController {
     // MARK: - Transcription
 
     private func dbg(_ msg: String) {
-        NSLog("[VoquillKB] %@", msg)
+        NSLog("[RyoikiTenkaiKB] %@", msg)
         lastDebugLog = msg
     }
 
     private func buildTranscribeRepo(defaults: UserDefaults, config: RepoConfig?) -> BaseTranscribeAudioRepo? {
-        let mode = defaults.string(forKey: "voquill_ai_transcription_mode") ?? "cloud"
+        let mode = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_mode") ?? "cloud"
         if mode == "api",
-           let provider = defaults.string(forKey: "voquill_ai_transcription_provider"),
-           let apiKey = defaults.string(forKey: "voquill_ai_transcription_api_key") {
-            let baseUrl = defaults.string(forKey: "voquill_ai_transcription_base_url")
-            let model = defaults.string(forKey: "voquill_ai_transcription_model")
-            let azureRegion = defaults.string(forKey: "voquill_ai_transcription_azure_region")
+           let provider = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_provider"),
+           let apiKey = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_api_key") {
+            let baseUrl = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_base_url")
+            let model = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_model")
+            let azureRegion = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_azure_region")
             return ByokTranscribeAudioRepo(apiKey: apiKey, provider: provider, baseUrl: baseUrl, modelOverride: model, azureRegion: azureRegion)
         }
         guard let config = config else { return nil }
@@ -1154,12 +1154,12 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func buildGenerateTextRepo(defaults: UserDefaults, config: RepoConfig?) -> BaseGenerateTextRepo? {
-        let mode = defaults.string(forKey: "voquill_ai_post_processing_mode") ?? "cloud"
+        let mode = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_mode") ?? "cloud"
         if mode == "api",
-           let provider = defaults.string(forKey: "voquill_ai_post_processing_provider"),
-           let apiKey = defaults.string(forKey: "voquill_ai_post_processing_api_key") {
-            let baseUrl = defaults.string(forKey: "voquill_ai_post_processing_base_url")
-            let model = defaults.string(forKey: "voquill_ai_post_processing_model")
+           let provider = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_provider"),
+           let apiKey = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_api_key") {
+            let baseUrl = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_base_url")
+            let model = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_model")
             return ByokGenerateTextRepo(apiKey: apiKey, provider: provider, baseUrl: baseUrl, modelOverride: model)
         }
         guard let config = config else { return nil }
@@ -1196,8 +1196,8 @@ class KeyboardViewController: UIInputViewController {
             return
         }
 
-        let transcriptionMode = defaults.string(forKey: "voquill_ai_transcription_mode") ?? "cloud"
-        let postProcessingMode = defaults.string(forKey: "voquill_ai_post_processing_mode") ?? "cloud"
+        let transcriptionMode = defaults.string(forKey: "ryoiki_tenkai_ai_transcription_mode") ?? "cloud"
+        let postProcessingMode = defaults.string(forKey: "ryoiki_tenkai_ai_post_processing_mode") ?? "cloud"
         let needsCloudAuth = transcriptionMode == "cloud" || postProcessingMode == "cloud"
 
         let continueWithConfig: (RepoConfig?) -> Void = { [weak self] config in
@@ -1211,8 +1211,8 @@ class KeyboardViewController: UIInputViewController {
                 return
             }
 
-            let dictationLanguage = defaults.string(forKey: "voquill_dictation_language") ?? "en"
-            let userName = defaults.string(forKey: "voquill_user_name") ?? "User"
+            let dictationLanguage = defaults.string(forKey: "ryoiki_tenkai_dictation_language") ?? "en"
+            let userName = defaults.string(forKey: "ryoiki_tenkai_user_name") ?? "User"
             let prompt = buildLocalizedTranscriptionPrompt(
                 termIds: self.termIds,
                 termById: self.termById,
@@ -1300,14 +1300,14 @@ class KeyboardViewController: UIInputViewController {
                 guard let idToken = idToken else {
                     DispatchQueue.main.async {
                         self.isProcessing = false
-                        self.applyPillVisual(.error("Sign in required — open Voquill"), animated: true)
+                        self.applyPillVisual(.error("Sign in required — open Ryōiki Tenkai"), animated: true)
                     }
                     return
                 }
-                guard let functionUrl = defaults.string(forKey: "voquill_function_url") else {
+                guard let functionUrl = defaults.string(forKey: "ryoiki_tenkai_function_url") else {
                     DispatchQueue.main.async {
                         self.isProcessing = false
-                        self.applyPillVisual(.error("Setup error — open Voquill"), animated: true)
+                        self.applyPillVisual(.error("Setup error — open Ryōiki Tenkai"), animated: true)
                     }
                     return
                 }
@@ -1332,10 +1332,10 @@ class KeyboardViewController: UIInputViewController {
             return
         }
 
-        let apiRefreshToken = defaults.string(forKey: "voquill_api_refresh_token")
-        let functionUrl = defaults.string(forKey: "voquill_function_url")
-        let apiKey = defaults.string(forKey: "voquill_api_key")
-        let authUrl = defaults.string(forKey: "voquill_auth_url")
+        let apiRefreshToken = defaults.string(forKey: "ryoiki_tenkai_api_refresh_token")
+        let functionUrl = defaults.string(forKey: "ryoiki_tenkai_function_url")
+        let apiKey = defaults.string(forKey: "ryoiki_tenkai_api_key")
+        let authUrl = defaults.string(forKey: "ryoiki_tenkai_auth_url")
 
         guard let apiRefreshToken = apiRefreshToken,
               let functionUrl = functionUrl,

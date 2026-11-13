@@ -69,7 +69,7 @@ describe("term", () => {
         term: {
           id: termId2,
           createdAt: new Date().toISOString(),
-          sourceValue: "Voquill",
+          sourceValue: "Ryōiki Tenkai",
           destinationValue: "",
           isReplacement: false,
         },
@@ -158,8 +158,8 @@ describe("term", () => {
           term: {
             id: globalTermId,
             createdAt: new Date().toISOString(),
-            sourceValue: "Voquill",
-            destinationValue: "Voquill Inc.",
+            sourceValue: "Ryōiki Tenkai",
+            destinationValue: "Ryōiki Tenkai Inc.",
             isReplacement: true,
           },
         },
@@ -168,8 +168,8 @@ describe("term", () => {
 
       const data = await invoke("term/listGlobalTerms", {}, adminToken);
       expect(data.terms).toHaveLength(1);
-      expect(data.terms[0].sourceValue).toBe("Voquill");
-      expect(data.terms[0].destinationValue).toBe("Voquill Inc.");
+      expect(data.terms[0].sourceValue).toBe("Ryōiki Tenkai");
+      expect(data.terms[0].destinationValue).toBe("Ryōiki Tenkai Inc.");
       expect(data.terms[0].isReplacement).toBe(true);
     });
 
@@ -180,8 +180,8 @@ describe("term", () => {
           term: {
             id: globalTermId,
             createdAt: new Date().toISOString(),
-            sourceValue: "Voquill",
-            destinationValue: "Voquill Corp.",
+            sourceValue: "Ryōiki Tenkai",
+            destinationValue: "Ryōiki Tenkai Corp.",
             isReplacement: true,
           },
         },
@@ -190,14 +190,14 @@ describe("term", () => {
 
       const data = await invoke("term/listGlobalTerms", {}, adminToken);
       expect(data.terms).toHaveLength(1);
-      expect(data.terms[0].destinationValue).toBe("Voquill Corp.");
+      expect(data.terms[0].destinationValue).toBe("Ryōiki Tenkai Corp.");
     });
 
     it("includes global terms in listMyTerms for regular users", async () => {
       const data = await invoke("term/listMyTerms", {}, userToken);
       const globalTerm = data.terms.find((t: { id: string }) => t.id === globalTermId);
       expect(globalTerm).toBeDefined();
-      expect(globalTerm.sourceValue).toBe("Voquill");
+      expect(globalTerm.sourceValue).toBe("Ryōiki Tenkai");
     });
 
     it("allows admin to delete a global term", async () => {

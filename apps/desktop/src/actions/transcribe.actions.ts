@@ -3,8 +3,8 @@ import {
   Nullable,
   Transcription,
   TranscriptionAudioSnapshot,
-} from "@voquill/types";
-import { countWords, dedup } from "@voquill/utilities";
+} from "@ryoiki-tenkai/types";
+import { countWords, dedup } from "@ryoiki-tenkai/utilities";
 import dayjs from "dayjs";
 import {
   getGenerateTextRepo,

@@ -1,11 +1,11 @@
-import { invokeHandler, type CloudModel } from "@voquill/functions";
+import { invokeHandler, type CloudModel } from "@ryoiki-tenkai/functions";
 import type {
   JsonResponse,
   LlmChatInput,
   LlmStreamEvent,
   Nullable,
   OpenRouterProviderRouting,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import {
   azureOpenAIGenerateText,
   azureOpenaiStreamChat,
@@ -31,7 +31,7 @@ import {
   OPENROUTER_DEFAULT_MODEL,
   openrouterGenerateTextResponse,
   openrouterStreamChat,
-} from "@voquill/voice-ai";
+} from "@ryoiki-tenkai/voice-ai";
 import { fetch as tauriFetch } from "@tauri-apps/plugin-http";
 import { PostProcessingMode } from "../types/ai.types";
 import {

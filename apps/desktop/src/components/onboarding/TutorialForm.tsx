@@ -129,7 +129,7 @@ export const TutorialForm = () => {
     return () => {
       cancelled = true;
       setChatTone(POLISHED_TONE_ID, submissionCompleteRef.current).then(() => {
-        clearLocalStorageValue("voquill:checklist-writing-style");
+        clearLocalStorageValue("ryoiki-tenkai:checklist-writing-style");
       });
       produceAppState((draft) => {
         draft.onboarding.dictationOverrideEnabled = false;

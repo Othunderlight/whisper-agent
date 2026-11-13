@@ -7,14 +7,14 @@ import type {
   ToolChoiceTool,
   Tool,
 } from "@anthropic-ai/sdk/resources/messages";
-import { retry, countWords } from "@voquill/utilities";
+import { retry, countWords } from "@ryoiki-tenkai/utilities";
 import type {
   JsonResponse,
   LlmChatInput,
   LlmFinishReason,
   LlmMessage,
   LlmStreamEvent,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 
 export const CLAUDE_MODELS = [
   "claude-opus-4-5-20251101",
@@ -196,9 +196,7 @@ function llmMessagesToClaude(messages: LlmMessage[]): {
   return { system, messages: out };
 }
 
-function claudeFinishReason(
-  raw: string | null | undefined,
-): LlmFinishReason {
+function claudeFinishReason(raw: string | null | undefined): LlmFinishReason {
   switch (raw) {
     case "end_turn":
       return "stop";
@@ -237,11 +235,7 @@ export async function* claudeStreamChat({
         }))
       : undefined;
 
-  let toolChoice:
-    | ToolChoiceAuto
-    | ToolChoiceAny
-    | ToolChoiceTool
-    | undefined;
+  let toolChoice: ToolChoiceAuto | ToolChoiceAny | ToolChoiceTool | undefined;
   if (input.toolChoice && tools) {
     if (typeof input.toolChoice === "string") {
       switch (input.toolChoice) {

@@ -1,4 +1,4 @@
-package com.voquill.mobile.repos
+package com.ryoikitenkai.mobile.repos
 
 import android.util.Base64
 import android.util.Log

@@ -42,7 +42,7 @@ class WelcomePage extends StatelessWidget {
                               AppLogo(size: 56),
                               SizedBox(width: 8),
                               Text(
-                                'Voquill',
+                                'Ryōiki Tenkai',
                                 style: TextStyle(
                                   fontSize: 32,
                                   fontWeight: FontWeight.w700,

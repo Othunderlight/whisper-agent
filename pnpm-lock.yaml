@@ -134,22 +134,22 @@ importers:
       '@tauri-apps/plugin-updater':
         specifier: ~2.10.1
         version: 2.10.1
-      '@voquill/desktop-utils':
+      '@ryoiki-tenkai/desktop-utils':
         specifier: workspace:*
         version: link:../../packages/desktop-utils
-      '@voquill/functions':
+      '@ryoiki-tenkai/functions':
         specifier: workspace:*
         version: link:../../packages/functions
-      '@voquill/pricing':
+      '@ryoiki-tenkai/pricing':
         specifier: workspace:*
         version: link:../../packages/pricing
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@voquill/utilities':
+      '@ryoiki-tenkai/utilities':
         specifier: workspace:*
         version: link:../../packages/utilities
-      '@voquill/voice-ai':
+      '@ryoiki-tenkai/voice-ai':
         specifier: workspace:*
         version: link:../../packages/voice-ai
       chroma-js:
@@ -350,10 +350,10 @@ importers:
       '@mui/x-charts':
         specifier: ^8.28.2
         version: 8.28.2(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4))(@mui/material@7.3.9(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@voquill/functions':
+      '@ryoiki-tenkai/functions':
         specifier: workspace:*
         version: link:../../packages/functions
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../../packages/types
       immer:
@@ -441,13 +441,13 @@ importers:
 
   enterprise/gateway:
     dependencies:
-      '@voquill/functions':
+      '@ryoiki-tenkai/functions':
         specifier: workspace:*
         version: link:../../packages/functions
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../../packages/types
-      '@voquill/utilities':
+      '@ryoiki-tenkai/utilities':
         specifier: workspace:*
         version: link:../../packages/utilities
       bcrypt:
@@ -496,7 +496,7 @@ importers:
       '@types/uuid':
         specifier: ^10.0.0
         version: 10.0.0
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       esbuild:
@@ -514,14 +514,14 @@ importers:
 
   packages/agent:
     dependencies:
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@voquill/voice-ai':
+      '@ryoiki-tenkai/voice-ai':
         specifier: workspace:*
         version: link:../voice-ai
       tsx:
@@ -537,7 +537,7 @@ importers:
         specifier: ~2.10.1
         version: 2.10.1
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:
@@ -552,7 +552,7 @@ importers:
       '@types/react':
         specifier: 19.2.10
         version: 19.2.10
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       react:
@@ -603,14 +603,14 @@ importers:
       '@firemix/core':
         specifier: ^0.1.16
         version: 0.1.16
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../types
-      '@voquill/utilities':
+      '@ryoiki-tenkai/utilities':
         specifier: workspace:*
         version: link:../utilities
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       firebase:
@@ -622,14 +622,14 @@ importers:
 
   packages/functions:
     dependencies:
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../types
       zod:
         specifier: ^3.25.76
         version: 3.25.76
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       firebase:
@@ -641,7 +641,7 @@ importers:
 
   packages/pricing:
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:
@@ -660,7 +660,7 @@ importers:
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:
@@ -671,11 +671,11 @@ importers:
 
   packages/utilities:
     dependencies:
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:
@@ -699,10 +699,10 @@ importers:
       '@google/genai':
         specifier: ^1.48.0
         version: 1.48.0(@modelcontextprotocol/sdk@1.27.1(zod@3.25.76))
-      '@voquill/types':
+      '@ryoiki-tenkai/types':
         specifier: workspace:*
         version: link:../types
-      '@voquill/utilities':
+      '@ryoiki-tenkai/utilities':
         specifier: workspace:*
         version: link:../utilities
       groq-sdk:
@@ -724,7 +724,7 @@ importers:
         specifier: ^3.25.2
         version: 3.25.2(zod@3.25.76)
     devDependencies:
-      '@voquill/typescript-config':
+      '@ryoiki-tenkai/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       typescript:

@@ -110,7 +110,7 @@ export const UserDetailsForm = () => {
             slotProps={{
               inputLabel: { shrink: true },
               htmlInput: {
-                "data-voquill-ignore": "true",
+                "data-ryoiki-tenkai-ignore": "true",
               },
             }}
           />
@@ -131,7 +131,7 @@ export const UserDetailsForm = () => {
                 slotProps={{
                   inputLabel: { shrink: true },
                   htmlInput: {
-                    "data-voquill-ignore": "true",
+                    "data-ryoiki-tenkai-ignore": "true",
                   },
                 }}
               />
@@ -150,7 +150,7 @@ export const UserDetailsForm = () => {
                 slotProps={{
                   inputLabel: { shrink: true },
                   htmlInput: {
-                    "data-voquill-ignore": "true",
+                    "data-ryoiki-tenkai-ignore": "true",
                   },
                 }}
               />

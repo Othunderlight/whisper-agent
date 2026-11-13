@@ -28,9 +28,9 @@ const buildTarget =
   null;
 const targetTriple = buildTarget || resolveHostTargetTriple();
 const buildProfile =
-  process.env.VOQUILL_SIDECAR_PROFILE === "release" ? "release" : "debug";
+  process.env.RYOIKI_TENKAI_SIDECAR_PROFILE === "release" ? "release" : "debug";
 const requireNativeGpuSidecar =
-  process.env.VOQUILL_REQUIRE_GPU_SIDECAR === "true";
+  process.env.RYOIKI_TENKAI_REQUIRE_GPU_SIDECAR === "true";
 const executableSuffix = isWindowsTarget(targetTriple) ? ".exe" : "";
 
 if (!existsSync(sidecarManifestPath)) {
@@ -277,10 +277,10 @@ function resolveGpuBuildState(target) {
 // macOS pill is linked directly as a Rust library dependency (no sidecar needed).
 // Linux GTK pill and Windows pill are built as separate binaries.
 if (isLinuxTarget(targetTriple)) {
-  buildNativePill("rust_gtk_pill", "voquill-gtk-pill");
+  buildNativePill("rust_gtk_pill", "ryoiki-tenkai-gtk-pill");
 }
 if (isWindowsTarget(targetTriple)) {
-  buildNativePill("rust_windows_pill", "voquill-windows-pill");
+  buildNativePill("rust_windows_pill", "ryoiki-tenkai-windows-pill");
 }
 
 function buildNativePill(packageDir, binaryName) {

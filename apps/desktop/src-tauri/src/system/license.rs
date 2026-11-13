@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 const LICENSE_PUBLIC_KEY_PEM: &str = include_str!("../../keys/license-public-key.pub");
 const SUPPORTED_VERSION: u32 = 1;
-const PRODUCT: &str = "voquill";
+const PRODUCT: &str = "ryoiki-tenkai";
 const SUPPORTED_TIERS: &[&str] = &["normal", "pro"];
 const SUPPORTED_PROVIDERS: &[&str] = &["groq"];
 
@@ -296,8 +296,8 @@ mod tests {
     #[test]
     #[ignore = "requires a license issued by scripts/license/issue-license.sh for the embedded public key"]
     fn accepts_generated_token() {
-        let token = std::env::var("VOQUILL_TEST_LICENSE")
-            .expect("set VOQUILL_TEST_LICENSE to a token issued by the script");
+        let token = std::env::var("RYOIKI_TENKAI_TEST_LICENSE")
+            .expect("set RYOIKI_TENKAI_TEST_LICENSE to a token issued by the script");
 
         let verified = verify_token(&token).expect("generated token should verify");
         assert_eq!(verified.tier, "pro");

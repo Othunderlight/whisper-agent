@@ -1,7 +1,11 @@
 import { AzureOpenAI } from "openai";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
-import { retry, countWords } from "@voquill/utilities";
-import type { JsonResponse, LlmChatInput, LlmStreamEvent } from "@voquill/types";
+import { retry, countWords } from "@ryoiki-tenkai/utilities";
+import type {
+  JsonResponse,
+  LlmChatInput,
+  LlmStreamEvent,
+} from "@ryoiki-tenkai/types";
 import { openaiCompatibleStreamChat } from "./openai.utils";
 
 export const AZURE_OPENAI_MODELS = [

@@ -1,10 +1,10 @@
 {
-  "name": "@voquill/firemix",
+  "name": "@ryoiki-tenkai/firemix",
   "version": "0.3.25",
   "description": "Shared firemix utilities",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/voquill/voquill.git",
+    "url": "git+https://github.com/ryoiki-tenkai/ryoiki-tenkai.git",
     "directory": "packages/firemix"
   },
   "main": "dist/index.js",
@@ -21,14 +21,14 @@
     "firebase": "^11.1.0"
   },
   "devDependencies": {
-    "@voquill/typescript-config": "workspace:*",
+    "@ryoiki-tenkai/typescript-config": "workspace:*",
     "firebase": "^11.10.0",
     "typescript": "5.9.2"
   },
   "dependencies": {
     "@firemix/core": "^0.1.16",
-    "@voquill/types": "workspace:*",
-    "@voquill/utilities": "workspace:*"
+    "@ryoiki-tenkai/types": "workspace:*",
+    "@ryoiki-tenkai/utilities": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

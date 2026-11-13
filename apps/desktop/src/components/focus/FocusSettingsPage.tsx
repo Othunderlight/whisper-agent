@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { FocusSettings } from "@voquill/types";
+import { FocusSettings } from "@ryoiki-tenkai/types";
 import {
   loadFocusSettings,
   saveFocusSettings,

@@ -1,4 +1,4 @@
-import type { EnterpriseConfig } from "@voquill/types";
+import type { EnterpriseConfig } from "@ryoiki-tenkai/types";
 import { produceAppState } from "../store";
 import { invoke } from "../utils/api.utils";
 

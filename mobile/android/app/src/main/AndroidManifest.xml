@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".VoquillIME"
+            android:name=".RyoikiTenkaiIME"
             android:exported="true"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>

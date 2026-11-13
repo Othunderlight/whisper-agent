@@ -1,4 +1,4 @@
-import { FocusCheck, FocusSettings, FocusStatus } from "@voquill/types";
+import { FocusCheck, FocusSettings, FocusStatus } from "@ryoiki-tenkai/types";
 import { fetch } from "@tauri-apps/plugin-http";
 import { invoke } from "@tauri-apps/api/core";
 import { BaseRepo } from "./base.repo";

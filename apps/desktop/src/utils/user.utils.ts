@@ -5,8 +5,8 @@ import {
   Nullable,
   User,
   UserPreferences,
-} from "@voquill/types";
-import { countWords, getRec } from "@voquill/utilities";
+} from "@ryoiki-tenkai/types";
+import { countWords, getRec } from "@ryoiki-tenkai/utilities";
 import type {
   AgentMode,
   PostProcessingMode,

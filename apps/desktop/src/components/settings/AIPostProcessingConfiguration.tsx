@@ -18,7 +18,7 @@ import {
   SegmentedControlOption,
 } from "../common/SegmentedControl";
 import { ApiKeyList } from "./ApiKeyList";
-import { VoquillCloudSetting } from "./VoquillCloudSetting";
+import { RyoikiTenkaiCloudSetting } from "./RyoikiTenkaiCloudSetting";
 
 type AIPostProcessingConfigurationProps = {
   hideCloudOption?: boolean;
@@ -85,7 +85,9 @@ export const AIPostProcessingConfiguration = ({
         />
       )}
 
-      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && (
+        <RyoikiTenkaiCloudSetting />
+      )}
     </Stack>
   );
 };

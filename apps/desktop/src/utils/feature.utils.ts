@@ -1,4 +1,4 @@
-import { StylingMode } from "@voquill/types";
+import { StylingMode } from "@ryoiki-tenkai/types";
 import { AppState } from "../state/app.state";
 import { getMyUser } from "./user.utils";
 

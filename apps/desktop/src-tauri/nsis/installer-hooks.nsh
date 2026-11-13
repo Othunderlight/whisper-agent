@@ -1,4 +1,4 @@
-; Voquill NSIS Installer Hooks
+; Ryōiki Tenkai NSIS Installer Hooks
 ; Bundles Visual C++ Runtime DLLs directly from the CI build machine
 
 !macro NSIS_HOOK_POSTINSTALL

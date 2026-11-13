@@ -1,16 +1,16 @@
 {
   "project_info": {
     "project_number": "777461284594",
-    "firebase_url": "https://voquill-prod-default-rtdb.firebaseio.com",
-    "project_id": "voquill-prod",
-    "storage_bucket": "voquill-prod.firebasestorage.app"
+    "firebase_url": "https://ryoiki-tenkai-prod-default-rtdb.firebaseio.com",
+    "project_id": "ryoiki-tenkai-prod",
+    "storage_bucket": "ryoiki-tenkai-prod.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:777461284594:android:4f5b996194cdc0515e5a6b",
         "android_client_info": {
-          "package_name": "com.voquill.mobile"
+          "package_name": "com.ryoikitenkai.mobile"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "777461284594-b462o6aa00ighnb5i1c55qv7efdr0kq6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.voquill.mobile",
+            "package_name": "com.ryoikitenkai.mobile",
             "certificate_hash": "08c553a5ac9b17775e87989f2b4a24aae853d0fe"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "777461284594-fj07ndiq69p7r8b4563qngvo084a6l2t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.voquill.mobile",
+            "package_name": "com.ryoikitenkai.mobile",
             "certificate_hash": "90682f31cb7adf39c5e125d3f804de9e1f7be294"
           }
         },
@@ -51,7 +51,7 @@
               "client_id": "777461284594-dc0e2uabqh68opiheciabv5ivqq43ui0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.voquill.app"
+                "bundle_id": "com.ryoikitenkai.app"
               }
             }
           ]

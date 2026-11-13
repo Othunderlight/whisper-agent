@@ -1,4 +1,4 @@
-import type { Term } from "@voquill/types";
+import type { Term } from "@ryoiki-tenkai/types";
 import type { TermRow } from "../types/term.types";
 import { getPool } from "../utils/db.utils";
 
@@ -33,20 +33,38 @@ export async function upsertTerm(userId: string, term: Term): Promise<void> {
     await pool.query(
       `INSERT INTO terms (id, user_id, source_value, destination_value, is_replacement)
        VALUES ($1, $2, $3, $4, $5)`,
-      [term.id, userId, term.sourceValue, term.destinationValue, term.isReplacement],
+      [
+        term.id,
+        userId,
+        term.sourceValue,
+        term.destinationValue,
+        term.isReplacement,
+      ],
     );
   } else {
     await pool.query(
       `UPDATE terms SET source_value = $1, destination_value = $2, is_replacement = $3
        WHERE id = $4 AND user_id = $5`,
-      [term.sourceValue, term.destinationValue, term.isReplacement, term.id, userId],
+      [
+        term.sourceValue,
+        term.destinationValue,
+        term.isReplacement,
+        term.id,
+        userId,
+      ],
     );
   }
 }
 
-export async function deleteTerm(userId: string, termId: string): Promise<void> {
+export async function deleteTerm(
+  userId: string,
+  termId: string,
+): Promise<void> {
   const pool = getPool();
-  await pool.query("DELETE FROM terms WHERE id = $1 AND user_id = $2", [termId, userId]);
+  await pool.query("DELETE FROM terms WHERE id = $1 AND user_id = $2", [
+    termId,
+    userId,
+  ]);
 }
 
 export async function listGlobalTerms(): Promise<Term[]> {
@@ -57,7 +75,10 @@ export async function listGlobalTerms(): Promise<Term[]> {
   return result.rows.map(rowToTerm);
 }
 
-export async function upsertGlobalTerm(userId: string, term: Term): Promise<void> {
+export async function upsertGlobalTerm(
+  userId: string,
+  term: Term,
+): Promise<void> {
   const pool = getPool();
   const existing = await pool.query(
     "SELECT id FROM terms WHERE id = $1 AND is_global = TRUE",
@@ -68,7 +89,13 @@ export async function upsertGlobalTerm(userId: string, term: Term): Promise<void
     await pool.query(
       `INSERT INTO terms (id, user_id, source_value, destination_value, is_replacement, is_global)
        VALUES ($1, $2, $3, $4, $5, TRUE)`,
-      [term.id, userId, term.sourceValue, term.destinationValue, term.isReplacement],
+      [
+        term.id,
+        userId,
+        term.sourceValue,
+        term.destinationValue,
+        term.isReplacement,
+      ],
     );
   } else {
     await pool.query(
@@ -81,5 +108,7 @@ export async function upsertGlobalTerm(userId: string, term: Term): Promise<void
 
 export async function deleteGlobalTerm(termId: string): Promise<void> {
   const pool = getPool();
-  await pool.query("DELETE FROM terms WHERE id = $1 AND is_global = TRUE", [termId]);
+  await pool.query("DELETE FROM terms WHERE id = $1 AND is_global = TRUE", [
+    termId,
+  ]);
 }

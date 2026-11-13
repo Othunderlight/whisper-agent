@@ -10,12 +10,12 @@ import { SessionSideEffects } from "./SessionSideEffects";
 import { LoadingApp } from "./LoadingApp";
 import { LicenseGate } from "../licensing/LicenseGate";
 import { UpdateDialog } from "./UpdateDialog";
-import { getIsVoquillCloudUser } from "../../utils/member.utils";
+import { getIsRyoikiTenkaiCloudUser } from "../../utils/member.utils";
 
 export const AppWithLoading = () => {
   const initialized = useAppStore((state) => state.initialized);
   const hotkeyStrategy = useAppStore((state) => state.hotkeyStrategy);
-  const isCloud = useAppStore(getIsVoquillCloudUser);
+  const isCloud = useAppStore(getIsRyoikiTenkaiCloudUser);
 
   return (
     <LicenseGate>

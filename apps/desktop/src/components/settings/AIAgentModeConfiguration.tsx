@@ -17,7 +17,7 @@ import {
 } from "../common/SegmentedControl";
 import { maybeArrayElements } from "./AIPostProcessingConfiguration";
 import { ApiKeyList } from "./ApiKeyList";
-import { VoquillCloudSetting } from "./VoquillCloudSetting";
+import { RyoikiTenkaiCloudSetting } from "./RyoikiTenkaiCloudSetting";
 
 type AIAgentModeConfigurationProps = {
   hideCloudOption?: boolean;
@@ -73,7 +73,9 @@ export const AIAgentModeConfiguration = ({
         />
       )}
 
-      {hasCloudAccess && effectiveMode === "cloud" && <VoquillCloudSetting />}
+      {hasCloudAccess && effectiveMode === "cloud" && (
+        <RyoikiTenkaiCloudSetting />
+      )}
     </Stack>
   );
 };

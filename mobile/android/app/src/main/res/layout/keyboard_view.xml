@@ -36,10 +36,10 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@android:color/transparent"
-                android:contentDescription="Open Voquill app"
+                android:contentDescription="Open Ryōiki Tenkai app"
                 android:padding="6dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_voquill_logo" />
+                android:src="@drawable/ic_ryoiki_tenkai_logo" />
 
             <TextView
                 android:id="@+id/language_chip"

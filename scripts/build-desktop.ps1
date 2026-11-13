@@ -11,18 +11,18 @@ if ($Flavor -notin @("dev", "prod", "local", "enterprise", "enterprise-dev")) {
     exit 1
 }
 
-# Kill any running Voquill process to avoid "Access is denied" on the exe
-Get-Process | Where-Object { $_.Name -match '^Voquill' } | Stop-Process -Force -ErrorAction SilentlyContinue
+# Kill any running Ryōiki Tenkai process to avoid "Access is denied" on the exe
+Get-Process | Where-Object { $_.Name -match '^Ryōiki Tenkai' } | Stop-Process -Force -ErrorAction SilentlyContinue
 
 $env:FLAVOR = $Flavor
 $env:VITE_FLAVOR = $Flavor
 
 if ($Flavor -in @("prod", "enterprise")) {
-    $env:VOQUILL_GOOGLE_CLIENT_ID = "777461284594-dhgao2eek53ppl4o188ik2i9cigdcmnp.apps.googleusercontent.com"
-    $env:VOQUILL_GOOGLE_CLIENT_SECRET = "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"
+    $env:RYOIKI_TENKAI_GOOGLE_CLIENT_ID = "777461284594-dhgao2eek53ppl4o188ik2i9cigdcmnp.apps.googleusercontent.com"
+    $env:RYOIKI_TENKAI_GOOGLE_CLIENT_SECRET = "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"
 } else {
-    $env:VOQUILL_GOOGLE_CLIENT_ID = "778214168359-nbgt0dedeol36gl425o5nqt5kaksh38u.apps.googleusercontent.com"
-    $env:VOQUILL_GOOGLE_CLIENT_SECRET = "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"
+    $env:RYOIKI_TENKAI_GOOGLE_CLIENT_ID = "778214168359-nbgt0dedeol36gl425o5nqt5kaksh38u.apps.googleusercontent.com"
+    $env:RYOIKI_TENKAI_GOOGLE_CLIENT_SECRET = "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"
 }
 
 Write-Host "Building desktop app (flavor=$Flavor)..." -ForegroundColor Cyan

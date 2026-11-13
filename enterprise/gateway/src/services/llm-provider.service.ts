@@ -1,5 +1,5 @@
-import type { HandlerInput, HandlerOutput } from "@voquill/functions";
-import type { AuthContext, Nullable } from "@voquill/types";
+import type { HandlerInput, HandlerOutput } from "@ryoiki-tenkai/functions";
+import type { AuthContext, Nullable } from "@ryoiki-tenkai/types";
 import { v4 as uuid } from "uuid";
 import {
   listLlmProviders,

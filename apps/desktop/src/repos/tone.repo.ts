@@ -1,6 +1,6 @@
-import { invokeHandler } from "@voquill/functions";
-import { Tone } from "@voquill/types";
-import { getRec } from "@voquill/utilities";
+import { invokeHandler } from "@ryoiki-tenkai/functions";
+import { Tone } from "@ryoiki-tenkai/types";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { invoke } from "@tauri-apps/api/core";
 import { getConfigRepo } from ".";
 import { invokeEnterprise } from "../utils/enterprise.utils";

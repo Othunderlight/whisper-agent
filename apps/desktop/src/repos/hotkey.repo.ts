@@ -1,4 +1,4 @@
-import { Hotkey } from "@voquill/types";
+import { Hotkey } from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import { BaseRepo } from "./base.repo";
 

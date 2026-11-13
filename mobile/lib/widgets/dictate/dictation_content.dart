@@ -54,7 +54,7 @@ class _DictationContentState extends State<DictationContent>
                   child: _EdgeFade(
                     color: bgColor,
                     child: AppRive(
-                      assetPath: 'assets/voquill.riv',
+                      assetPath: 'assets/ryoiki-tenkai.riv',
                       lightArtboard: 'Switch Light',
                       darkArtboard: 'Switch Dark',
                       stateMachine: 'State Machine 1',
@@ -62,7 +62,7 @@ class _DictationContentState extends State<DictationContent>
                   ),
                 ),
                 const SizedBox(height: 24),
-                Text('Voquill activated!', style: theme.textTheme.headlineSmall),
+                Text('Ryōiki Tenkai activated!', style: theme.textTheme.headlineSmall),
                 const SizedBox(height: 12),
                 Text(
                   'Switch back to your other app to start dictating',

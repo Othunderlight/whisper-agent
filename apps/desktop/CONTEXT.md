@@ -1,6 +1,6 @@
 # Desktop
 
-The Voquill desktop dictation app (Tauri: Rust native layer + TypeScript/React brain).
+The Ryōiki Tenkai desktop dictation app (Tauri: Rust native layer + TypeScript/React brain).
 
 ## Language
 

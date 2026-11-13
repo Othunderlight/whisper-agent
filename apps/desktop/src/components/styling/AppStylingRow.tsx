@@ -1,6 +1,6 @@
 import { Check, MoreVert } from "@mui/icons-material";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
-import { getRec } from "@voquill/utilities";
+import { getRec } from "@ryoiki-tenkai/utilities";
 import { useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import {

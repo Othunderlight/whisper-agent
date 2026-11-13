@@ -1,4 +1,4 @@
-import { EnterpriseConfig, EnterpriseLicense } from "@voquill/types";
+import { EnterpriseConfig, EnterpriseLicense } from "@ryoiki-tenkai/types";
 import { invokeEnterprise } from "../utils/enterprise.utils";
 import { BaseRepo } from "./base.repo";
 

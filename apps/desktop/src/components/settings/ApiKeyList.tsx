@@ -18,7 +18,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { API_KEY_PROVIDERS, type ApiKeyProvider } from "@voquill/types";
+import { API_KEY_PROVIDERS, type ApiKeyProvider } from "@ryoiki-tenkai/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import {

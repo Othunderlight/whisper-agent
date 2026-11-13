@@ -5,14 +5,17 @@ const IV_LENGTH = 12;
 const KEY_LENGTH = 32;
 
 function deriveKey(secret: string): Buffer {
-  return crypto.scryptSync(secret, "voquill-stt-providers", KEY_LENGTH);
+  return crypto.scryptSync(secret, "ryoiki-tenkai-stt-providers", KEY_LENGTH);
 }
 
 export function encryptApiKey(plaintext: string, secret: string): string {
   const key = deriveKey(secret);
   const iv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
-  const encrypted = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
+  const encrypted = Buffer.concat([
+    cipher.update(plaintext, "utf8"),
+    cipher.final(),
+  ]);
   const tag = cipher.getAuthTag();
   return `${iv.toString("base64")}:${encrypted.toString("base64")}:${tag.toString("base64")}`;
 }

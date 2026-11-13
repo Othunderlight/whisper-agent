@@ -1,7 +1,7 @@
 import Foundation
 
 class TranscriptionRepo {
-    private static let storageKey = "voquill_transcriptions"
+    private static let storageKey = "ryoiki_tenkai_transcriptions"
     private static let maxEntries = 50
 
     private let defaults: UserDefaults?
@@ -33,7 +33,7 @@ class TranscriptionRepo {
             try FileManager.default.copyItem(at: audioSourceUrl, to: destUrl)
             audioPath = destUrl.path
         } catch {
-            NSLog("[VoquillKB] Failed to copy audio: %@", error.localizedDescription)
+            NSLog("[RyoikiTenkaiKB] Failed to copy audio: %@", error.localizedDescription)
         }
 
         var record: [String: Any] = [

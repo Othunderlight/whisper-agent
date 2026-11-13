@@ -1,4 +1,4 @@
-import type { ToolInfo } from "@voquill/types";
+import type { ToolInfo } from "@ryoiki-tenkai/types";
 
 export type ToolResult = Record<string, unknown>;
 

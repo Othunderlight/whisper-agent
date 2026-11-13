@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "voquill-docs",
+    "target": "ryoiki-tenkai-docs",
     "public": "dist",
     "ignore": [
       "firebase.json",

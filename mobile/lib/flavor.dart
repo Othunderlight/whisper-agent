@@ -16,11 +16,11 @@ enum Flavor {
   String get title {
     switch (this) {
       case Flavor.prod:
-        return 'Voquill';
+        return 'Ryōiki Tenkai';
       case Flavor.dev:
-        return 'Voquill Dev';
+        return 'Ryōiki Tenkai Dev';
       case Flavor.emulators:
-        return 'Voquill Emulator';
+        return 'Ryōiki Tenkai Emulator';
     }
   }
 
@@ -48,8 +48,8 @@ enum Flavor {
 
   String get emulatorHost => Platform.isAndroid ? '10.0.2.2' : 'localhost';
 
-  String get termsUrl => 'https://voquill.com/terms';
-  String get privacyUrl => 'https://voquill.com/privacy';
+  String get termsUrl => 'https://ryoiki-tenkai.com/terms';
+  String get privacyUrl => 'https://ryoiki-tenkai.com/privacy';
 
   static void set(Flavor value) {
     current = value;

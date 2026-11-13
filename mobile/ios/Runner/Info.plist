@@ -37,10 +37,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.voquill.mobile.dictation</string>
+			<string>com.ryoikitenkai.mobile.dictation</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>voquill</string>
+				<string>ryoiki-tenkai</string>
 			</array>
 		</dict>
 	</array>
@@ -53,7 +53,7 @@
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Voquill needs access to your microphone to transcribe your voice.</string>
+	<string>Ryōiki Tenkai needs access to your microphone to transcribe your voice.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

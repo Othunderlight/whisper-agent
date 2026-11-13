@@ -9,7 +9,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import type { Term } from "@voquill/types";
+import type { Term } from "@ryoiki-tenkai/types";
 import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { upsertGlobalTerm } from "../../actions/terms.actions";
@@ -145,7 +145,11 @@ export const TermDialog = ({
             (form.isReplacement && !form.destinationValue.trim())
           }
         >
-          {saving ? <CircularProgress size={20} /> : <FormattedMessage defaultMessage="Save" />}
+          {saving ? (
+            <CircularProgress size={20} />
+          ) : (
+            <FormattedMessage defaultMessage="Save" />
+          )}
         </Button>
       </DialogActions>
     </Dialog>

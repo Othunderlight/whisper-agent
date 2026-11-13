@@ -1,4 +1,4 @@
-import type { RemoteReceiverStatus } from "@voquill/types";
+import type { RemoteReceiverStatus } from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import { BaseRepo } from "./base.repo";
 

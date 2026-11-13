@@ -1,70 +1,70 @@
 ---
 title: Linux
-description: Install and configure Voquill on Linux.
+description: Install and configure Ryōiki Tenkai on Linux.
 ---
 
 ## Installation
 
-There are multiple Linux installation options available on the [voquill.com/download](https://voquill.com/download) page.
+There are multiple Linux installation options available on the [ryoiki-tenkai.com/download](https://ryoiki-tenkai.com/download) page.
 
 ### APT (Debian, Ubuntu)
 
 The easiest option for Debian-based distros is the APT package, which provides automatic updates:
 
 ```bash
-curl -fsSL https://voquill.github.io/apt/install.sh | bash
+curl -fsSL https://ryoiki-tenkai.github.io/apt/install.sh | bash
 ```
 
 Or set up the repository manually:
 
 ```bash
 # Add GPG key
-curl -fsSL https://voquill.github.io/apt/gpg-key.asc \
-  | sudo gpg --dearmor -o /usr/share/keyrings/voquill.gpg
+curl -fsSL https://ryoiki-tenkai.github.io/apt/gpg-key.asc \
+  | sudo gpg --dearmor -o /usr/share/keyrings/ryoiki-tenkai.gpg
 
 # Add repository
-echo "deb [signed-by=/usr/share/keyrings/voquill.gpg arch=amd64] https://voquill.github.io/apt stable main" \
-  | sudo tee /etc/apt/sources.list.d/voquill.list
+echo "deb [signed-by=/usr/share/keyrings/ryoiki-tenkai.gpg arch=amd64] https://ryoiki-tenkai.github.io/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/ryoiki-tenkai.list
 
 # Install
 sudo apt-get update
-sudo apt-get install voquill-desktop
+sudo apt-get install ryoiki-tenkai
 ```
 
 To install the development channel instead:
 
 ```bash
-curl -fsSL https://voquill.github.io/apt/install.sh | bash -s -- --dev
+curl -fsSL https://ryoiki-tenkai.github.io/apt/install.sh | bash -s -- --dev
 ```
 
 Or set up the dev repository manually:
 
 ```bash
 # Add GPG key
-curl -fsSL https://voquill.github.io/apt/gpg-key.asc \
-  | sudo gpg --dearmor -o /usr/share/keyrings/voquill.gpg
+curl -fsSL https://ryoiki-tenkai.github.io/apt/gpg-key.asc \
+  | sudo gpg --dearmor -o /usr/share/keyrings/ryoiki-tenkai.gpg
 
 # Add dev repository
-echo "deb [signed-by=/usr/share/keyrings/voquill.gpg arch=amd64] https://voquill.github.io/apt dev main" \
-  | sudo tee /etc/apt/sources.list.d/voquill.list
+echo "deb [signed-by=/usr/share/keyrings/ryoiki-tenkai.gpg arch=amd64] https://ryoiki-tenkai.github.io/apt dev main" \
+  | sudo tee /etc/apt/sources.list.d/ryoiki-tenkai.list
 
 # Install
 sudo apt-get update
-sudo apt-get install voquill-desktop
+sudo apt-get install ryoiki-tenkai
 ```
 
 Upgrade with:
 
 ```bash
-sudo apt-get update && sudo apt-get upgrade voquill-desktop
+sudo apt-get update && sudo apt-get upgrade ryoiki-tenkai
 ```
 
 ### RPM (Fedora, RHEL, openSUSE)
 
-For RPM-based distros, use the Voquill RPM repository:
+For RPM-based distros, use the Ryōiki Tenkai RPM repository:
 
 ```bash
-curl -fsSL https://voquill.github.io/rpm/install.sh | bash
+curl -fsSL https://ryoiki-tenkai.github.io/rpm/install.sh | bash
 ```
 
 Or set up the repository manually:
@@ -72,30 +72,30 @@ Or set up the repository manually:
 **Fedora / RHEL:**
 
 ```bash
-sudo tee /etc/yum.repos.d/voquill.repo << 'EOF'
-[voquill-stable]
-name=Voquill Desktop (stable)
-baseurl=https://voquill.github.io/rpm/packages/stable
+sudo tee /etc/yum.repos.d/ryoiki-tenkai.repo << 'EOF'
+[ryoiki-tenkai-stable]
+name=Ryōiki Tenkai Desktop (stable)
+baseurl=https://ryoiki-tenkai.github.io/rpm/packages/stable
 enabled=1
 gpgcheck=1
-gpgkey=https://voquill.github.io/rpm/gpg-key.asc
+gpgkey=https://ryoiki-tenkai.github.io/rpm/gpg-key.asc
 EOF
 
-sudo dnf install voquill-desktop
+sudo dnf install ryoiki-tenkai
 ```
 
 **openSUSE:**
 
 ```bash
-sudo zypper addrepo --gpgcheck https://voquill.github.io/rpm/packages/stable voquill-stable
-sudo rpm --import https://voquill.github.io/rpm/gpg-key.asc
-sudo zypper install voquill-desktop
+sudo zypper addrepo --gpgcheck https://ryoiki-tenkai.github.io/rpm/packages/stable ryoiki-tenkai-stable
+sudo rpm --import https://ryoiki-tenkai.github.io/rpm/gpg-key.asc
+sudo zypper install ryoiki-tenkai
 ```
 
 To install the development channel instead:
 
 ```bash
-curl -fsSL https://voquill.github.io/rpm/install.sh | bash -s -- --dev
+curl -fsSL https://ryoiki-tenkai.github.io/rpm/install.sh | bash -s -- --dev
 ```
 
 Or set up the dev repository manually:
@@ -103,43 +103,43 @@ Or set up the dev repository manually:
 **Fedora / RHEL:**
 
 ```bash
-sudo tee /etc/yum.repos.d/voquill.repo << 'EOF'
-[voquill-dev]
-name=Voquill Desktop (dev)
-baseurl=https://voquill.github.io/rpm/packages/dev
+sudo tee /etc/yum.repos.d/ryoiki-tenkai.repo << 'EOF'
+[ryoiki-tenkai-dev]
+name=Ryōiki Tenkai Desktop (dev)
+baseurl=https://ryoiki-tenkai.github.io/rpm/packages/dev
 enabled=1
 gpgcheck=1
-gpgkey=https://voquill.github.io/rpm/gpg-key.asc
+gpgkey=https://ryoiki-tenkai.github.io/rpm/gpg-key.asc
 EOF
 
-sudo dnf install voquill-desktop
+sudo dnf install ryoiki-tenkai
 ```
 
 **openSUSE:**
 
 ```bash
-sudo zypper addrepo --gpgcheck https://voquill.github.io/rpm/packages/dev voquill-dev
-sudo rpm --import https://voquill.github.io/rpm/gpg-key.asc
-sudo zypper install voquill-desktop
+sudo zypper addrepo --gpgcheck https://ryoiki-tenkai.github.io/rpm/packages/dev ryoiki-tenkai-dev
+sudo rpm --import https://ryoiki-tenkai.github.io/rpm/gpg-key.asc
+sudo zypper install ryoiki-tenkai
 ```
 
 Upgrade with:
 
 ```bash
 # Fedora / RHEL
-sudo dnf upgrade voquill-desktop
+sudo dnf upgrade ryoiki-tenkai
 
 # openSUSE
-sudo zypper update voquill-desktop
+sudo zypper update ryoiki-tenkai
 ```
 
 ### AppImage
 
-A standalone AppImage is also available on the [download page](https://voquill.com/download). No installation required — just download, make executable, and run:
+A standalone AppImage is also available on the [download page](https://ryoiki-tenkai.com/download). No installation required — just download, make executable, and run:
 
 ```bash
-chmod +x Voquill_*.AppImage
-./Voquill_*.AppImage
+chmod +x ryoiki-tenkai_*.AppImage
+./ryoiki-tenkai_*.AppImage
 ```
 
 ## Display Server Setup
@@ -152,7 +152,7 @@ echo $XDG_SESSION_TYPE
 
 ### X11
 
-Voquill uses `xdotool` to simulate paste keystrokes after placing transcribed text on the clipboard. Most X11 desktops have it pre-installed, but if not:
+Ryōiki Tenkai uses `xdotool` to simulate paste keystrokes after placing transcribed text on the clipboard. Most X11 desktops have it pre-installed, but if not:
 
 ```bash
 # Debian / Ubuntu
@@ -169,11 +169,11 @@ No other setup is required — hotkeys work out of the box on X11.
 
 ### Wayland
 
-Wayland compositors block app-level global key capture and input simulation by design. Voquill handles this with compositor-level keybindings and kernel-level input simulation, but some one-time setup is required.
+Wayland compositors block app-level global key capture and input simulation by design. Ryōiki Tenkai handles this with compositor-level keybindings and kernel-level input simulation, but some one-time setup is required.
 
 #### ydotool (required for text pasting)
 
-Voquill uses `ydotool` to simulate paste keystrokes after placing transcribed text on the clipboard. It works on all Wayland compositors by writing directly to `/dev/uinput` at the kernel level.
+Ryōiki Tenkai uses `ydotool` to simulate paste keystrokes after placing transcribed text on the clipboard. It works on all Wayland compositors by writing directly to `/dev/uinput` at the kernel level.
 
 **Install:**
 
@@ -213,7 +213,7 @@ If "hello" appears in the editor, ydotool is working.
 
 #### wtype (Sway/Hyprland only)
 
-On Sway and Hyprland, Voquill uses `wtype` as a fallback for input simulation via the virtual-keyboard Wayland protocol. This is not needed on GNOME.
+On Sway and Hyprland, Ryōiki Tenkai uses `wtype` as a fallback for input simulation via the virtual-keyboard Wayland protocol. This is not needed on GNOME.
 
 ```bash
 # Debian / Ubuntu
@@ -228,14 +228,14 @@ sudo zypper install wtype
 
 #### Hotkey Registration
 
-When you configure hotkeys in Voquill's settings, the app automatically registers them with your compositor. However, Sway and Hyprland require a one-time config change to source Voquill's keybinding file.
+When you configure hotkeys in Ryōiki Tenkai's settings, the app automatically registers them with your compositor. However, Sway and Hyprland require a one-time config change to source Ryōiki Tenkai's keybinding file.
 
-**GNOME** — no manual setup needed. Voquill registers hotkeys via `gsettings` automatically.
+**GNOME** — no manual setup needed. Ryōiki Tenkai registers hotkeys via `gsettings` automatically.
 
 **Sway** — add this line to `~/.config/sway/config`:
 
 ```
-include ~/.config/sway/voquill-hotkeys
+include ~/.config/sway/ryoiki-tenkai-hotkeys
 ```
 
 Then reload:
@@ -247,7 +247,7 @@ swaymsg reload
 **Hyprland** — add this line to `~/.config/hypr/hyprland.conf`:
 
 ```
-source = ~/.config/hypr/voquill-hotkeys.conf
+source = ~/.config/hypr/ryoiki-tenkai-hotkeys.conf
 ```
 
 Then reload:
@@ -262,4 +262,4 @@ hyprctl reload
 
 The recording pill overlay uses the `wlr-layer-shell` protocol to render on top of other windows. Older versions of GNOME (prior to GNOME 46) do not support this protocol, so the pill will not appear. Hotkeys and transcription still work normally — only the visual indicator is affected.
 
-This is a compositor limitation and cannot be worked around by Voquill. Upgrading to GNOME 46 or later (Ubuntu 24.04+, Fedora 40+) will resolve this.
+This is a compositor limitation and cannot be worked around by Ryōiki Tenkai. Upgrading to GNOME 46 or later (Ubuntu 24.04+, Fedora 40+) will resolve this.

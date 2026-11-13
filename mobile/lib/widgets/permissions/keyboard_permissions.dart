@@ -77,7 +77,7 @@ class _KeyboardPermissionsState extends State<KeyboardPermissions>
       child: OnboardingBody(
         title: const Text('Keyboard access'),
         description: const Text(
-          'Add Voquill as a keyboard to use voice input in any app.',
+          'Add Ryōiki Tenkai as a keyboard to use voice input in any app.',
         ),
         child: Center(
           child: AssetVideoPlayer.phone(

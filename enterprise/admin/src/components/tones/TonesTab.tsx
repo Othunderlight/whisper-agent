@@ -6,13 +6,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import type { Tone } from "@voquill/types";
+import type { Tone } from "@ryoiki-tenkai/types";
 import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import {
-  deleteGlobalTone,
-  loadGlobalTones,
-} from "../../actions/tones.actions";
+import { deleteGlobalTone, loadGlobalTones } from "../../actions/tones.actions";
 import { useAppStore } from "../../store";
 import { AppTable, type ColumnDef } from "../common/AppTable";
 import { CenteredMessage } from "../common/CenteredMessage";
@@ -122,7 +119,7 @@ export default function TonesTab() {
       header: intl.formatMessage({ defaultMessage: "System Prompt" }),
       cell: (row) => (
         <Box sx={twoLineEllipsis}>
-          {row.isTemplateTone ? (row.systemPromptTemplate || "—") : "—"}
+          {row.isTemplateTone ? row.systemPromptTemplate || "—" : "—"}
         </Box>
       ),
       weight: 2,
@@ -150,7 +147,9 @@ export default function TonesTab() {
 
   if (status === "error") {
     return (
-      <TabLayout title={intl.formatMessage({ defaultMessage: "Global Styles" })}>
+      <TabLayout
+        title={intl.formatMessage({ defaultMessage: "Global Styles" })}
+      >
         <CenteredMessage>
           <Typography color="error">
             <FormattedMessage defaultMessage="Failed to load styles." />
@@ -167,7 +166,12 @@ export default function TonesTab() {
     <TabLayout
       title={intl.formatMessage({ defaultMessage: "Global Styles" })}
       trailing={
-        <Button startIcon={<Add />} variant="contained" size="small" onClick={openCreate}>
+        <Button
+          startIcon={<Add />}
+          variant="contained"
+          size="small"
+          onClick={openCreate}
+        >
           <FormattedMessage defaultMessage="Add Style" />
         </Button>
       }
@@ -178,7 +182,9 @@ export default function TonesTab() {
         defaultSortColumnIndex={0}
         fixedItemHeight={52}
         sx={{ height: "100%" }}
-        emptyMessage={intl.formatMessage({ defaultMessage: "No global styles" })}
+        emptyMessage={intl.formatMessage({
+          defaultMessage: "No global styles",
+        })}
       />
 
       <ToneDialog

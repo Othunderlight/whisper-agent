@@ -79,7 +79,7 @@ class BaseTranscribeAudioRepo {
         }
 
         let outputURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent("voquill_seg_\(UUID().uuidString).m4a")
+            .appendingPathComponent("ryoiki_tenkai_seg_\(UUID().uuidString).m4a")
         try? FileManager.default.removeItem(at: outputURL)
 
         session.outputURL = outputURL

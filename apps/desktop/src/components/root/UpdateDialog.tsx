@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { isReadOnlyFilesystemInstallError } from "@voquill/desktop-utils";
+import { isReadOnlyFilesystemInstallError } from "@ryoiki-tenkai/desktop-utils";
 import { useCallback, useMemo } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Markdown from "react-markdown";
@@ -27,7 +27,7 @@ import { getPlatform } from "../../utils/platform.utils";
 import { CopyableCommand } from "../common/CopyableCommand";
 
 const APT_UPDATE_COMMAND =
-  "sudo apt-get update && sudo apt-get upgrade voquill-desktop";
+  "sudo apt-get update && sudo apt-get upgrade ryoiki-tenkai";
 
 const formatReleaseDate = (isoDate: string | null) => {
   if (!isoDate) {
@@ -207,7 +207,9 @@ export const UpdateDialog = () => {
                       <Link
                         component="button"
                         variant="body2"
-                        onClick={() => openUrl("https://voquill.com/download")}
+                        onClick={() =>
+                          openUrl("https://ryoiki-tenkai.com/download")
+                        }
                         sx={{ verticalAlign: "baseline" }}
                       >
                         <FormattedMessage defaultMessage="downloads page" />

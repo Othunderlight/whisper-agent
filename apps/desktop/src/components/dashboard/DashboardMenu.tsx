@@ -127,7 +127,7 @@ export const DashboardMenu = ({ onChoose }: DashboardMenuProps) => {
         {isUpdateAvailable && <UpdateListTile />}
         {isEnterprise ? (
           <ListTile
-            onClick={() => openUrl("mailto:support@voquill.com")}
+            onClick={() => openUrl("mailto:support@ryoiki-tenkai.com")}
             leading={<HelpOutline />}
             title={<FormattedMessage defaultMessage="Support" />}
           />

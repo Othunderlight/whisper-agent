@@ -1,4 +1,4 @@
-import { FocusSettings } from "@voquill/types";
+import { FocusSettings } from "@ryoiki-tenkai/types";
 import { ActionStatus } from "../types/state.types";
 
 export type FocusState = {

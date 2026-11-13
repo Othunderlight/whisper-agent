@@ -1,5 +1,5 @@
-import type { HandlerInput, HandlerOutput } from "@voquill/functions";
-import type { AuthContext, Nullable } from "@voquill/types";
+import type { HandlerInput, HandlerOutput } from "@ryoiki-tenkai/functions";
+import type { AuthContext, Nullable } from "@ryoiki-tenkai/types";
 import { findUserById, listAllUsers, upsertUser } from "../repo/user.repo";
 import { requireAuth } from "../utils/auth.utils";
 import { UnauthorizedError } from "../utils/error.utils";

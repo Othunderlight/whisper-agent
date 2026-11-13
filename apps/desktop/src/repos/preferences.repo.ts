@@ -5,7 +5,7 @@ import {
   PostProcessingMode,
   TranscriptionMode,
   UserPreferences,
-} from "@voquill/types";
+} from "@ryoiki-tenkai/types";
 import { invoke } from "@tauri-apps/api/core";
 import {
   DEFAULT_DICTATION_LIMIT_MINUTES,

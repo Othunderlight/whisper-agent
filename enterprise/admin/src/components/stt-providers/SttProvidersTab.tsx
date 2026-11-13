@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import type { SttProvider } from "@voquill/types";
+import type { SttProvider } from "@ryoiki-tenkai/types";
 import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
@@ -160,11 +160,23 @@ export default function SttProvidersTab() {
       header: intl.formatMessage({ defaultMessage: "Status" }),
       cell: (row) => {
         if (row.pullStatus === "complete") {
-          return <Chip label={intl.formatMessage({ defaultMessage: "Synced" })} size="small" color="success" variant="outlined" />;
+          return (
+            <Chip
+              label={intl.formatMessage({ defaultMessage: "Synced" })}
+              size="small"
+              color="success"
+              variant="outlined"
+            />
+          );
         }
         if (row.pullStatus === "error") {
           return (
-            <Tooltip title={row.pullError ?? intl.formatMessage({ defaultMessage: "Unknown error" })}>
+            <Tooltip
+              title={
+                row.pullError ??
+                intl.formatMessage({ defaultMessage: "Unknown error" })
+              }
+            >
               <Chip
                 label={intl.formatMessage({ defaultMessage: "Error" })}
                 size="small"
@@ -175,7 +187,14 @@ export default function SttProvidersTab() {
             </Tooltip>
           );
         }
-        return <Chip label={intl.formatMessage({ defaultMessage: "Syncing…" })} size="small" icon={<CircularProgress size={14} />} variant="outlined" />;
+        return (
+          <Chip
+            label={intl.formatMessage({ defaultMessage: "Syncing…" })}
+            size="small"
+            icon={<CircularProgress size={14} />}
+            variant="outlined"
+          />
+        );
       },
       width: 120,
     },
@@ -197,7 +216,11 @@ export default function SttProvidersTab() {
 
   if (status === "error") {
     return (
-      <TabLayout title={intl.formatMessage({ defaultMessage: "Transcription Providers" })}>
+      <TabLayout
+        title={intl.formatMessage({
+          defaultMessage: "Transcription Providers",
+        })}
+      >
         <CenteredMessage>
           <Typography color="error">
             <FormattedMessage defaultMessage="Failed to load providers." />
@@ -230,7 +253,9 @@ export default function SttProvidersTab() {
         defaultSortColumnIndex={0}
         fixedItemHeight={52}
         sx={{ height: "100%" }}
-        emptyMessage={intl.formatMessage({ defaultMessage: "No transcription providers configured" })}
+        emptyMessage={intl.formatMessage({
+          defaultMessage: "No transcription providers configured",
+        })}
       />
 
       <SttProviderDialog

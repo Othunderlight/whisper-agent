@@ -1,6 +1,6 @@
-import { ActivationController } from "@voquill/desktop-utils";
+import { ActivationController } from "@ryoiki-tenkai/desktop-utils";
 
-export { ActivationController } from "@voquill/desktop-utils";
+export { ActivationController } from "@ryoiki-tenkai/desktop-utils";
 
 const lastToggleByKey = new Map<string, number>();
 

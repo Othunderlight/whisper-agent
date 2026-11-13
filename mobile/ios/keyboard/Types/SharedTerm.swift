@@ -5,10 +5,10 @@ struct SharedTerm {
     let isReplacement: Bool
 
     static func loadFromDefaults(_ defaults: UserDefaults) -> (termIds: [String], termById: [String: SharedTerm]) {
-        let termIds = defaults.stringArray(forKey: "voquill_term_ids") ?? []
+        let termIds = defaults.stringArray(forKey: "ryoiki_tenkai_term_ids") ?? []
 
         var termById = [String: SharedTerm]()
-        if let data = defaults.data(forKey: "voquill_term_by_id"),
+        if let data = defaults.data(forKey: "ryoiki_tenkai_term_by_id"),
            let dict = try? JSONSerialization.jsonObject(with: data) as? [String: [String: Any]] {
             for (id, fields) in dict {
                 if let sourceValue = fields["sourceValue"] as? String {

@@ -51,7 +51,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   late final Timer _refreshPoller;
   int _lastUpdateCounter = -1;
 
-  static const _channel = MethodChannel('com.voquill.mobile/shared');
+  static const _channel = MethodChannel('com.ryoikitenkai.mobile/shared');
 
   @override
   void initState() {
