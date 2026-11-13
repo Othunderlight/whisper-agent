@@ -9,10 +9,25 @@ on:
       - "apps/windows-installer/**"
       - ".github/workflows/build-desktop.yml"
   workflow_dispatch:
+    inputs:
+      platforms:
+        description: "Platforms to build. Use 'all' to build every platform."
+        required: false
+        type: choice
+        default: all
+        options:
+          - all
+          - linux
+          - windows
+          - macos
+          - linux,windows
+          - linux,macos
+          - windows,macos
 
 jobs:
   build:
     name: Build Desktop (${{ matrix.label }})
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.platforms == 'all' || contains(format(',{0},', inputs.platforms), format(',{0},', matrix.platform)) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -20,6 +35,7 @@ jobs:
       matrix:
         include:
           - label: macOS
+            platform: macos
             os: macos-15
             args: "--target universal-apple-darwin"
             rust_targets: "aarch64-apple-darwin,x86_64-apple-darwin"
@@ -28,6 +44,7 @@ jobs:
             bundle_dir: apps/desktop/src-tauri/target/universal-apple-darwin/release/bundle
             require_gpu_sidecar: true
           - label: Windows
+            platform: windows
             os: windows-latest
             args: "--bundles nsis"
             rust_targets: ""
@@ -36,6 +53,7 @@ jobs:
             bundle_dir: D:\cargo\release\bundle
             require_gpu_sidecar: true
           - label: Linux
+            platform: linux
             os: ubuntu-24.04
             container: fedora:42
             args: "--bundles deb,rpm"
