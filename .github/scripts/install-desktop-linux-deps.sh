@@ -1,34 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-sudo apt-get update
-
-if apt-cache show libwebkit2gtk-4.1-dev >/dev/null 2>&1; then
-  webkit_pkg="libwebkit2gtk-4.1-dev"
-else
-  webkit_pkg="libwebkit2gtk-4.0-dev"
-fi
-
-sudo apt-get install -y \
-  build-essential \
-  pkg-config \
+sudo dnf install -y \
+  @development-tools \
+  pkgconf-pkg-config \
   cmake \
-  libgtk-3-dev \
-  "${webkit_pkg}" \
-  libayatana-appindicator3-dev \
-  librsvg2-dev \
-  libasound2-dev \
-  libunwind-dev \
-  libxdo-dev \
-  libgtk-layer-shell-dev \
-  patchelf \
-  libgstreamer1.0-dev \
-  libgstreamer-plugins-base1.0-dev \
-  libpipewire-0.3-dev \
-  libclang-dev \
-  gstreamer1.0-plugins-base \
-  gstreamer1.0-plugins-good \
-  gstreamer1.0-plugins-bad \
-  libfuse2 \
+  gtk3-devel \
+  webkit2gtk4.1-devel \
+  libappindicator-gtk3-devel \
+  librsvg2-devel \
+  alsa-lib-devel \
+  libxkbcommon-devel \
+  libxdo-devel \
+  gtk-layer-shell-devel \
+  clang \
+  clang-devel \
+  llvm-libs \
+  gstreamer1-devel \
+  gstreamer1-plugins-base-devel \
+  gstreamer1-plugins-bad-free-devel \
+  pipewire-devel \
+  vulkan-loader-devel \
+  vulkan-tools \
+  shaderc \
   wtype \
-  rpm
+  patchelf \
+  rpm-build \
+  rpmdevtools
