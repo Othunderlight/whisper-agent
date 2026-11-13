@@ -27,7 +27,6 @@ on:
 jobs:
   build:
     name: Build Desktop (${{ matrix.label }})
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.platforms == 'all' || contains(format(',{0},', inputs.platforms), format(',{0},', matrix.platform)) }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -36,6 +35,7 @@ jobs:
         include:
           - label: macOS
             platform: macos
+            select: ${{ github.event_name != 'workflow_dispatch' || inputs.platforms == 'all' || contains(format(',{0},', inputs.platforms), format(',{0},', 'macos')) }}
             os: macos-15
             args: "--target universal-apple-darwin"
             rust_targets: "aarch64-apple-darwin,x86_64-apple-darwin"
@@ -45,6 +45,7 @@ jobs:
             require_gpu_sidecar: true
           - label: Windows
             platform: windows
+            select: ${{ github.event_name != 'workflow_dispatch' || inputs.platforms == 'all' || contains(format(',{0},', inputs.platforms), format(',{0},', 'windows')) }}
             os: windows-latest
             args: "--bundles nsis"
             rust_targets: ""
@@ -54,6 +55,7 @@ jobs:
             require_gpu_sidecar: true
           - label: Linux
             platform: linux
+            select: ${{ github.event_name != 'workflow_dispatch' || inputs.platforms == 'all' || contains(format(',{0},', inputs.platforms), format(',{0},', 'linux')) }}
             os: ubuntu-24.04
             container: fedora:42
             args: "--bundles deb,rpm"
@@ -62,6 +64,8 @@ jobs:
             node_platform: linux
             bundle_dir: apps/desktop/src-tauri/target/release/bundle
             require_gpu_sidecar: true
+        exclude:
+          - select: false
     steps:
       - name: Setup Fedora container
         if: matrix.container
